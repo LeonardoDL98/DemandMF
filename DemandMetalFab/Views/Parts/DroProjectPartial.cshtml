@@ -1,0 +1,9 @@
+﻿
+@foreach (var item in (List<DemandMetalFab.Models.MF_Project>)ViewBag.droproyect)
+{
+    <label class="form-check">
+        <a href="#">
+            <input type="checkbox" class="form-check-input proyectos_fab" value="@item.Id_Project">@item.Project
+        </a>
+    </label>
+}

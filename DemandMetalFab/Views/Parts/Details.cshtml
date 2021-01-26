@@ -1,0 +1,43 @@
+﻿@model DemandMetalFab.Models.MF_Part
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Part</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Num_Part)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Num_Part)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MF_Machine.Machine)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MF_Machine.Machine)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MF_Project.Project)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MF_Project.Project)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Part }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

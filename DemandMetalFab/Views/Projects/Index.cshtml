@@ -1,0 +1,94 @@
+﻿@model IEnumerable<DemandMetalFab.Models.MF_Project>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Projects</h2>
+<br />
+@if (DemandMetalFab.GlobalCode.Settings.LoggedUser!=null)
+{
+    <input type="button" class="btn btn-primary" onclick="agregarproject()" value="Add new project" />
+    <br />
+    <br />
+}
+    <table class="table dt">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Item)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Project)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MF_Demand.Demand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MF_Demand.MF_Customer.Customer)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Project)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MF_Demand.Demand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MF_Demand.MF_Customer.Customer)
+                    </td>
+                    <td>
+                        @if (DemandMetalFab.GlobalCode.Settings.LoggedUser!=null)
+                        {
+                            <div class="input-group w-100">
+                                <div class="text-right">
+                                    <button data-original-title="Edit @item.Project" type="submit" onclick="editarproject(@item.Id_Project)" class="btn btn-outline-success" data-toggle="tooltip">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="text-right">
+                                    <button data-original-title="Delete @item.Project" onclick="eliminarproject(@item.Id_Project)" type="submit" class="btn btn-outline-danger" data-toggle="tooltip">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div id="modalproject"></div>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+    function agregarproject() {
+        $("#modalproject").empty();
+        $("#modalproject").load("@Url.Action("AddprojectPartial","Projects")", {}, function () {
+
+        });
+    }
+    function editarproject(id) {
+        $("#modalproject").empty();
+        $("#modalproject").load("@Url.Action("EditprojectPartial","Projects")?id="+id);
+    }
+    function eliminarproject(id) {
+        $("#modalproject").empty();
+        $("#modalproject").load("@Url.Action("DeleteprojectPartial","Projects")?id="+id);
+    }
+    </script>

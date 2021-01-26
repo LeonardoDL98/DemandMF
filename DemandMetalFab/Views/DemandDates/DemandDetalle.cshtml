@@ -1,0 +1,161 @@
+﻿@model IEnumerable<DemandMetalFab.Models.PorcentajeDemanda>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    string titulodemand = "";
+}
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th colspan="10" style="background-color:blue;color:white">PERCENTAGE MATRIX OF TIMES</th>
+        </tr>
+        <tr>
+            <th scope="col" style="background-color:blue;color:white">PROJECT</th>
+            @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_Machine.Where(x => x.Id_Proceso == Datos.proceso).ToList())
+            {
+                <th scope="col" style="background-color:cornflowerblue;color:white">@item.Machine</th>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row" style="background-color:blue;color:white">LIMIT</th>
+            @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_Machine.Where(x => x.Id_Proceso == Datos.proceso).ToList())
+            {
+                <td>100%</td>
+            }
+        </tr>
+
+        @foreach (var dem in DemandMetalFab.GlobalCode.Settings.db.MF_Demand.ToList())
+        {
+            <tr>
+                <th scope="row" style="background-color:blue;color:white">@dem.Demand</th>
+                @foreach (var item in ((List<DemandMetalFab.Models.PorcentajeDemanda>)ViewBag.valores).Where(x=>x.Id_Demand==dem.Id_Demand).OrderBy(x=>x.Item).ToList())
+                {
+                        <td>@item.Porcentaje_Demanda%</td>
+                    
+                }
+            </tr>
+        }
+        @for(int y=1;y<=5;y++)
+        {
+            if (y == 1) { titulodemand = "T. Matto. HR x dia"; }
+            if (y == 2) { titulodemand = "T. TOTAL"; }
+            if (y == 3) { titulodemand = "T. TOTAL+ MTTO"; }
+            if (y == 4) { titulodemand = "Disponibilidad maq."; }
+            if (y == 5) { titulodemand = "Ocupacion maquina"; }
+            <tr>
+                <th scope="row" style="background-color:blue;color:white">@titulodemand</th>
+                @if (y == 1)
+                {
+                    foreach (var dem in (List<DemandMetalFab.Models.Grafica>)ViewBag.ocupacion)
+                    {
+                        <td>@(((double)dem.Matto / dem.Disponibilidad).ToString("0.00"))%</td>
+                    }
+                }
+                @if (y == 2)
+                {
+                    foreach (var dem in (List<DemandMetalFab.Models.Grafica>)ViewBag.ocupacion)
+                    {
+                        <td>@dem.Tiempo_Total.ToString("0.00")%</td>
+                    }
+                }
+                @if (y == 3)
+                {
+                    foreach (var dem in (List<DemandMetalFab.Models.Grafica>)ViewBag.ocupacion)
+                    {
+                        <td>@dem.Tiempo_Total_MTTO.ToString("0.00")%</td>
+                    }
+                }
+                @if (y == 4)
+                {
+                    foreach (var dem in (List<DemandMetalFab.Models.Grafica>)ViewBag.ocupacion)
+                    {
+                        <td>@dem.Disponibilidad%</td>
+                    }
+                }
+                @if (y == 5)
+                {
+                    foreach (var dem in (List<DemandMetalFab.Models.Grafica>)ViewBag.ocupacion)
+                    {
+                     <td>@dem.Ocupacion_Maquina.ToString("0.00")%</td>
+                    }
+                }
+            </tr>
+        }
+      
+
+    </tbody>
+</table>
+<br />
+<br />
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th colspan="10" style="background-color:blue;color:white">MACHINE OCCUPATION</th>
+        </tr>
+        <tr>
+            <th scope="col" style="background-color:blue;color:white">EFFICIENCY</th>
+            @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_Machine.Where(x => x.Id_Proceso == Datos.proceso).ToList())
+            {
+                <th scope="col" style="background-color:cornflowerblue;color:white">@item.Machine</th>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row" style="background-color:blue;color:white">LIMIT</th>
+            @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_Machine.Where(x => x.Id_Proceso == Datos.proceso).ToList())
+            {
+                <td>100%</td>
+            }
+        </tr>
+        <tr>
+            <th scope="row" style="background-color:blue;color:white">90%</th>
+            @foreach (var item in (List<DemandMetalFab.Models.Grafica>)ViewBag.ocupacion)
+            {
+                if (item.Total_Ocupacion <= 70)
+                {
+                    <td style="background-color:lawngreen">@item.Total_Ocupacion%</td>
+                }
+                if (item.Total_Ocupacion > 70 && item.Total_Ocupacion <= 100)
+                {
+                    <td style="background-color:orange">@item.Total_Ocupacion%</td>
+                }
+                if (item.Total_Ocupacion > 100)
+                {
+                    <td style="background-color:red">@item.Total_Ocupacion%</td>
+                }
+            }
+        </tr>
+        <tr>
+            <th scope="row" style="background-color:blue;color:white">100%</th>
+            @foreach (var item in (List<DemandMetalFab.Models.Grafica>)ViewBag.ocupacion)
+            {
+                <td>@item.Ocupacion_Maquina.ToString("0.00")%</td>
+            }
+        </tr>
+        <tr>
+            <th scope="row" style="background-color:blue;color:white">MAINTENANCE</th>
+            @foreach (var item in (List<DemandMetalFab.Models.Grafica>)ViewBag.ocupacion)
+            {
+                <td>@item.Matto</td>
+            }
+        </tr>
+    </tbody>
+</table>
+
+@*<div id="ocupacion_maquina"></div>*@
+
+<script type="text/javascript">
+    @*$(document).ready(function () {
+
+            $("#ocupacion_maquina").empty();
+            $('#ocupacion_maquina').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#ocupacion_maquina').load("@Url.Action("Ocupacion_maquinasParcial", "DemandDates")", {}, function () {
+            });
+    });*@
+
+</script>

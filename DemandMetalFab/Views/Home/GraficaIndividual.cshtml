@@ -1,0 +1,40 @@
+﻿
+<script src="~/Scripts/chartjs-plugin-datalabels.js"></script>
+<script src="~/Scripts/chartjs-plugin-datalabels.min.js"></script>
+
+<h4 class="text-center">@ViewBag.nombre</h4>
+<h6 class="text-center">@ViewBag.fecha</h6>
+<br />
+
+<canvas id="grafi"></canvas>
+
+<script type="text/javascript">
+    var datas = JSON.parse('@(Html.Raw(ViewBag.JsonDataSet))');
+    var id = JSON.parse('@(Html.Raw(ViewBag.id))');
+    $(document).ready(function () {
+       $('#grafi').attr("id", id);
+    });
+
+    var config = {
+  type: 'bar',
+  data: datas,
+  options: {
+    scales: {
+      xAxes: [{
+        stacked: true
+      }],
+      yAxes: [{
+        stacked: true
+      }]
+    }
+  }
+};
+
+var ctx = document.getElementById(id).getContext("2d");
+    new Chart(ctx, config);
+
+
+
+
+</script>
+

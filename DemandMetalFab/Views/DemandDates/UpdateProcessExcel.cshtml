@@ -1,0 +1,179 @@
+﻿
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color: rgba(0,0,0, 0.5) !important;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update process with Excel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs" id="ulup">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Load Excel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Excel in Server</a>
+                    </li>
+
+                </ul>
+                <br />
+                <div class="form-group">
+                    <input type="file" id="fileToUpload" class="form-control upfile" />
+
+                </div>
+                <select id="s1" class="form-control " style="display:none">
+                    @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_ExcelProceso.Where(x => x.Id_Proceso == Datos.proceso).ToList())
+                    {
+                        <option id="@item.Id_ExcelProceso" value="@item.Id_ExcelProceso">@item.Nombre</option>
+                    }
+                </select>
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" id="upload" class="btn btn-primary" onclick="Recover()">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+
+
+
+    var spinner = new jQuerySpinner({
+        parentId: 'spinn'
+     });
+
+    $(document).ready(function () {
+        $("#exampleModal").modal("show");
+
+
+        $("li > a").click(function () {
+            if (!$(this).hasClass("active")) {
+             $("li > a.active").removeClass("active");
+             $(this).addClass("active");
+            }
+
+            if ($(this).text() == "Load Excel") {
+                $('#s1').hide();
+                $('#fileToUpload').show();
+            } else {
+               $('#fileToUpload').hide();
+                $('#s1').show();
+            }
+
+        });
+
+    });
+
+    function Recover() {
+        if ($("#ulup li > a:eq(0)").hasClass("active")) {
+            RecoveryProcess();
+        } else {
+            RecoveryWithDropDown();
+        }
+    }
+
+    function RecoveryWithDropDown() {
+        $('#exampleModal').modal('hide');
+        spinner.show();
+        $.ajax({
+            url: '@Url.Action("ActualizarProcesoDropDown", "Home")',
+            data: { id: $("#s1").val() },
+                    type: 'POST',
+            success: function (response) {
+                        spinner.hide();
+                        if (response.Success) {
+                        bootoast.toast({
+                        message: response.Message,
+                        type: 'success',
+                        position: 'bottom-center',
+                        timeout: null,
+                        animationDuration: 300
+                        });
+
+                        window.setTimeout(function () {
+                            window.location.href = '@Url.Action("Graficas","DemandDates")';
+                        }, 3000)
+
+                    } else {
+                        bootoast.toast({
+                          message: response.Message,
+                          type: 'danger',
+                          position: 'bottom-center',
+                          timeout: null,
+                          animationDuration: 3000
+                        });
+                    }
+
+
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+    }
+
+     function RecoveryProcess() {
+
+            var fileUpload = $("#fileToUpload").get(0);
+            var files = fileUpload.files;
+
+            var fileData = new FormData();
+            fileData.append("valor", 2);
+            fileData.append("proceso", 'nada');
+            fileData.append(files[0].name, files[0]);
+
+            $('#exampleModal').modal('hide');
+            spinner.show();
+            $.ajax({
+                url: '@Url.Action("AgregarProceso", "Home")',
+                type: 'post',
+                datatype: 'json',
+                contentType: false,
+                processData: false,
+                data: fileData ,
+                success: function (response) {
+                    if (response.Success) {
+                        spinner.hide();
+                       bootoast.toast({
+                          message: response.Message,
+                          type: 'success',
+                          position: 'bottom-center',
+                          timeout: null,
+                          animationDuration: 300
+                       });
+                        window.setTimeout(function () {
+                            window.location.href = '@Url.Action("Graficas","DemandDates")';
+                        }, 3000)
+
+                    } else {
+                        bootoast.toast({
+                          message: response.Message,
+                          type: 'danger',
+                          position: 'bottom-center',
+                          timeout: null,
+                          animationDuration: 3000
+                        });
+                        @*window.setTimeout(function () {
+                            window.location.href = '@Url.Action("index","Home")';
+                        }, 5000)*@
+                    }
+
+                }
+            });
+
+    }
+
+
+</script>
+
+
+

@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>Machine Assignment</h2>
+<br />
+<div class="row" id="filtroasignacion"></div>
+<div id="gridasignacion"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#filtroasignacion').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#filtroasignacion').load('@Url.Action("FiltroAsignacionParcial","Parts")');
+        fnPintarTablaAsign()
+    });
+     function fnPintarTablaAsign() {
+         var Maquinas_seleccionadas = [];
+
+        $.each($('.maquinas_asig'), function (i, item) {
+            if ($(item).is(':checked'))
+                Maquinas_seleccionadas.push($(item).val());
+        });
+        var datos= {
+            maquinas: Maquinas_seleccionadas.length > 0 ? Maquinas_seleccionadas.join(',') : null
+        };
+        $("#gridasignacion").empty();
+        $('#gridasignacion').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#gridasignacion').load('@Url.Action("GridAsignacionParcial","Parts")', datos, function () {
+
+         });
+
+    }
+
+</script>
+

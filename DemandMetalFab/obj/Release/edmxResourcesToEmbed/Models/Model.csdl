@@ -1,0 +1,695 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MetalsRequestsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="MF_Customer">
+    <Key>
+      <PropertyRef Name="Id_Customer" />
+    </Key>
+    <Property Name="Id_Customer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Customer" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="MF_Demand" Relationship="MetalsRequestsModel.FK__MF_Demand__Id_Cu__6304A5CD" FromRole="MF_Customer" ToRole="MF_Demand" />
+  </EntityType>
+  <EntityType Name="MF_DemandMonth">
+    <Key>
+      <PropertyRef Name="Id_DemandMonth" />
+    </Key>
+    <Property Name="Id_DemandMonth" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DemandMonth" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="MF_WorkDate" Relationship="Self.FK_WorkDate_DemandMonth" FromRole="MF_DemandMonth" ToRole="MF_WorkDate" />
+  </EntityType>
+  <EntityType Name="MF_DemandYear">
+    <Key>
+      <PropertyRef Name="Id_DemandYear" />
+    </Key>
+    <Property Name="Id_DemandYear" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DemandYear" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MF_WorkDate" Relationship="Self.FK_WorkDate_DemandYear" FromRole="MF_DemandYear" ToRole="MF_WorkDate" />
+  </EntityType>
+  <EntityType Name="MF_Machine">
+    <Key>
+      <PropertyRef Name="Id_Machine" />
+    </Key>
+    <Property Name="Id_Machine" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Item" Type="Int32" />
+    <Property Name="Machine" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Id_Proceso" Type="Int32" />
+    <Property Name="Id_Sector" Type="Int32" />
+    <NavigationProperty Name="MF_Sector" Relationship="Self.FK__MF_Machin__Id_Se__69B1A35C" FromRole="MF_Machine" ToRole="MF_Sector" />
+    <NavigationProperty Name="MF_OpMachine" Relationship="Self.FK_OpMachine_Machine" FromRole="MF_Machine" ToRole="MF_OpMachine" />
+    <NavigationProperty Name="MF_Part" Relationship="Self.FK_Part_Machine" FromRole="MF_Machine" ToRole="MF_Part" />
+    <NavigationProperty Name="MF_Proceso" Relationship="MetalsRequestsModel.FK__MF_Machin__Id_Pr__68BD7F23" FromRole="MF_Machine" ToRole="MF_Proceso" />
+  </EntityType>
+  <EntityType Name="MF_OpMachine">
+    <Key>
+      <PropertyRef Name="Id_OpMachine" />
+    </Key>
+    <Property Name="Id_OpMachine" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Item" Type="Int32" />
+    <Property Name="Id_Part" Type="Int32" />
+    <Property Name="Id_Machine" Type="Int32" />
+    <Property Name="Id_Proceso" Type="Int32" />
+    <NavigationProperty Name="MF_Machine" Relationship="Self.FK_OpMachine_Machine" FromRole="MF_OpMachine" ToRole="MF_Machine" />
+    <NavigationProperty Name="MF_Part" Relationship="Self.FK_OpMachine_Part" FromRole="MF_OpMachine" ToRole="MF_Part" />
+    <NavigationProperty Name="MF_Proceso" Relationship="MetalsRequestsModel.FK__MF_OpMach__Id_Pr__6AA5C795" FromRole="MF_OpMachine" ToRole="MF_Proceso" />
+  </EntityType>
+  <EntityType Name="MF_Part">
+    <Key>
+      <PropertyRef Name="Id_Part" />
+    </Key>
+    <Property Name="Id_Part" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Item" Type="Int32" />
+    <Property Name="Num_Part" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id_Project" Type="Int32" Nullable="false" />
+    <Property Name="Id_Machine" Type="Int32" Nullable="false" />
+    <Property Name="Set_Up" Type="Decimal" Precision="38" Scale="22" />
+    <Property Name="Cycle" Type="Decimal" Precision="38" Scale="22" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="Id_Proceso" Type="Int32" />
+    <NavigationProperty Name="MF_Machine" Relationship="Self.FK_Part_Machine" FromRole="MF_Part" ToRole="MF_Machine" />
+    <NavigationProperty Name="MF_OpMachine" Relationship="Self.FK_OpMachine_Part" FromRole="MF_Part" ToRole="MF_OpMachine" />
+    <NavigationProperty Name="MF_Project" Relationship="Self.FK_Part_Project" FromRole="MF_Part" ToRole="MF_Project" />
+    <NavigationProperty Name="MF_Proceso" Relationship="MetalsRequestsModel.FK__MF_Part__Id_Proc__6D823440" FromRole="MF_Part" ToRole="MF_Proceso" />
+  </EntityType>
+  <EntityType Name="MF_Project">
+    <Key>
+      <PropertyRef Name="Id_Project" />
+    </Key>
+    <Property Name="Id_Project" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Item" Type="Int32" />
+    <Property Name="Project" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id_Demand" Type="Int32" />
+    <Property Name="Id_Proceso" Type="Int32" />
+    <NavigationProperty Name="MF_Part" Relationship="Self.FK_Part_Project" FromRole="MF_Project" ToRole="MF_Part" />
+    <NavigationProperty Name="MF_Demand" Relationship="MetalsRequestsModel.FK__MF_Projec__Id_De__705EA0EB" FromRole="MF_Project" ToRole="MF_Demand" />
+    <NavigationProperty Name="MF_Proceso" Relationship="MetalsRequestsModel.FK__MF_Projec__Id_Pr__7152C524" FromRole="MF_Project" ToRole="MF_Proceso" />
+  </EntityType>
+  <EntityType Name="MF_Sector">
+    <Key>
+      <PropertyRef Name="Id_Sector" />
+    </Key>
+    <Property Name="Id_Sector" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Sector" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="MF_Machine" Relationship="Self.FK__MF_Machin__Id_Se__69B1A35C" FromRole="MF_Sector" ToRole="MF_Machine" />
+    <NavigationProperty Name="MF_Demand" Relationship="MetalsRequestsModel.FK_Demand_Sector" FromRole="MF_Sector" ToRole="MF_Demand" />
+  </EntityType>
+  <EntityType Name="MF_WorkDate">
+    <Key>
+      <PropertyRef Name="Id_WorkDate" />
+    </Key>
+    <Property Name="Id_WorkDate" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_DemandMonth" Type="Int32" Nullable="false" />
+    <Property Name="Id_DemandYear" Type="Int32" Nullable="false" />
+    <Property Name="WorkWeeks" Type="Int32" Nullable="false" />
+    <Property Name="WorkDays" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MF_DemandMonth" Relationship="Self.FK_WorkDate_DemandMonth" FromRole="MF_WorkDate" ToRole="MF_DemandMonth" />
+    <NavigationProperty Name="MF_DemandYear" Relationship="Self.FK_WorkDate_DemandYear" FromRole="MF_WorkDate" ToRole="MF_DemandYear" />
+    <NavigationProperty Name="MF_DemandDate" Relationship="MetalsRequestsModel.FK_DemandDate_WorkDate" FromRole="MF_WorkDate" ToRole="MF_DemandDate" />
+  </EntityType>
+  <Association Name="FK_WorkDate_DemandMonth">
+    <End Role="MF_DemandMonth" Type="Self.MF_DemandMonth" Multiplicity="1" />
+    <End Role="MF_WorkDate" Type="Self.MF_WorkDate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_DemandMonth">
+        <PropertyRef Name="Id_DemandMonth" />
+      </Principal>
+      <Dependent Role="MF_WorkDate">
+        <PropertyRef Name="Id_DemandMonth" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WorkDate_DemandYear">
+    <End Role="MF_DemandYear" Type="Self.MF_DemandYear" Multiplicity="1" />
+    <End Role="MF_WorkDate" Type="Self.MF_WorkDate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_DemandYear">
+        <PropertyRef Name="Id_DemandYear" />
+      </Principal>
+      <Dependent Role="MF_WorkDate">
+        <PropertyRef Name="Id_DemandYear" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MF_Machin__Id_Se__69B1A35C">
+    <End Role="MF_Sector" Type="Self.MF_Sector" Multiplicity="0..1" />
+    <End Role="MF_Machine" Type="Self.MF_Machine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Sector">
+        <PropertyRef Name="Id_Sector" />
+      </Principal>
+      <Dependent Role="MF_Machine">
+        <PropertyRef Name="Id_Sector" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OpMachine_Machine">
+    <End Role="MF_Machine" Type="Self.MF_Machine" Multiplicity="0..1" />
+    <End Role="MF_OpMachine" Type="Self.MF_OpMachine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Machine">
+        <PropertyRef Name="Id_Machine" />
+      </Principal>
+      <Dependent Role="MF_OpMachine">
+        <PropertyRef Name="Id_Machine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Part_Machine">
+    <End Role="MF_Machine" Type="Self.MF_Machine" Multiplicity="1" />
+    <End Role="MF_Part" Type="Self.MF_Part" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Machine">
+        <PropertyRef Name="Id_Machine" />
+      </Principal>
+      <Dependent Role="MF_Part">
+        <PropertyRef Name="Id_Machine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OpMachine_Part">
+    <End Role="MF_Part" Type="Self.MF_Part" Multiplicity="0..1" />
+    <End Role="MF_OpMachine" Type="Self.MF_OpMachine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Part">
+        <PropertyRef Name="Id_Part" />
+      </Principal>
+      <Dependent Role="MF_OpMachine">
+        <PropertyRef Name="Id_Part" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Part_Project">
+    <End Role="MF_Project" Type="Self.MF_Project" Multiplicity="1" />
+    <End Role="MF_Part" Type="Self.MF_Part" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Project">
+        <PropertyRef Name="Id_Project" />
+      </Principal>
+      <Dependent Role="MF_Part">
+        <PropertyRef Name="Id_Project" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DemandDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="MF_Customer" EntityType="Self.MF_Customer" />
+    <EntitySet Name="MF_DemandMonth" EntityType="Self.MF_DemandMonth" />
+    <EntitySet Name="MF_DemandYear" EntityType="Self.MF_DemandYear" />
+    <EntitySet Name="MF_Machine" EntityType="Self.MF_Machine" />
+    <EntitySet Name="MF_OpMachine" EntityType="Self.MF_OpMachine" />
+    <EntitySet Name="MF_Part" EntityType="Self.MF_Part" />
+    <EntitySet Name="MF_Project" EntityType="Self.MF_Project" />
+    <EntitySet Name="MF_Sector" EntityType="Self.MF_Sector" />
+    <EntitySet Name="MF_WorkDate" EntityType="Self.MF_WorkDate" />
+    <AssociationSet Name="FK_WorkDate_DemandMonth" Association="Self.FK_WorkDate_DemandMonth">
+      <End Role="MF_DemandMonth" EntitySet="MF_DemandMonth" />
+      <End Role="MF_WorkDate" EntitySet="MF_WorkDate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkDate_DemandYear" Association="Self.FK_WorkDate_DemandYear">
+      <End Role="MF_DemandYear" EntitySet="MF_DemandYear" />
+      <End Role="MF_WorkDate" EntitySet="MF_WorkDate" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MF_Machin__Id_Se__69B1A35C" Association="Self.FK__MF_Machin__Id_Se__69B1A35C">
+      <End Role="MF_Sector" EntitySet="MF_Sector" />
+      <End Role="MF_Machine" EntitySet="MF_Machine" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OpMachine_Machine" Association="Self.FK_OpMachine_Machine">
+      <End Role="MF_Machine" EntitySet="MF_Machine" />
+      <End Role="MF_OpMachine" EntitySet="MF_OpMachine" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Part_Machine" Association="Self.FK_Part_Machine">
+      <End Role="MF_Machine" EntitySet="MF_Machine" />
+      <End Role="MF_Part" EntitySet="MF_Part" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OpMachine_Part" Association="Self.FK_OpMachine_Part">
+      <End Role="MF_Part" EntitySet="MF_Part" />
+      <End Role="MF_OpMachine" EntitySet="MF_OpMachine" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Part_Project" Association="Self.FK_Part_Project">
+      <End Role="MF_Project" EntitySet="MF_Project" />
+      <End Role="MF_Part" EntitySet="MF_Part" />
+    </AssociationSet>
+    <FunctionImport Name="MF_DatosDemanda" ReturnType="Collection(MetalsRequestsModel.MF_DatosDemanda_Result)">
+      <Parameter Name="industrial" Mode="In" Type="Double" />
+      <Parameter Name="medical" Mode="In" Type="Double" />
+      <Parameter Name="provee1" Mode="In" Type="Double" />
+      <Parameter Name="provee2" Mode="In" Type="Double" />
+      <Parameter Name="mes" Mode="In" Type="Int32" />
+      <Parameter Name="año" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="MF_DeleteDemand">
+      <Parameter Name="idwork" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="MF_DeleteDemandMonthly">
+      <Parameter Name="idwork" Mode="In" Type="Int32" />
+      <Parameter Name="mes" Mode="In" Type="Int32" />
+      <Parameter Name="anio" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="MF_DeleteOpMachine">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="MF_DeletePart">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="MF_DeleteProcess">
+      <Parameter Name="idprocess" Mode="In" Type="Int32" />
+      <Parameter Name="op" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="MF_Porcentaje_Customer" ReturnType="Collection(MetalsRequestsModel.MF_Porcentaje_Customer_Result)">
+      <Parameter Name="industrial" Mode="In" Type="Double" />
+      <Parameter Name="medical" Mode="In" Type="Double" />
+      <Parameter Name="provee1" Mode="In" Type="Double" />
+      <Parameter Name="provee2" Mode="In" Type="Double" />
+      <Parameter Name="mes" Mode="In" Type="Int32" />
+      <Parameter Name="año" Mode="In" Type="Int32" />
+      <Parameter Name="turnindustrial" Mode="In" Type="Double" />
+      <Parameter Name="turnomedical" Mode="In" Type="Double" />
+      <Parameter Name="turnoprovee1" Mode="In" Type="Double" />
+      <Parameter Name="turnoprovee2" Mode="In" Type="Double" />
+      <Parameter Name="proceso" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="MF_Porcentaje_Demanda" ReturnType="Collection(MetalsRequestsModel.MF_Porcentaje_Demanda_Result)">
+      <Parameter Name="industrial" Mode="In" Type="Double" />
+      <Parameter Name="medical" Mode="In" Type="Double" />
+      <Parameter Name="provee1" Mode="In" Type="Double" />
+      <Parameter Name="provee2" Mode="In" Type="Double" />
+      <Parameter Name="mes" Mode="In" Type="Int32" />
+      <Parameter Name="año" Mode="In" Type="Int32" />
+      <Parameter Name="turnindustrial" Mode="In" Type="Double" />
+      <Parameter Name="turnomedical" Mode="In" Type="Double" />
+      <Parameter Name="turnoprovee1" Mode="In" Type="Double" />
+      <Parameter Name="turnoprovee2" Mode="In" Type="Double" />
+      <Parameter Name="proceso" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="MF_Porcentaje_Maquina" ReturnType="Collection(MetalsRequestsModel.MF_Porcentaje_Maquina_Result)">
+      <Parameter Name="industrial" Mode="In" Type="Double" />
+      <Parameter Name="medical" Mode="In" Type="Double" />
+      <Parameter Name="provee1" Mode="In" Type="Double" />
+      <Parameter Name="provee2" Mode="In" Type="Double" />
+      <Parameter Name="mes" Mode="In" Type="Int32" />
+      <Parameter Name="año" Mode="In" Type="Int32" />
+      <Parameter Name="turnindustrial" Mode="In" Type="Double" />
+      <Parameter Name="turnomedical" Mode="In" Type="Double" />
+      <Parameter Name="turnoprovee1" Mode="In" Type="Double" />
+      <Parameter Name="turnoprovee2" Mode="In" Type="Double" />
+      <Parameter Name="proceso" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="MF_Porcentaje_Proceso" ReturnType="Collection(MetalsRequestsModel.MF_Porcentaje_Proceso_Result)">
+      <Parameter Name="industrial" Mode="In" Type="Double" />
+      <Parameter Name="medical" Mode="In" Type="Double" />
+      <Parameter Name="provee1" Mode="In" Type="Double" />
+      <Parameter Name="provee2" Mode="In" Type="Double" />
+      <Parameter Name="mes" Mode="In" Type="Int32" />
+      <Parameter Name="año" Mode="In" Type="Int32" />
+      <Parameter Name="turnindustrial" Mode="In" Type="Double" />
+      <Parameter Name="turnomedical" Mode="In" Type="Double" />
+      <Parameter Name="turnoprovee1" Mode="In" Type="Double" />
+      <Parameter Name="turnoprovee2" Mode="In" Type="Double" />
+    </FunctionImport>
+    <FunctionImport Name="MF_Porcentaje_Proceso_Nuevo" ReturnType="Collection(MetalsRequestsModel.MF_Porcentaje_Proceso_Nuevo_Result)" />
+    <EntitySet Name="MF_Demand" EntityType="MetalsRequestsModel.MF_Demand" />
+    <EntitySet Name="MF_DemandDate" EntityType="MetalsRequestsModel.MF_DemandDate" />
+    <AssociationSet Name="FK__MF_Demand__Id_Cu__6304A5CD" Association="MetalsRequestsModel.FK__MF_Demand__Id_Cu__6304A5CD">
+      <End Role="MF_Customer" EntitySet="MF_Customer" />
+      <End Role="MF_Demand" EntitySet="MF_Demand" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MF_Demand__Id_De__65E11278" Association="MetalsRequestsModel.FK__MF_Demand__Id_De__65E11278">
+      <End Role="MF_Demand" EntitySet="MF_Demand" />
+      <End Role="MF_DemandDate" EntitySet="MF_DemandDate" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MF_Projec__Id_De__705EA0EB" Association="MetalsRequestsModel.FK__MF_Projec__Id_De__705EA0EB">
+      <End Role="MF_Demand" EntitySet="MF_Demand" />
+      <End Role="MF_Project" EntitySet="MF_Project" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Demand_Sector" Association="MetalsRequestsModel.FK_Demand_Sector">
+      <End Role="MF_Sector" EntitySet="MF_Sector" />
+      <End Role="MF_Demand" EntitySet="MF_Demand" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DemandDate_WorkDate" Association="MetalsRequestsModel.FK_DemandDate_WorkDate">
+      <End Role="MF_WorkDate" EntitySet="MF_WorkDate" />
+      <End Role="MF_DemandDate" EntitySet="MF_DemandDate" />
+    </AssociationSet>
+    <EntitySet Name="MF_Proceso" EntityType="MetalsRequestsModel.MF_Proceso" />
+    <AssociationSet Name="FK__MF_Machin__Id_Pr__68BD7F23" Association="MetalsRequestsModel.FK__MF_Machin__Id_Pr__68BD7F23">
+      <End Role="MF_Proceso" EntitySet="MF_Proceso" />
+      <End Role="MF_Machine" EntitySet="MF_Machine" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MF_OpMach__Id_Pr__6AA5C795" Association="MetalsRequestsModel.FK__MF_OpMach__Id_Pr__6AA5C795">
+      <End Role="MF_Proceso" EntitySet="MF_Proceso" />
+      <End Role="MF_OpMachine" EntitySet="MF_OpMachine" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MF_Part__Id_Proc__6D823440" Association="MetalsRequestsModel.FK__MF_Part__Id_Proc__6D823440">
+      <End Role="MF_Proceso" EntitySet="MF_Proceso" />
+      <End Role="MF_Part" EntitySet="MF_Part" />
+    </AssociationSet>
+    <AssociationSet Name="FK__MF_Projec__Id_Pr__7152C524" Association="MetalsRequestsModel.FK__MF_Projec__Id_Pr__7152C524">
+      <End Role="MF_Proceso" EntitySet="MF_Proceso" />
+      <End Role="MF_Project" EntitySet="MF_Project" />
+    </AssociationSet>
+    <FunctionImport Name="MF_Porcentaje_Tres_Meses" ReturnType="Collection(MetalsRequestsModel.MF_Porcentaje_Tres_Meses_Result)">
+      <Parameter Name="mes1" Mode="In" Type="Int32" />
+      <Parameter Name="mes2" Mode="In" Type="Int32" />
+      <Parameter Name="mes3" Mode="In" Type="Int32" />
+      <Parameter Name="anio1" Mode="In" Type="Int32" />
+      <Parameter Name="anio2" Mode="In" Type="Int32" />
+      <Parameter Name="anio3" Mode="In" Type="Int32" />
+      <Parameter Name="dia1" Mode="In" Type="Double" />
+      <Parameter Name="dia2" Mode="In" Type="Double" />
+      <Parameter Name="dia3" Mode="In" Type="Double" />
+      <Parameter Name="turno1" Mode="In" Type="Double" />
+      <Parameter Name="turno2" Mode="In" Type="Double" />
+      <Parameter Name="turno3" Mode="In" Type="Double" />
+      <Parameter Name="proceso" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="MF_ExcelProceso" EntityType="MetalsRequestsModel.MF_ExcelProceso" />
+    <AssociationSet Name="FK_MF_ExcelProceso_MF_Proceso" Association="MetalsRequestsModel.FK_MF_ExcelProceso_MF_Proceso">
+      <End Role="MF_Proceso" EntitySet="MF_Proceso" />
+      <End Role="MF_ExcelProceso" EntitySet="MF_ExcelProceso" />
+    </AssociationSet>
+    <EntitySet Name="MF_TipoUsuario" EntityType="MetalsRequestsModel.MF_TipoUsuario" />
+    <EntitySet Name="MF_Usuario" EntityType="MetalsRequestsModel.MF_Usuario" />
+    <AssociationSet Name="FK_MF_Usuario_MF_TipoUsuario" Association="MetalsRequestsModel.FK_MF_Usuario_MF_TipoUsuario">
+      <End Role="MF_TipoUsuario" EntitySet="MF_TipoUsuario" />
+      <End Role="MF_Usuario" EntitySet="MF_Usuario" />
+    </AssociationSet>
+    <EntitySet Name="MF_Bitacora" EntityType="MetalsRequestsModel.MF_Bitacora" />
+    <AssociationSet Name="FK_MF_Bitacora_MF_Usuario" Association="MetalsRequestsModel.FK_MF_Bitacora_MF_Usuario">
+      <End Role="MF_Usuario" EntitySet="MF_Usuario" />
+      <End Role="MF_Bitacora" EntitySet="MF_Bitacora" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="MF_DatosDemanda_Result">
+    <Property Type="Int32" Name="Id_Demand" Nullable="true" />
+    <Property Type="String" Name="Demand" Nullable="true" MaxLength="200" />
+    <Property Type="Double" Name="DemandaDayIndu" Nullable="true" />
+    <Property Type="Double" Name="DemandWeekIndu" Nullable="true" />
+    <Property Type="Double" Name="DemandaDayMed" Nullable="true" />
+    <Property Type="Double" Name="DemandWeekMed" Nullable="true" />
+    <Property Type="Double" Name="DemandDayPro1" Nullable="true" />
+    <Property Type="Double" Name="DemandWeekPro1" Nullable="true" />
+    <Property Type="Double" Name="DemandDayPro2" Nullable="true" />
+    <Property Type="Double" Name="DemandWeekPro2" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="MF_Porcentaje_Customer_Result">
+    <Property Type="Int32" Name="Item" Nullable="true" />
+    <Property Type="String" Name="Machine" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="Id_Sector" Nullable="true" />
+    <Property Type="Int32" Name="Id_Customer" Nullable="true" />
+    <Property Type="String" Name="Customer" Nullable="true" MaxLength="200" />
+    <Property Type="Double" Name="Ocupacion_Cliente" Nullable="false" />
+    <Property Type="Double" Name="Ocupacion_Noventa" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="MF_Porcentaje_Demanda_Result">
+    <Property Type="Int32" Name="Item" Nullable="true" />
+    <Property Type="String" Name="Machine" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="Id_Sector" Nullable="true" />
+    <Property Type="Int32" Name="Id_Demand" Nullable="true" />
+    <Property Type="String" Name="Demand" Nullable="true" MaxLength="200" />
+    <Property Type="Double" Name="Tiempo_Maquina" Nullable="false" />
+    <Property Type="Double" Name="Porcentaje_Demanda" Nullable="false" />
+    <Property Type="Double" Name="Porcentaje_Noventa" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="MF_Porcentaje_Maquina_Result">
+    <Property Type="Int32" Name="Id_Proceso" Nullable="true" />
+    <Property Type="Int32" Name="Id_Machine" Nullable="false" />
+    <Property Type="String" Name="Machine" Nullable="true" MaxLength="200" />
+    <Property Type="Decimal" Name="Matto" Nullable="false" Precision="12" Scale="1" />
+    <Property Type="Decimal" Name="Tiempo_Total" Nullable="false" Precision="12" Scale="1" />
+    <Property Type="Decimal" Name="Tiempo_Total_MTTO" Nullable="false" Precision="12" Scale="1" />
+    <Property Type="Double" Name="Disponibilidad" Nullable="true" />
+    <Property Type="Decimal" Name="Ocupacion_Maquina" Nullable="false" Precision="12" Scale="1" />
+    <Property Type="Decimal" Name="Total_Ocupacion" Nullable="false" Precision="12" Scale="1" />
+  </ComplexType>
+  <ComplexType Name="MF_Porcentaje_Proceso_Result">
+    <Property Type="Int32" Name="Id_Proceso" Nullable="true" />
+    <Property Type="String" Name="Proceso" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Machine" Nullable="true" MaxLength="200" />
+    <Property Type="Decimal" Name="Total_Ocupacion" Nullable="false" Precision="12" Scale="1" />
+    <Property Type="Int64" Name="rn" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="MF_Porcentaje_Proceso_Nuevo_Result">
+    <Property Type="Int32" Name="Id_Proceso" Nullable="true" />
+    <Property Type="String" Name="Proceso" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Machine" Nullable="true" MaxLength="200" />
+    <Property Type="Decimal" Name="Total_Ocupacion" Nullable="false" Precision="12" Scale="1" />
+    <Property Type="String" Name="DemandMonth" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="DemandYear" Nullable="true" />
+    <Property Type="Double" Name="DiaIndustrial" Nullable="true" />
+    <Property Type="Double" Name="DiaMedical" Nullable="true" />
+    <Property Type="Double" Name="DiaProve1" Nullable="true" />
+    <Property Type="Double" Name="DiaProve2" Nullable="true" />
+    <Property Type="Double" Name="TurnoIndustrial" Nullable="true" />
+    <Property Type="Double" Name="TurnoMedical" Nullable="true" />
+    <Property Type="Double" Name="TurnoProve1" Nullable="true" />
+    <Property Type="Double" Name="TurnoProve2" Nullable="true" />
+    <Property Type="Int64" Name="rn" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="MF_Demand">
+    <Key>
+      <PropertyRef Name="Id_Demand" />
+    </Key>
+    <Property Name="Id_Demand" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Item" Type="Int32" />
+    <Property Name="Demand" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Id_Customer" Type="Int32" Nullable="false" />
+    <Property Name="Id_Sector" Type="Int32" />
+    <NavigationProperty Name="MF_Customer" Relationship="MetalsRequestsModel.FK__MF_Demand__Id_Cu__6304A5CD" FromRole="MF_Demand" ToRole="MF_Customer" />
+    <NavigationProperty Name="MF_DemandDate" Relationship="MetalsRequestsModel.FK__MF_Demand__Id_De__65E11278" FromRole="MF_Demand" ToRole="MF_DemandDate" />
+    <NavigationProperty Name="MF_Project" Relationship="MetalsRequestsModel.FK__MF_Projec__Id_De__705EA0EB" FromRole="MF_Demand" ToRole="MF_Project" />
+    <NavigationProperty Name="MF_Sector" Relationship="MetalsRequestsModel.FK_Demand_Sector" FromRole="MF_Demand" ToRole="MF_Sector" />
+  </EntityType>
+  <EntityType Name="MF_DemandDate">
+    <Key>
+      <PropertyRef Name="Id_DemandDate" />
+    </Key>
+    <Property Name="Id_DemandDate" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Item" Type="Int32" />
+    <Property Name="Id_Demand" Type="Int32" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Id_WorkDate" Type="Int32" />
+    <NavigationProperty Name="MF_Demand" Relationship="MetalsRequestsModel.FK__MF_Demand__Id_De__65E11278" FromRole="MF_DemandDate" ToRole="MF_Demand" />
+    <NavigationProperty Name="MF_WorkDate" Relationship="MetalsRequestsModel.FK_DemandDate_WorkDate" FromRole="MF_DemandDate" ToRole="MF_WorkDate" />
+  </EntityType>
+  <Association Name="FK__MF_Demand__Id_Cu__6304A5CD">
+    <End Type="MetalsRequestsModel.MF_Customer" Role="MF_Customer" Multiplicity="1" />
+    <End Type="MetalsRequestsModel.MF_Demand" Role="MF_Demand" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Customer">
+        <PropertyRef Name="Id_Customer" />
+      </Principal>
+      <Dependent Role="MF_Demand">
+        <PropertyRef Name="Id_Customer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MF_Demand__Id_De__65E11278">
+    <End Type="MetalsRequestsModel.MF_Demand" Role="MF_Demand" Multiplicity="0..1" />
+    <End Type="MetalsRequestsModel.MF_DemandDate" Role="MF_DemandDate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Demand">
+        <PropertyRef Name="Id_Demand" />
+      </Principal>
+      <Dependent Role="MF_DemandDate">
+        <PropertyRef Name="Id_Demand" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MF_Projec__Id_De__705EA0EB">
+    <End Type="MetalsRequestsModel.MF_Demand" Role="MF_Demand" Multiplicity="0..1" />
+    <End Type="MetalsRequestsModel.MF_Project" Role="MF_Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Demand">
+        <PropertyRef Name="Id_Demand" />
+      </Principal>
+      <Dependent Role="MF_Project">
+        <PropertyRef Name="Id_Demand" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Demand_Sector">
+    <End Type="MetalsRequestsModel.MF_Sector" Role="MF_Sector" Multiplicity="0..1" />
+    <End Type="MetalsRequestsModel.MF_Demand" Role="MF_Demand" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Sector">
+        <PropertyRef Name="Id_Sector" />
+      </Principal>
+      <Dependent Role="MF_Demand">
+        <PropertyRef Name="Id_Sector" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DemandDate_WorkDate">
+    <End Type="MetalsRequestsModel.MF_WorkDate" Role="MF_WorkDate" Multiplicity="0..1" />
+    <End Type="MetalsRequestsModel.MF_DemandDate" Role="MF_DemandDate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_WorkDate">
+        <PropertyRef Name="Id_WorkDate" />
+      </Principal>
+      <Dependent Role="MF_DemandDate">
+        <PropertyRef Name="Id_WorkDate" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="MF_Proceso">
+    <Key>
+      <PropertyRef Name="Id_Proceso" />
+    </Key>
+    <Property Name="Id_Proceso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Proceso" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="DiasIndustrial" Type="Double" />
+    <Property Name="DiasMedical" Type="Double" />
+    <Property Name="DiasProvee1" Type="Double" />
+    <Property Name="DiasProvee2" Type="Double" />
+    <Property Name="TurnoIndustrial" Type="Double" />
+    <Property Name="TurnoMedical" Type="Double" />
+    <Property Name="TurnoProvee1" Type="Double" />
+    <Property Name="TurnoProvee2" Type="Double" />
+    <Property Name="Id_DemandMonth" Type="Int32" />
+    <Property Name="Id_DemandYear" Type="Int32" />
+    <Property Name="EnaIndu" Type="Boolean" />
+    <Property Name="EnaMed" Type="Boolean" />
+    <Property Name="EnaPro1" Type="Boolean" />
+    <Property Name="EnaPro2" Type="Boolean" />
+    <NavigationProperty Name="MF_Machine" Relationship="MetalsRequestsModel.FK__MF_Machin__Id_Pr__68BD7F23" FromRole="MF_Proceso" ToRole="MF_Machine" />
+    <NavigationProperty Name="MF_OpMachine" Relationship="MetalsRequestsModel.FK__MF_OpMach__Id_Pr__6AA5C795" FromRole="MF_Proceso" ToRole="MF_OpMachine" />
+    <NavigationProperty Name="MF_Part" Relationship="MetalsRequestsModel.FK__MF_Part__Id_Proc__6D823440" FromRole="MF_Proceso" ToRole="MF_Part" />
+    <NavigationProperty Name="MF_Project" Relationship="MetalsRequestsModel.FK__MF_Projec__Id_Pr__7152C524" FromRole="MF_Proceso" ToRole="MF_Project" />
+    <NavigationProperty Name="MF_ExcelProceso" Relationship="MetalsRequestsModel.FK_MF_ExcelProceso_MF_Proceso" FromRole="MF_Proceso" ToRole="MF_ExcelProceso" />
+  </EntityType>
+  <Association Name="FK__MF_Machin__Id_Pr__68BD7F23">
+    <End Type="MetalsRequestsModel.MF_Proceso" Role="MF_Proceso" Multiplicity="0..1" />
+    <End Type="MetalsRequestsModel.MF_Machine" Role="MF_Machine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Proceso">
+        <PropertyRef Name="Id_Proceso" />
+      </Principal>
+      <Dependent Role="MF_Machine">
+        <PropertyRef Name="Id_Proceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MF_OpMach__Id_Pr__6AA5C795">
+    <End Type="MetalsRequestsModel.MF_Proceso" Role="MF_Proceso" Multiplicity="0..1" />
+    <End Type="MetalsRequestsModel.MF_OpMachine" Role="MF_OpMachine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Proceso">
+        <PropertyRef Name="Id_Proceso" />
+      </Principal>
+      <Dependent Role="MF_OpMachine">
+        <PropertyRef Name="Id_Proceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MF_Part__Id_Proc__6D823440">
+    <End Type="MetalsRequestsModel.MF_Proceso" Role="MF_Proceso" Multiplicity="0..1" />
+    <End Type="MetalsRequestsModel.MF_Part" Role="MF_Part" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Proceso">
+        <PropertyRef Name="Id_Proceso" />
+      </Principal>
+      <Dependent Role="MF_Part">
+        <PropertyRef Name="Id_Proceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__MF_Projec__Id_Pr__7152C524">
+    <End Type="MetalsRequestsModel.MF_Proceso" Role="MF_Proceso" Multiplicity="0..1" />
+    <End Type="MetalsRequestsModel.MF_Project" Role="MF_Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Proceso">
+        <PropertyRef Name="Id_Proceso" />
+      </Principal>
+      <Dependent Role="MF_Project">
+        <PropertyRef Name="Id_Proceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="MF_Porcentaje_Tres_Meses_Result">
+    <Property Type="Int32" Name="Id_Turno" Nullable="true" />
+    <Property Type="Int32" Name="Id_Proceso" Nullable="true" />
+    <Property Type="Int32" Name="Id_Machine" Nullable="true" />
+    <Property Type="String" Name="Machine" Nullable="true" MaxLength="200" />
+    <Property Type="Decimal" Name="Matto" Nullable="true" Precision="12" Scale="1" />
+    <Property Type="Decimal" Name="Tiempo_Total" Nullable="true" Precision="12" Scale="1" />
+    <Property Type="Decimal" Name="Tiempo_Total_MTTO" Nullable="true" Precision="12" Scale="1" />
+    <Property Type="Double" Name="Disponibilidad" Nullable="true" />
+    <Property Type="Decimal" Name="Ocupacion_Maquina" Nullable="true" Precision="12" Scale="1" />
+    <Property Type="Decimal" Name="Total_Ocupacion" Nullable="true" Precision="12" Scale="1" />
+    <Property Type="Int32" Name="Mes" Nullable="true" />
+    <Property Type="Int32" Name="Anio" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="MF_ExcelProceso">
+    <Key>
+      <PropertyRef Name="Id_ExcelProceso" />
+    </Key>
+    <Property Name="Id_ExcelProceso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_Proceso" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Ruta" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="MF_Proceso" Relationship="MetalsRequestsModel.FK_MF_ExcelProceso_MF_Proceso" FromRole="MF_ExcelProceso" ToRole="MF_Proceso" />
+  </EntityType>
+  <Association Name="FK_MF_ExcelProceso_MF_Proceso">
+    <End Type="MetalsRequestsModel.MF_Proceso" Role="MF_Proceso" Multiplicity="1" />
+    <End Type="MetalsRequestsModel.MF_ExcelProceso" Role="MF_ExcelProceso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Proceso">
+        <PropertyRef Name="Id_Proceso" />
+      </Principal>
+      <Dependent Role="MF_ExcelProceso">
+        <PropertyRef Name="Id_Proceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="MF_TipoUsuario">
+    <Key>
+      <PropertyRef Name="Id_TipoUsuario" />
+    </Key>
+    <Property Name="Id_TipoUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TipoUsuario" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="MF_Usuario" Relationship="MetalsRequestsModel.FK_MF_Usuario_MF_TipoUsuario" FromRole="MF_TipoUsuario" ToRole="MF_Usuario" />
+  </EntityType>
+  <EntityType Name="MF_Usuario">
+    <Key>
+      <PropertyRef Name="Id_Usuario" />
+    </Key>
+    <Property Name="Id_Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Correo" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Cuenta" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Id_TipoUsuario" Type="Int32" Nullable="false" />
+    <Property Name="Fecha" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="MF_TipoUsuario" Relationship="MetalsRequestsModel.FK_MF_Usuario_MF_TipoUsuario" FromRole="MF_Usuario" ToRole="MF_TipoUsuario" />
+    <NavigationProperty Name="MF_Bitacora" Relationship="MetalsRequestsModel.FK_MF_Bitacora_MF_Usuario" FromRole="MF_Usuario" ToRole="MF_Bitacora" />
+  </EntityType>
+  <Association Name="FK_MF_Usuario_MF_TipoUsuario">
+    <End Type="MetalsRequestsModel.MF_TipoUsuario" Role="MF_TipoUsuario" Multiplicity="1" />
+    <End Type="MetalsRequestsModel.MF_Usuario" Role="MF_Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_TipoUsuario">
+        <PropertyRef Name="Id_TipoUsuario" />
+      </Principal>
+      <Dependent Role="MF_Usuario">
+        <PropertyRef Name="Id_TipoUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="MF_Bitacora">
+    <Key>
+      <PropertyRef Name="Id_Bitacora" />
+    </Key>
+    <Property Name="Id_Bitacora" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_Usuario" Type="Int32" />
+    <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Fecha" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="MF_Usuario" Relationship="MetalsRequestsModel.FK_MF_Bitacora_MF_Usuario" FromRole="MF_Bitacora" ToRole="MF_Usuario" />
+  </EntityType>
+  <Association Name="FK_MF_Bitacora_MF_Usuario">
+    <End Type="MetalsRequestsModel.MF_Usuario" Role="MF_Usuario" Multiplicity="0..1" />
+    <End Type="MetalsRequestsModel.MF_Bitacora" Role="MF_Bitacora" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MF_Usuario">
+        <PropertyRef Name="Id_Usuario" />
+      </Principal>
+      <Dependent Role="MF_Bitacora">
+        <PropertyRef Name="Id_Usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

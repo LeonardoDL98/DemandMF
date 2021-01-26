@@ -1,0 +1,86 @@
+﻿@{
+    Layout = "~/Views/Shared/_TableLayout.cshtml";
+
+}
+@try
+{
+    <div class="col-md-3-24"> <strong>Filtered by:</strong> </div> <!-- col.// -->
+    <div class="col-md-21-24">
+        <ul class="list-inline">
+            <li class="list-inline-item dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">   Customer </a>
+                <div class="dropdown-menu p-3" style="max-width:400px;">
+                    @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_Customer.ToList())
+                    {
+                        <label class="form-check">
+                            <a href="#">
+                                <input type="checkbox" class="form-check-input clientes_fab " onchange="customervalidate()" value="@item.Id_Customer">@item.Customer
+                            </a>
+                        </label>
+                    }
+
+                </div> <!-- dropdown-menu.// -->
+            </li>
+            <li class="list-inline-item dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">  Project</a>
+                <div class="dropdown-menu p-3" style="max-width:400px;">
+                    <div id="DropProyect">
+
+
+                    </div>
+                </div> <!-- dropdown-menu.// -->
+            </li>
+            <li class="list-inline-item dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">  Machine</a>
+                <div class="dropdown-menu p-3" style="max-width:400px;">
+                    @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_Machine.Where(x=>x.Id_Proceso==Datos.proceso).ToList())
+                    {
+                        <label class="form-check">
+                            <a href="#">
+                                <input type="checkbox" class="form-check-input maquinas_fab" value="@item.Id_Machine">@item.Machine
+                            </a>
+                        </label>
+                    }
+                </div> <!-- dropdown-menu.// -->
+            </li>
+
+            <li class="list-inline-item">
+                <div class="form-inline">
+
+                    <button type="button" id="btnBuscar" class="btn btn-primary ml-2">Search</button>
+                </div>
+            </li>
+        </ul>
+    </div> <!-- col.// -->
+}
+catch (Exception e)
+{
+    <script type="text/javascript">
+        alert(@e.Message)
+    </script>
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#DropProyect').load("@Url.Action("DroProjectPartial","Parts")");
+        $('#btnBuscar').click(function () {
+                    fnPintarGridTiempo();
+                });
+            });
+
+    function customervalidate() {
+        var clientes_seleccionado = [];
+        var id;
+        $.each($('.clientes_fab'), function (i, item) {
+            if($(item).is(':checked'))
+                clientes_seleccionado.push($(item).val());
+        });
+        id = clientes_seleccionado.length > 0 ? clientes_seleccionado.join(',') : null;
+        $('#DropProyect').empty();
+        $('#DropProyect').load("@Url.Action("DroProjectPartial","Parts")?clientes=" + id);
+
+
+    }
+
+</script>

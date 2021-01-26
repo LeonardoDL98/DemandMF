@@ -1,0 +1,120 @@
+﻿@model IEnumerable<DemandMetalFab.Models.MF_DemandDate>
+
+@Styles.Render("~/Content/DataTablesCss")
+@Scripts.Render("~/bundles/datatables")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.code').each(function () {
+            var that = $(this);
+            // cache the content of 'code'
+            var html = that.html().trim();
+            that.empty();
+            // escape the content
+            that.text(html);
+        });
+
+
+        $('.showcode').click(function (e) {
+            e.preventDefault();
+
+            var mydata = $(this).attr('data-html');
+            var myhtml = $('#' + mydata).html();
+            $('#loadhere').text(myhtml);
+            Prism.highlightAll();
+
+            $('#mymodal').modal('show');
+
+        });
+
+
+        //////////////////////// Menu scroll to section
+        $('a.page-scroll').click(function (event) {
+            var $anchor = $(this);
+            $('html, body').stop().animate({ scrollTop: $($anchor.attr('href')).offset().top - 40 }, 1500);
+            event.preventDefault();
+        });
+
+        ////////////////////////  Highlight the top nav as scrolling occurs. /bootstrap/
+        $('body').scrollspy({
+            target: '#navbar_aside',
+            offset: 80
+        });
+
+        $('.lt').DataTable({
+	    "paging": true,
+	    "pageLength": 10,
+	    //aaSorting: [],
+	    "order": [[0, "asc"]],
+	    "language": {
+	        "emptyTable": "There is not any record",
+	        "info": "Showing of _START_ - _END_ of _TOTAL_ records",
+	        "infoEmpty": "Showing 0 recordss",
+	        "infoFiltered": "(Of a total of _MAX_ records)",
+	        "infoPostFix": "",
+	        "thousands": ",",
+	        "lengthMenu": "Show _MENU_ records",
+	        "loadingRecords": "Loading...",
+	        "processing": "Processing...",
+	        "search": "Search: ",
+	        "zeroRecords": "No record found",
+	        "paginate": {
+	            "first": "First",
+	            "last": "Last",
+	            "next": "Next",
+	            "previous": "Previous"
+	        },
+	        "aria": {
+	            "sortAscending": ":Sort the column in ascending order",
+	            "sortDescending": ":Sort the column in descending order"
+	        }
+	    }
+	});
+
+    });
+    // jquery end
+</script>
+
+<table class="table lt" >
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MF_Demand.Demand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MF_Demand.Id_Demand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MF_Demand.Demand)
+                </td>
+                <td>
+                    <label class="textqty" id="@item.Id_DemandDate">@item.Quantity</label>
+                </td>
+
+               
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+
+
+

@@ -1,0 +1,49 @@
+﻿@model DemandMetalFab.Models.MF_DemandDate
+
+@{
+    ViewBag.Title = "Delete";
+     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>DemandDate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MF_Demand.Demand)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MF_Demand.Demand)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MF_WorkDate.Id_WorkDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MF_WorkDate.Id_WorkDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

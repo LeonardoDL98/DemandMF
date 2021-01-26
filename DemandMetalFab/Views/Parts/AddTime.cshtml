@@ -1,0 +1,164 @@
+﻿@*@model DemandMetalFab.Models.Part*@
+@model DemandMetalFab.Models.MF_Part
+
+<link href="~/Content/select2/css/select2.min.css" rel="stylesheet" />
+<script src="~/Content/select2/js/select2.min.js"></script>
+
+<div class="modal fade bd-example-modal-lg" id="modaladd" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add new part</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-10">Enter the part number</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Num_Part, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Num_Part, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label class="control-label col-md-10">Select the customer</label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("Id_Customer", null, "Selecciona el Proyecto", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.MF_Project.MF_Demand.Id_Customer, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col form-group">
+                            <div id="showproject"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label class="control-label col-md-10">Assign the machines that develop the part</label>
+                            <div class="col-md-10">
+                                <select id="Id_machines" class="js-example-responsive" multiple="multiple" style="width: 100%">
+                                    @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_Machine.ToList())
+                                    {
+                                        <option value="@item.Id_Machine">@item.Machine</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col form-group">
+                            <div id="showmachine"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label class="control-label col-md-10">Set up Time (Hr)</label>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Set_Up, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Set_Up, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col form-group">
+                            <label class="control-label col-md-10">Cycle Time (Hr)</label>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Cycle, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Cycle, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label class="control-label col-md-10">Quantity</label>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col form-group">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" onclick="agregarparte()">Add part</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        $("#modaladd").modal("show");
+        $("#Id_Customer").change(function () {
+            $('#showproject').load("@Url.Action("DemandshowPartial","Parts")?id=" + $("#Id_Customer").val());
+        });
+        $("#Id_machines").change(function () {
+            $('#showmachine').load("@Url.Action("MachineshowPartial","Parts")?id=" + $("#Id_machines").val());
+        });
+    });
+
+        function agregarparte() {
+            if (validaciones()) {
+                //if (ban) {
+                $.ajax({
+                    url: '@Url.Action("AgregarParte", "Parts")',
+                    data: addDates(),
+                    type: 'POST',
+                    success: function (response) {
+                            if (response.Success) {
+                               bootoast.toast({
+                                  message: response.Message,
+                                  type: 'success',
+                                  position: 'bottom-center',
+                                  timeout: null
+                               });
+                                window.setTimeout(function () {
+                                    window.location.href = '@Url.Action("TimeMachinePart","Parts")';
+                                }, 3000)
+                                
+                            } else {
+                                bootoast.toast({
+                                  message: response.Message,
+                                  type: 'danger',
+                                  position: 'bottom-center',
+                                  timeout: null
+                                });
+                            }
+
+
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+            }
+        }
+
+        function addDates() {
+            var procesoData = {
+                'partes': {
+                Num_Part: $('#Num_Part').val(),
+                Id_Project: $('#Id_Project').val(),
+                Id_Machine: $('#Id_Machine').val(),
+                Set_Up:$('#Set_Up').val(),
+                Cycle:$('#Cycle').val(),
+                Quantity:$('#Quantity').val()
+                },
+                'opmaquina':new String($('#Id_machines').val())
+            };
+            return procesoData;
+        }
+
+        $(".js-example-responsive").select2({
+        width: 'resolve' // need to override the changed default
+        });
+
+</script>
+

@@ -1,0 +1,178 @@
+﻿@* @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.Proceso.ToList())*@
+@foreach (var item in (List<DemandMetalFab.Models.PorcentajeProceso>)ViewBag.proceso)
+{
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        @if (item.Total_Ocupacion >= 100)
+        {
+
+            <div class="card border-0 shadow" style="background-color:red" onclick="RedirectProceso(@item.Id_Proceso)">
+                <a href="#" class="btn btn-fix text-left">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-0 text-white bold">@item.Proceso</h5>
+                        <div class="card-text text-white bold">@item.Total_Ocupacion %</div>
+                        <div class="card-text  text-white bold">@item.DemandMonth - @item.DemandYear</div>
+                    </div>
+                    <table class="text-white text-sm-center tbp" style="width:100%;display:none">
+                        <tr>
+                            @if (item.DiaIndustrial != 0 || item.DiaProve1 != 0)
+                            {
+                                <th>Sector</th>
+                                <th>Day</th>
+                                <th>Turn</th>
+                            }
+                            @if (item.DiaMedical != 0 || item.DiaProve2 != 0)
+                            {
+                                <th>Sector</th>
+                                <th>Day</th>
+                                <th>Turn</th>
+                            }
+                        </tr>
+                        <tr>
+                            @if (item.DiaIndustrial != 0)
+                            {
+                                <td>INDU</td>
+                                <td>@item.DiaIndustrial</td>
+                                <td>@item.TurnoIndustrial</td>
+                            }
+                            @if (item.DiaMedical != 0)
+                            {
+                                <td>MEDIC</td>
+                                <td>@item.DiaMedical</td>
+                                <td>@item.TurnoMedical</td>
+                            }
+                        </tr>
+                        <tr>
+                            @if (item.DiaProve1 != 0)
+                            {
+                                <td>PRO 1</td>
+                                <td>@item.DiaProve1</td>
+                                <td>@item.TurnoProve1</td>
+                            }
+                            @if (item.DiaProve2 != 0)
+                            {
+                                <td>PRO 2</td>
+                                <td>@item.DiaProve2</td>
+                                <td>@item.TurnoProve2</td>
+                            }
+                        </tr>
+                    </table>
+                </a>
+            </div>
+        }
+        @if (item.Total_Ocupacion < 85)
+        {
+            <div class="card border-0 shadow" style="background-color:#25aa05" onclick="RedirectProceso(@item.Id_Proceso)">
+                <a href="#" class="btn btn-fix text-left">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-0 text-white bold">@item.Proceso</h5>
+                        <div class="card-text text-white bold">@item.Total_Ocupacion %</div>
+                        <div class="card-text  text-white bold">@item.DemandMonth - @item.DemandYear</div>
+                    </div>
+                    <table class="text-white text-sm-center tbp" style="width:100%;display:none">
+                        <tr>
+                            @if (item.DiaIndustrial != 0 || item.DiaProve1 != 0)
+                            {
+                                <th>Sector</th>
+                                <th>Day</th>
+                                <th>Turn</th>
+                            }
+                            @if (item.DiaMedical != 0 || item.DiaProve2 != 0)
+                            {
+                                <th>Sector</th>
+                                <th>Day</th>
+                                <th>Turn</th>
+                            }
+                        </tr>
+                        <tr>
+                            @if (item.DiaIndustrial != 0)
+                            {
+                                <td>INDU</td>
+                                <td>@item.DiaIndustrial</td>
+                                <td>@item.TurnoIndustrial</td>
+                            }
+                            @if (item.DiaMedical != 0)
+                            {
+                                <td>MEDIC</td>
+                                <td>@item.DiaMedical</td>
+                                <td>@item.TurnoMedical</td>
+                            }
+                        </tr>
+                        <tr>
+                            @if (item.DiaProve1 != 0)
+                            {
+                                <td>PRO 1</td>
+                                <td>@item.DiaProve1</td>
+                                <td>@item.TurnoProve1</td>
+                            }
+                            @if (item.DiaProve2 != 0)
+                            {
+                                <td>PRO 2</td>
+                                <td>@item.DiaProve2</td>
+                                <td>@item.TurnoProve2</td>
+                            }
+                        </tr>
+                    </table>
+                </a>
+            </div>
+        }
+        @if (item.Total_Ocupacion >= 85 && item.Total_Ocupacion<=99)
+        {
+            <div class="card border-0 shadow" style="background-color:#ff6a00" onclick="RedirectProceso(@item.Id_Proceso)">
+                <a href="#" class="btn btn-fix text-left">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-0 text-white bold">@item.Proceso</h5>
+                        <div class="card-text text-white bold">@item.Total_Ocupacion %</div>
+                        <div class="card-text  text-white bold">@item.DemandMonth - @item.DemandYear</div>
+                    </div>
+                    <table class="text-white text-sm-center tbp" style="width:100%;display:none">
+                        <tr>
+                            @if (item.DiaIndustrial != 0 || item.DiaProve1 != 0)
+                            {
+                                <th>Sector</th>
+                                <th>Day</th>
+                                <th>Turn</th>
+                            }
+                            @if (item.DiaMedical != 0 || item.DiaProve2 != 0)
+                            {
+                                <th>Sector</th>
+                                <th>Day</th>
+                                <th>Turn</th>
+                            }
+                        </tr>
+                        <tr>
+                            @if (item.DiaIndustrial != 0)
+                            {
+                                <td>INDU</td>
+                                <td>@item.DiaIndustrial</td>
+                                <td>@item.TurnoIndustrial</td>
+                            }
+                            @if (item.DiaMedical != 0)
+                            {
+                                <td>MEDIC</td>
+                                <td>@item.DiaMedical</td>
+                                <td>@item.TurnoMedical</td>
+                            }
+                        </tr>
+                        <tr>
+                            @if (item.DiaProve1 != 0)
+                            {
+                                <td>PRO 1</td>
+                                <td>@item.DiaProve1</td>
+                                <td>@item.TurnoProve1</td>
+                            }
+                            @if (item.DiaProve2 != 0)
+                            {
+                                <td>PRO 2</td>
+                                <td>@item.DiaProve2</td>
+                                <td>@item.TurnoProve2</td>
+                            }
+                        </tr>
+                    </table>
+                </a>
+            </div>
+        }
+
+    </div>
+
+}

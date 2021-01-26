@@ -1,0 +1,142 @@
+﻿@model IEnumerable<DemandMetalFab.Models.MF_Part>
+
+@{
+    Layout = "~/Views/Shared/_TableLayout.cshtml";
+    List<Int32> Ids = new List<int>();
+    var op = 0;
+    bool valid = false;
+    if (DemandMetalFab.GlobalCode.Settings.LoggedUser != null) { valid = true; }
+}
+
+@try
+{
+    <table class="table dt " id="tbl1">
+        <thead>
+            <tr>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Num_Part
+                </th>
+                <th>
+                    Actual_Machine_Asgmt
+                </th>
+                @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_Machine.Where(x=>x.Id_Proceso==Datos.proceso))
+                {
+                    <th>
+                        @item.Machine
+                    </th>
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (!Ids.Contains(item.Id_Part))
+                {
+            <tr align="center">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Num_Part)
+                </td>
+                <td align="justify">
+
+                    <select id="@item.Id_Part" class="form-control" onchange="Updatepart(this)">
+                        @foreach (var m in DemandMetalFab.GlobalCode.Settings.db.MF_OpMachine.Where(x => x.Id_Part == item.Id_Part).ToList())
+                        {
+                            if (item.Id_Machine == m.Id_Machine)
+                            {
+                                <option id="@m.Id_Machine" value="@m.Id_Machine" selected>@m.MF_Machine.Machine</option>
+                            }
+                            else
+                            {
+                                <option id="@m.Id_Machine" value="@m.Id_Machine">@m.MF_Machine.Machine</option>
+                            }
+                        }
+                    </select>
+                    @*Html.DisplayFor(modelItem => item.Machine.Machine1)*@
+                </td>
+
+                @foreach (var mac in DemandMetalFab.GlobalCode.Settings.db.MF_Machine.Where(x=>x.Id_Proceso==Datos.proceso).ToList())
+                {
+                    <td>
+                        @if (DemandMetalFab.GlobalCode.Settings.db.MF_OpMachine.Any(x => x.Id_Part == item.Id_Part && x.Id_Machine == mac.Id_Machine))
+                        {
+                            <input type="checkbox" id="0" onchange="validar(this,@item.Id_Part,@mac.Id_Machine, '@mac.Machine')" checked>
+                        }
+                        else
+                        {
+                            <input type="checkbox" id="0" onchange="validar(this,@item.Id_Part,@mac.Id_Machine, '@mac.Machine')">
+                        }
+                    </td>
+                }
+
+
+            </tr>
+                }
+                else
+                {
+                    Ids.Add(item.Id_Part);
+                }
+            }
+        </tbody>
+    </table>
+}
+catch (Exception e)
+{
+    <script type="text/javascript">
+        alert(@e.Message);
+    </script>
+}
+
+<script type="text/javascript">
+
+    function validar(element, part, machine, nombre) {
+        if (@valid.ToString().ToLower()) {
+            var op = 0;
+            if ($(element).is(':checked')) {
+                $("select[id=" + part + "]").append(" <option id=" + machine + " value=" + machine + ">" + nombre + "</option>");
+                op = 1;
+            }
+            else {
+                $("Select#" + part + " option[id=" + machine + "]").remove();
+                op = 2;
+            }
+            $.ajax({
+                url: '@Url.Action("AddeleOpmachine", "Parts")',
+                data: { Idparte: part, Idmaquina: machine, opc: op },
+                type: 'POST',
+                success: function (response) {
+
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+        }else {
+            alert('Login required to make changes');
+        }
+    }
+    function Updatepart(element) {
+        if (@valid.ToString().ToLower()) {
+            $.ajax({
+                url: '@Url.Action("Actualizarpartes", "Parts")',
+                data: { Idparte: $(element).attr('id'), Idmaquina: $(element).val() },
+                type: 'POST',
+                success: function (response) {
+
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+        } else {
+            alert('Login required to make changes');
+        }
+    }
+
+</script>

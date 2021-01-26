@@ -1,0 +1,48 @@
+﻿@{
+    Layout = "~/Views/Shared/_TableLayout.cshtml";
+}
+<div class="col-md-3-24"> <strong>Filtered by:</strong> </div> <!-- col.// -->
+<div class="col-md-21-24">
+    <ul class="list-inline">
+        <li class="list-inline-item dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">   Machine </a>
+            <div class="dropdown-menu p-3" style="max-width:400px;">
+            @try { 
+                    foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_Machine.Where(x=>x.Id_Proceso==Datos.proceso).ToList())
+                    {
+                        <label class="form-check">
+                            <a href="#">
+                                <input type="checkbox" class="form-check-input maquinas_asig" value="@item.Id_Machine">@item.Machine
+                            </a>
+                        </label>
+                    }
+                }
+                catch (Exception e)
+                {
+                <script type="text/javascript">
+                            alert(@e)
+                </script>
+                }
+
+            </div> <!-- dropdown-menu.// -->
+        </li>
+
+        <li class="list-inline-item">
+            <div class="form-inline">
+
+                <button type="button" id="btnBuscar" class="btn btn-primary ml-2">Search</button>
+            </div>
+        </li>
+    </ul>
+</div> <!-- col.// -->
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#btnBuscar').click(function () {
+            fnPintarTablaAsign();
+        });
+    });
+
+</script>

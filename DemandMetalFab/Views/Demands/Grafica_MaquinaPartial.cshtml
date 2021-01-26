@@ -1,0 +1,129 @@
+﻿@model DemandMetalFab.Models.GraficaMensualModel
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.0/Chart.bundle.min.js"></script>
+<canvas id="myChart"></canvas>
+
+
+
+<script>
+    var maquinas = '@(Html.Raw(Model.MaquinasJson))';
+    var porcentaje = '@(Html.Raw(Model.PorcentajeJson))';
+    var arc = '@(Html.Raw(Model.Percent_Arc))';
+    var top_arc = '@(Html.Raw(Model.Percent_Top_arc))';
+    var top_box= '@(Html.Raw(Model.Percent_Top_box))';
+    var mars_slant = '@(Html.Raw(Model.Percent_Mars_slant))';
+    var helix= '@(Html.Raw(Model.Percent_Helix))';
+    var helix_xt = '@(Html.Raw(Model.Percent_Helix_xt))';
+    var stepper= '@(Html.Raw(Model.Percent_Stepper))';
+    var flame = '@(Html.Raw(Model.Percent_Flame))';
+    var edge = '@(Html.Raw(Model.Percent_Edge))';
+    var in_touch = '@(Html.Raw(Model.Percent_In_touch))';
+    var go_bed = '@(Html.Raw(Model.Percent_Go_bed))';
+    var cub= '@(Html.Raw(Model.Percent_Cub))';
+    var accesorios = '@(Html.Raw(Model.Percent_Accesorios))';
+    var invacare = '@(Html.Raw(Model.Percent_Invacare))';
+    var propad= '@(Html.Raw(Model.Percent_Propad))';
+    var config = {
+  type: 'bar',
+  data: {
+    labels: JSON.parse(maquinas),
+    datasets: [{
+      type: 'line',
+      label: 'LIMITE',
+      data: [100,100,100,100,100,100,100,100,100],
+      borderColor: 'red',
+      fill: false
+    }, {
+      type: 'bar',
+      label: 'ARC',
+            backgroundColor: "red",
+            data: JSON.parse(arc),
+        }, {
+      type: 'bar',
+      label: 'TOP ARC',
+            backgroundColor: "blue",
+            data: JSON.parse(top_arc),
+        }, {
+      type: 'bar',
+      label: 'TOP BOX',
+            backgroundColor: "purple",
+            data: JSON.parse(top_box),
+        }, {
+      type: 'bar',
+      label: 'MARS SLANT',
+            backgroundColor: "yellow",
+            data: JSON.parse(mars_slant),
+        }, {
+      type: 'bar',
+      label: 'HELIX',
+            backgroundColor: "green",
+            data: JSON.parse(helix),
+        }, {
+      type: 'bar',
+      label: 'HELIX XT',
+            backgroundColor: "brown",
+            data: JSON.parse(helix_xt),
+        }, {
+      type: 'bar',
+      label: 'STEPPER',
+            backgroundColor: "pink",
+            data: JSON.parse(stepper),
+        }, {
+      type: 'bar',
+      label: 'FLAME',
+            backgroundColor: "aqua",
+            data: JSON.parse(flame),
+        }, {
+      type: 'bar',
+      label: 'EDGE',
+            backgroundColor: "orange",
+            data: JSON.parse(edge),
+        }, {
+      type: 'bar',
+      label: 'IN TOUCH',
+            backgroundColor: "fuchsia",
+            data: JSON.parse(in_touch),
+        }, {
+      type: 'bar',
+      label: 'GO BED',
+            backgroundColor: "navy",
+            data: JSON.parse(go_bed),
+        }, {
+      type: 'bar',
+      label: 'CUB',
+            backgroundColor: "lime",
+            data: JSON.parse(cub),
+        }, {
+      type: 'bar',
+      label: 'ACCESORIOS',
+            backgroundColor: "gray",
+            data: JSON.parse(accesorios),
+        }, {
+      type: 'bar',
+      label: 'INVACARE',
+            backgroundColor: "teal",
+            data: JSON.parse(invacare),
+        }, {
+      type: 'bar',
+      label: 'PROPAD',
+            backgroundColor: "silver",
+            data: JSON.parse(propad),
+        }
+
+    ]
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        stacked: true
+      }],
+      yAxes: [{
+        stacked: true
+      }]
+    }
+  }
+};
+
+var ctx = document.getElementById("myChart").getContext("2d");
+new Chart(ctx, config);
+</script>

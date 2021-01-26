@@ -1,0 +1,409 @@
+﻿<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="max-age=604800" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Bootstrap-ecommerce by Vosidiy">
+    <title>Demand METAL FAB</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/Imagenes/favicon.ico">
+    <!-- jQuery -->
+    @*<script src="js/jquery-2.0.0.min.js" type="text/javascript"></script>*@
+    <script src="~/Content/ui-ecommerce/js/jquery-2.0.0.min.js"></script>
+    <!-- Bootstrap4 files-->
+    @*<script src="js/bootstrap.bundle.min.js" type="text/javascript"></script>*@
+    <script src="~/Content/ui-ecommerce/js/bootstrap.bundle.min.js"></script>
+    @*<link href="css/bootstrap.css?v=1.0" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/ui-ecommerce/css/bootstrap.css" rel="stylesheet" />
+    <!-- Font awesome 5 -->
+    @*<link href="fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">*@
+    <link href="~/Content/ui-ecommerce/fonts/fontawesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <!-- plugin: fancybox  -->
+    @*<script src="plugins/fancybox/fancybox.min.js" type="text/javascript"></script>
+        <link href="plugins/fancybox/fancybox.min.css" type="text/css" rel="stylesheet">*@
+    <script src="~/Content/ui-ecommerce/plugins/fancybox/fancybox.min.js"></script>
+    <link href="~/Content/ui-ecommerce/plugins/fancybox/fancybox.min.css" rel="stylesheet" />
+    <!-- code highlighter -->
+    @*<link href="plugins/prism/prism.css" rel="stylesheet">
+        <script src="plugins/prism/prism.js"></script>*@
+    <link href="~/Content/ui-ecommerce/plugins/prism/prism.css" rel="stylesheet" />
+    <script src="~/Content/ui-ecommerce/plugins/prism/prism.js"></script>
+    <!-- custom style -->
+    @*<link href="css/ui.css?v=1.0" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/ui-ecommerce/css/ui.css" rel="stylesheet" />
+    @*<link href="css/responsive.css" rel="stylesheet" media="only screen and (max-width: 1200px)" />*@
+    <link href="~/Content/ui-ecommerce/css/responsive.css" rel="stylesheet" media="only screen and (max-width: 1200px)" />
+    <!-- custom javascript -->
+    @*<script src="js/script.js" type="text/javascript"></script>*@
+    <script src="~/Content/ui-ecommerce/js/script.js"></script>
+    @*script y css de selct2*@
+    <link href="~/Content/select2/css/select2.min.css" rel="stylesheet" />
+    <script src="~/Content/select2/js/select2.min.js"></script>
+    @*script de las validaciones*@
+    <script src="~/Scripts/Validaciones.js"></script>
+
+    @Scripts.Render("~/bundles/ChartJS")
+
+    @Styles.Render("~/Content/DataTablesCss")
+    @Scripts.Render("~/bundles/datatables")
+    @Scripts.Render("~/bundles/Block")
+    @*<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>*@
+
+    <script type="text/javascript">
+/// some script
+
+        function cargarlogin() {
+            $("#login").empty();
+            $("#login").load('@Url.Action("LoginPartial","Login")');
+        }
+
+
+// copy text
+function copyToClipboard(element) {
+	$("#temp_text").val($(element).text()).select();
+	document.execCommand("copy");
+        }
+
+    function llamadomodal() {
+        fnLoader()
+        $("#logininicio").load('@Url.Action("LoginPartial","Login")');
+        }
+        function logout() {
+            $.ajax({
+                url: '@Url.Action("logout", "Login")',
+                data: {},
+                    type: 'POST',
+                    success: function (response) {
+                        alert(response.Message);
+                        window.location.href = '@Url.Action("Index","TimeMachines")';
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+        }
+
+        function fnLoader() {
+            $.blockUI({
+                message: '<h1><img src="' + '@Url.Content("~/Imagenes/Cargador/loader4.gif")' + '" /></h1>',
+                baseZ: 2147483647,
+                css: {
+                    padding: 0,
+                    margin: 0,
+                    top: ($(window).height() - 400) / 2 + 'px',
+                    left: ($(window).width() - 400) / 2 + 'px',
+                    textAlign: 'center',
+                    border: 'none',
+                    backgroundColor: 'transparent',
+                    cursor: 'wait'
+                },
+            });
+
+        }
+
+
+// jquery ready start
+$(document).ready(function() {
+	// jQuery code
+
+	// show code script
+
+		$('.code').each(function() {
+		  var that = $(this);
+		  // cache the content of 'code'
+		  var html = that.html().trim();
+		  that.empty();
+		  // escape the content
+		  that.text(html);
+		});
+
+
+	$('.showcode').click(function(e){
+		e.preventDefault();
+
+		var mydata = $(this).attr('data-html');
+		var myhtml = $('#'+mydata).html();
+		$('#loadhere').text(myhtml);
+		Prism.highlightAll();
+
+		$('#mymodal').modal('show');
+
+	});
+
+
+	//////////////////////// Menu scroll to section
+	$('a.page-scroll').click(function(event) {
+		var $anchor = $(this);
+        $('html, body').stop().animate({ scrollTop: $($anchor.attr('href')).offset().top - 40  }, 1500);
+        event.preventDefault();
+    });
+
+	////////////////////////  Highlight the top nav as scrolling occurs. /bootstrap/
+	$('body').scrollspy({
+        target: '#navbar_aside',
+        offset: 80
+    });
+
+	$('.dt').DataTable({
+	    "paging": true,
+	    "pageLength": 10,
+	    //aaSorting: [],
+	    "order": [[0, "asc"]],
+	    "language": {
+	        "emptyTable": "There is not any record",
+	        "info": "Showing of _START_ - _END_ of _TOTAL_ records",
+	        "infoEmpty": "Showing 0 recordss",
+	        "infoFiltered": "(Of a total of _MAX_ records)",
+	        "infoPostFix": "",
+	        "thousands": ",",
+	        "lengthMenu": "Show _MENU_ records",
+	        "loadingRecords": "Loading...",
+	        "processing": "Processing...",
+	        "search": "Search: ",
+	        "zeroRecords": "No record found",
+	        "paginate": {
+	            "first": "First",
+	            "last": "Last",
+	            "next": "Next",
+	            "previous": "Previous"
+	        },
+	        "aria": {
+	            "sortAscending": ":Sort the column in ascending order",
+	            "sortDescending": ":Sort the column in descending order"
+	        }
+	    }
+	});
+
+});
+// jquery end
+
+    </script>
+    <style type="text/css">
+        pre {
+            max-height: 30rem;
+            overflow: auto;
+            width: 100%;
+            white-space: pre-wrap;
+            white-space: pre-line;
+        }
+
+        .slogan {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 14px;
+            line-height: 1.2;
+        }
+
+        .logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 7px;
+        }
+
+        .btn-purple {
+            background-color: #5D3C90;
+            color: #fff;
+        }
+
+            .btn-purple:hover {
+                background-color: #654598;
+                color: #fff;
+            }
+
+        /* body{padding-top: 4.5rem; } */
+
+        .aside-header {
+            height: 53px;
+            background: var(--purple);
+            padding: 7px 15px;
+            color: #fff;
+        }
+
+            .aside-header .title {
+                line-height: 1.2;
+            }
+
+        .menu-aside {
+            list-style: none;
+            padding: 0;
+            margin-top: 7px;
+        }
+
+            .menu-aside li a {
+                padding: 10px 15px;
+                display: block;
+                color: #333;
+            }
+
+                .menu-aside li a.active {
+                    color: var(--blue);
+                    font-weight: 500;
+                }
+
+                .menu-aside li a:hover {
+                    background-color: #f2f2f2;
+                }
+
+        .main-content {
+            padding: 15px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .aside-content {
+            overflow-y: auto;
+            height: 100%;
+            background: #fff;
+        }
+
+        .title-doc {
+            font-size: 36px;
+            margin-top: 60px;
+            font-weight: 300;
+            margin-bottom: 0;
+        }
+
+        .subtitle-doc {
+            font-size: 13px;
+            color: #999;
+            font-weight: 400;
+            display: inline-block;
+            padding-bottom: 5px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            margin-top: 45px;
+        }
+
+            .subtitle-doc a {
+                padding-left: 10px;
+                color: #666;
+            }
+
+                .subtitle-doc a:hover {
+                    color: blue;
+                }
+
+        .btn-getcode {
+            padding: 3px 7px;
+            font-size: 12px;
+            background-color: orange;
+            color: #fff;
+            float: right;
+        }
+
+        .aside-wrap {
+            background-color: #fff;
+            border-right: 1px solid rgba(0,0,0,.05);
+        }
+
+        @@media (min-width:768px) {
+            .aside-content {
+                display: block !important;
+            }
+
+            .aside-wrap {
+                position: -webkit-sticky;
+                position: sticky;
+                height: calc(100vh - 53px);
+                z-index: 1000;
+                top: 0;
+            }
+
+            .main-content {
+                padding: 60px;
+                max-width: 1280px;
+            }
+        }
+        /* media */
+    </style>
+</head>
+<body class="bg">
+    <div class="row no-gutters">
+        <!-- ========================= SECTION CONTENT ========================= -->
+        <aside class="aside-wrap col-md-3 col-lg-2">
+            <header class="aside-header">
+                <a class="float-right d-md-none btn" type="button" data-toggle="collapse" data-target="#navbar_aside">
+                    <i class="fa fa-bars white fa-lg"></i> &nbsp  Menu
+                </a>
+                <h6 class="title">Welcome <br> <small>METAL FAB</small></h6>
+
+            </header>
+            <div class="aside-content collapse" id="navbar_aside">
+                <nav class="menu-wrap">
+                    <ul class="menu-aside">
+
+
+                        <div class="list-group">
+                            <article class="list-group-item">
+                                <header class="filter-header">
+                                    @if (DemandMetalFab.GlobalCode.Settings.LoggedUser==null)
+                                    {
+                                        <a href="#" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" class="collapsed">
+                                            My Account
+                                            <i class="icon-action fa fa-chevron-down">  </i>
+                                            <h6 class="title"> </h6>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" class="collapsed">
+                                            @DemandMetalFab.GlobalCode.Settings.LoggedUser.username
+                                            <i class="icon-action fa fa-chevron-down">  </i>
+                                            <h6 class="title"> </h6>
+                                        </a>
+                                    }
+                                </header>
+                                <div class="filter-content collapse" id="collapse1" style="">
+                                    @if (DemandMetalFab.GlobalCode.Settings.LoggedUser!=null)
+                                    {
+                                        <button class="dropdown-item" onclick="cargarlogin()">Log In</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="dropdown-item" onclick="logout()">Log Out</button>
+                                    }
+                                    @*<a class="dropdown-item" href="@Url.Action("LogOut","Login")">cambio</a>*@
+                                </div> <!-- collapse -filter-content  .// -->
+                                <!-- Button trigger modal -->
+                            </article>
+                        </div> <!-- list-group.// -->
+                        <li> <a class="page-scroll nav-link" href="@Url.Action("Graficas","DemandDates")">Capacity x Customer</a> </li>
+                        <li> <a class="page-scroll nav-link" href="@Url.Action("TimeMachinePart","Parts")">Time Matrix</a> </li>
+                        <li> <a class="page-scroll nav-link" href="@Url.Action("Asignacion","Parts")">Machine Assignment</a> </li>
+                        <li> <a class="page-scroll nav-link" href="@Url.Action("Index","DemandDates")">Monthly Demand</a> </li>
+                        <li> <a class="page-scroll nav-link" href="@Url.Action("DemandDetalle","DemandDates")">Time Matrix Percentage</a> </li>
+                        <li> <a class="page-scroll nav-link" href="@Url.Action("Index","Demands")">Project</a> </li>
+                        <li> <a class="page-scroll nav-link" href="@Url.Action("Index","Projects")">SubProject</a> </li>
+                        <li> <a class="page-scroll nav-link" href="@Url.Action("index","Recovery")">Recovery with Excel</a> </li>
+                    </ul>
+                </nav>
+                <hr>
+                <div class="aside-bottom p-3 text-center">
+
+                </div> <!-- aside-bottom.// -->
+            </div><!--  aside-contant -->
+        </aside>
+        <main class="main-wrap col-md-9 col-lg-10">
+
+            <div class="main-content">
+                <section>
+                    @RenderBody()
+                </section>
+            </div>
+            <!-- ========================= SECTION FOOTER ========================= -->
+           
+            <!-- ========================= SECTION FOOTER END // ========================= -->
+        </main> <!-- main-wrap .// -->
+    </div> <!-- row.// -->
+    <!-- Modal -->
+
+
+    <div id="login">
+
+    </div>
+
+</body>
+</html>
+

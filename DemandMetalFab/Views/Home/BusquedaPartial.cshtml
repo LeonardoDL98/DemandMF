@@ -1,0 +1,31 @@
+﻿    @{ 
+        List<int> valores = (List<int>)ViewBag.ids;
+        int con = 0;
+    }
+    <div class="col-md-10 mb-3">
+        <label class="control-label">Write the new process name</label>
+        <input type="text" class="form-control" id="nameprocess" value="@ViewBag.nombre" />
+    </div>
+
+
+    <label class="control-label col-md-10">Select the sectors enabled for the process</label>
+    <div class="form-row center">
+        @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_Sector.ToList())
+        {
+        <div class="col form-group form-check form-check-inline mb-1">
+            @if (valores[con] == 1)
+            {
+                <input class="form-check-input procecheck" type="checkbox" id="@item.Id_Sector" value="@item.Id_Sector" checked>
+            }
+            else
+            {
+                <input class="form-check-input procecheck" type="checkbox" id="@item.Id_Sector" value="@item.Id_Sector" >
+
+            }
+            <label class="form-check-label" for="@item.Id_Sector">@item.Sector</label>
+        </div>
+            con++;
+        }
+    </div>
+
+

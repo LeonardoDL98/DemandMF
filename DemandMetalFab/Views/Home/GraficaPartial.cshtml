@@ -1,0 +1,33 @@
+﻿
+<script src="~/Scripts/chartjs-plugin-datalabels.js"></script>
+<script src="~/Scripts/chartjs-plugin-datalabels.min.js"></script>
+
+@*<h4 class="text-center">Stacked Bar Graph of Machine Occupation </h4>
+<br />*@
+
+<canvas id="graficanoapilada"></canvas>
+
+<script type="text/javascript">
+
+     var datas= JSON.parse('@(Html.Raw(ViewBag.JsonDataSet))');
+
+    var config = {
+  type: 'bar',
+  data: datas,
+  options: {
+    scales: {
+      xAxes: [{
+        stacked: true
+      }],
+      yAxes: [{
+        stacked: true
+      }]
+    }
+  }
+};
+
+var ctx = document.getElementById("graficanoapilada").getContext("2d");
+    new Chart(ctx, config);
+
+
+</script>

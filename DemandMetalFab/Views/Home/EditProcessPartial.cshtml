@@ -1,0 +1,106 @@
+﻿
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add process</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label col-md-10">Select the process to edit </label>
+                    <div class="col-md-10 mb-3">
+                        <select id="proceso" class="form-control" onchange="cargarbusqueda()">
+                            @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_Proceso)
+                            {
+                              <option id="@item.Id_Proceso" value="@item.Id_Proceso">@item.Proceso</option>
+                            }
+                        </select>
+                    </div>
+
+                </div>
+                <div class="form-group" id="busqueda"></div>
+                    
+
+
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" onclick="guardar()" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var sector_seleccionado = [];
+
+
+    $(document).ready(function () {
+        $("#exampleModal").modal("show");
+        cargarbusqueda();
+
+    });
+
+    function cargarbusqueda() {
+        $("#busqueda").empty();
+        $('#busqueda').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#busqueda').load("@Url.Action("BusquedaPartial","Home")?id=" + $("#proceso").val());
+    }
+
+    function guardar() {
+            $.each($('.procecheck'), function (i, item) {
+             if ($(item).is(':checked'))
+                 sector_seleccionado.push(1);
+             else
+                 sector_seleccionado.push(0);
+            });
+
+        var datos = {
+            id: $('#proceso').val(),
+            process: $('#nameprocess').val(),
+            idsectores:sector_seleccionado.length > 0 ? sector_seleccionado.join(',') : null
+        }
+           
+
+            $.ajax({
+                    url: '@Url.Action("EditarProceso", "Home")',
+                    data: datos,
+                    type: 'POST',
+                    success: function (response) {
+                            if (response.Success) {
+                               bootoast.toast({
+                                  message: response.Message,
+                                  type: 'success',
+                                  position: 'bottom-center'
+                               });
+                                window.setTimeout(function () {
+                                    RefrescarPrincipal();
+                                     $("#exampleModal").modal("hide");
+                                }, 3000)
+                                
+                            } else {
+                                bootoast.toast({
+                                  message: response.Message,
+                                  type: 'danger',
+                                  position: 'bottom-center',
+                                  timeout: null
+                                });
+                            }
+
+
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+            });
+    }
+
+</script>
+
+
+

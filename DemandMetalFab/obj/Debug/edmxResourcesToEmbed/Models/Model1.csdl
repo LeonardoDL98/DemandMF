@@ -1,0 +1,528 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DemandDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="Id_Customer" />
+    </Key>
+    <Property Name="Id_Customer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Customer1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Demand" Relationship="Self.FK__Demand__Id_Custo__5535A963" FromRole="Customer" ToRole="Demand" />
+  </EntityType>
+  <EntityType Name="Demand">
+    <Key>
+      <PropertyRef Name="Id_Demand" />
+    </Key>
+    <Property Name="Id_Demand" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Item" Type="Int32" />
+    <Property Name="Demand1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id_Customer" Type="Int32" Nullable="false" />
+    <Property Name="Id_Sector" Type="Int32" />
+    <Property Name="Id_Proceso" Type="Int32" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK__Demand__Id_Custo__5535A963" FromRole="Demand" ToRole="Customer" />
+    <NavigationProperty Name="Proceso" Relationship="Self.FK__Demand__Id_Proce__5629CD9C" FromRole="Demand" ToRole="Proceso" />
+    <NavigationProperty Name="DemandDate" Relationship="Self.FK__DemandDat__Id_De__5812160E" FromRole="Demand" ToRole="DemandDate" />
+    <NavigationProperty Name="Project" Relationship="Self.FK__Project__Id_Dema__619B8048" FromRole="Demand" ToRole="Project" />
+    <NavigationProperty Name="Sector" Relationship="Self.FK_Demand_Sector" FromRole="Demand" ToRole="Sector" />
+  </EntityType>
+  <EntityType Name="DemandDate">
+    <Key>
+      <PropertyRef Name="Id_DemandDate" />
+    </Key>
+    <Property Name="Id_DemandDate" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Item" Type="Int32" />
+    <Property Name="Id_Demand" Type="Int32" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Id_WorkDate" Type="Int32" />
+    <Property Name="Id_Proceso" Type="Int32" />
+    <NavigationProperty Name="Demand" Relationship="Self.FK__DemandDat__Id_De__5812160E" FromRole="DemandDate" ToRole="Demand" />
+    <NavigationProperty Name="Proceso" Relationship="Self.FK__DemandDat__Id_Pr__59063A47" FromRole="DemandDate" ToRole="Proceso" />
+    <NavigationProperty Name="WorkDate" Relationship="Self.FK_DemandDate_WorkDate" FromRole="DemandDate" ToRole="WorkDate" />
+  </EntityType>
+  <EntityType Name="DemandMonth">
+    <Key>
+      <PropertyRef Name="Id_DemandMonth" />
+    </Key>
+    <Property Name="Id_DemandMonth" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DemandMonth1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="WorkDate" Relationship="Self.FK_WorkDate_DemandMonth" FromRole="DemandMonth" ToRole="WorkDate" />
+  </EntityType>
+  <EntityType Name="DemandYear">
+    <Key>
+      <PropertyRef Name="Id_DemandYear" />
+    </Key>
+    <Property Name="Id_DemandYear" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DemandYear1" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="WorkDate" Relationship="Self.FK_WorkDate_DemandYear" FromRole="DemandYear" ToRole="WorkDate" />
+  </EntityType>
+  <EntityType Name="Machine">
+    <Key>
+      <PropertyRef Name="Id_Machine" />
+    </Key>
+    <Property Name="Id_Machine" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Item" Type="Int32" />
+    <Property Name="Machine1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Id_Proceso" Type="Int32" />
+    <NavigationProperty Name="Proceso" Relationship="Self.FK__Machine__Id_Proc__5AEE82B9" FromRole="Machine" ToRole="Proceso" />
+    <NavigationProperty Name="OpMachine" Relationship="Self.FK_OpMachine_Machine" FromRole="Machine" ToRole="OpMachine" />
+    <NavigationProperty Name="Part" Relationship="Self.FK_Part_Machine" FromRole="Machine" ToRole="Part" />
+    <Property Name="Id_Sector" Type="Int32" />
+    <NavigationProperty Name="Sector" Relationship="DemandDBModel.FK__Machine__Id_Sect__656C112C" FromRole="Machine" ToRole="Sector" />
+  </EntityType>
+  <EntityType Name="OpMachine">
+    <Key>
+      <PropertyRef Name="Id_OpMachine" />
+    </Key>
+    <Property Name="Id_OpMachine" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Item" Type="Int32" />
+    <Property Name="Id_Part" Type="Int32" />
+    <Property Name="Id_Machine" Type="Int32" />
+    <Property Name="Id_Proceso" Type="Int32" />
+    <NavigationProperty Name="Machine" Relationship="Self.FK_OpMachine_Machine" FromRole="OpMachine" ToRole="Machine" />
+    <NavigationProperty Name="Proceso" Relationship="Self.FK__OpMachine__Id_Pr__5BE2A6F2" FromRole="OpMachine" ToRole="Proceso" />
+    <NavigationProperty Name="Part" Relationship="Self.FK_OpMachine_Part" FromRole="OpMachine" ToRole="Part" />
+  </EntityType>
+  <EntityType Name="Part">
+    <Key>
+      <PropertyRef Name="Id_Part" />
+    </Key>
+    <Property Name="Id_Part" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Item" Type="Int32" />
+    <Property Name="Num_Part" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id_Project" Type="Int32" Nullable="false" />
+    <Property Name="Id_Machine" Type="Int32" Nullable="false" />
+    <Property Name="Set_Up" Type="Decimal" Precision="38" Scale="22" />
+    <Property Name="Cycle" Type="Decimal" Precision="38" Scale="22" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="Id_Proceso" Type="Int32" />
+    <NavigationProperty Name="Machine" Relationship="Self.FK_Part_Machine" FromRole="Part" ToRole="Machine" />
+    <NavigationProperty Name="OpMachine" Relationship="Self.FK_OpMachine_Part" FromRole="Part" ToRole="OpMachine" />
+    <NavigationProperty Name="Proceso" Relationship="Self.FK__Part__Id_Proceso__5EBF139D" FromRole="Part" ToRole="Proceso" />
+    <NavigationProperty Name="Project" Relationship="Self.FK_Part_Project" FromRole="Part" ToRole="Project" />
+  </EntityType>
+  <EntityType Name="Proceso">
+    <Key>
+      <PropertyRef Name="Id_Proceso" />
+    </Key>
+    <Property Name="Id_Proceso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Proceso1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Demand" Relationship="Self.FK__Demand__Id_Proce__5629CD9C" FromRole="Proceso" ToRole="Demand" />
+    <NavigationProperty Name="DemandDate" Relationship="Self.FK__DemandDat__Id_Pr__59063A47" FromRole="Proceso" ToRole="DemandDate" />
+    <NavigationProperty Name="Machine" Relationship="Self.FK__Machine__Id_Proc__5AEE82B9" FromRole="Proceso" ToRole="Machine" />
+    <NavigationProperty Name="OpMachine" Relationship="Self.FK__OpMachine__Id_Pr__5BE2A6F2" FromRole="Proceso" ToRole="OpMachine" />
+    <NavigationProperty Name="Part" Relationship="Self.FK__Part__Id_Proceso__5EBF139D" FromRole="Proceso" ToRole="Part" />
+    <NavigationProperty Name="Project" Relationship="Self.FK__Project__Id_Proc__628FA481" FromRole="Proceso" ToRole="Project" />
+  </EntityType>
+  <EntityType Name="Project">
+    <Key>
+      <PropertyRef Name="Id_Project" />
+    </Key>
+    <Property Name="Id_Project" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Item" Type="Int32" />
+    <Property Name="Project1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id_Demand" Type="Int32" />
+    <Property Name="Id_Proceso" Type="Int32" />
+    <NavigationProperty Name="Demand" Relationship="Self.FK__Project__Id_Dema__619B8048" FromRole="Project" ToRole="Demand" />
+    <NavigationProperty Name="Part" Relationship="Self.FK_Part_Project" FromRole="Project" ToRole="Part" />
+    <NavigationProperty Name="Proceso" Relationship="Self.FK__Project__Id_Proc__628FA481" FromRole="Project" ToRole="Proceso" />
+  </EntityType>
+  <EntityType Name="Sector">
+    <Key>
+      <PropertyRef Name="Id_Sector" />
+    </Key>
+    <Property Name="Id_Sector" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Sector1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Demand" Relationship="Self.FK_Demand_Sector" FromRole="Sector" ToRole="Demand" />
+    <NavigationProperty Name="Machine" Relationship="DemandDBModel.FK__Machine__Id_Sect__656C112C" FromRole="Sector" ToRole="Machine" />
+  </EntityType>
+  <EntityType Name="WorkDate">
+    <Key>
+      <PropertyRef Name="Id_WorkDate" />
+    </Key>
+    <Property Name="Id_WorkDate" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_DemandMonth" Type="Int32" Nullable="false" />
+    <Property Name="Id_DemandYear" Type="Int32" Nullable="false" />
+    <Property Name="WorkWeeks" Type="Int32" Nullable="false" />
+    <Property Name="WorkDays" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DemandDate" Relationship="Self.FK_DemandDate_WorkDate" FromRole="WorkDate" ToRole="DemandDate" />
+    <NavigationProperty Name="DemandMonth" Relationship="Self.FK_WorkDate_DemandMonth" FromRole="WorkDate" ToRole="DemandMonth" />
+    <NavigationProperty Name="DemandYear" Relationship="Self.FK_WorkDate_DemandYear" FromRole="WorkDate" ToRole="DemandYear" />
+  </EntityType>
+  <Association Name="FK__Demand__Id_Custo__5535A963">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="Demand" Type="Self.Demand" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id_Customer" />
+      </Principal>
+      <Dependent Role="Demand">
+        <PropertyRef Name="Id_Customer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Demand__Id_Proce__5629CD9C">
+    <End Role="Proceso" Type="Self.Proceso" Multiplicity="0..1" />
+    <End Role="Demand" Type="Self.Demand" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proceso">
+        <PropertyRef Name="Id_Proceso" />
+      </Principal>
+      <Dependent Role="Demand">
+        <PropertyRef Name="Id_Proceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DemandDat__Id_De__5812160E">
+    <End Role="Demand" Type="Self.Demand" Multiplicity="0..1" />
+    <End Role="DemandDate" Type="Self.DemandDate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Demand">
+        <PropertyRef Name="Id_Demand" />
+      </Principal>
+      <Dependent Role="DemandDate">
+        <PropertyRef Name="Id_Demand" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Project__Id_Dema__619B8048">
+    <End Role="Demand" Type="Self.Demand" Multiplicity="0..1" />
+    <End Role="Project" Type="Self.Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Demand">
+        <PropertyRef Name="Id_Demand" />
+      </Principal>
+      <Dependent Role="Project">
+        <PropertyRef Name="Id_Demand" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Demand_Sector">
+    <End Role="Sector" Type="Self.Sector" Multiplicity="0..1" />
+    <End Role="Demand" Type="Self.Demand" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sector">
+        <PropertyRef Name="Id_Sector" />
+      </Principal>
+      <Dependent Role="Demand">
+        <PropertyRef Name="Id_Sector" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DemandDat__Id_Pr__59063A47">
+    <End Role="Proceso" Type="Self.Proceso" Multiplicity="0..1" />
+    <End Role="DemandDate" Type="Self.DemandDate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proceso">
+        <PropertyRef Name="Id_Proceso" />
+      </Principal>
+      <Dependent Role="DemandDate">
+        <PropertyRef Name="Id_Proceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DemandDate_WorkDate">
+    <End Role="WorkDate" Type="Self.WorkDate" Multiplicity="0..1" />
+    <End Role="DemandDate" Type="Self.DemandDate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkDate">
+        <PropertyRef Name="Id_WorkDate" />
+      </Principal>
+      <Dependent Role="DemandDate">
+        <PropertyRef Name="Id_WorkDate" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WorkDate_DemandMonth">
+    <End Role="DemandMonth" Type="Self.DemandMonth" Multiplicity="1" />
+    <End Role="WorkDate" Type="Self.WorkDate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DemandMonth">
+        <PropertyRef Name="Id_DemandMonth" />
+      </Principal>
+      <Dependent Role="WorkDate">
+        <PropertyRef Name="Id_DemandMonth" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WorkDate_DemandYear">
+    <End Role="DemandYear" Type="Self.DemandYear" Multiplicity="1" />
+    <End Role="WorkDate" Type="Self.WorkDate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DemandYear">
+        <PropertyRef Name="Id_DemandYear" />
+      </Principal>
+      <Dependent Role="WorkDate">
+        <PropertyRef Name="Id_DemandYear" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Machine__Id_Proc__5AEE82B9">
+    <End Role="Proceso" Type="Self.Proceso" Multiplicity="0..1" />
+    <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proceso">
+        <PropertyRef Name="Id_Proceso" />
+      </Principal>
+      <Dependent Role="Machine">
+        <PropertyRef Name="Id_Proceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OpMachine_Machine">
+    <End Role="Machine" Type="Self.Machine" Multiplicity="0..1" />
+    <End Role="OpMachine" Type="Self.OpMachine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Machine">
+        <PropertyRef Name="Id_Machine" />
+      </Principal>
+      <Dependent Role="OpMachine">
+        <PropertyRef Name="Id_Machine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Part_Machine">
+    <End Role="Machine" Type="Self.Machine" Multiplicity="1" />
+    <End Role="Part" Type="Self.Part" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Machine">
+        <PropertyRef Name="Id_Machine" />
+      </Principal>
+      <Dependent Role="Part">
+        <PropertyRef Name="Id_Machine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OpMachine__Id_Pr__5BE2A6F2">
+    <End Role="Proceso" Type="Self.Proceso" Multiplicity="0..1" />
+    <End Role="OpMachine" Type="Self.OpMachine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proceso">
+        <PropertyRef Name="Id_Proceso" />
+      </Principal>
+      <Dependent Role="OpMachine">
+        <PropertyRef Name="Id_Proceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OpMachine_Part">
+    <End Role="Part" Type="Self.Part" Multiplicity="0..1" />
+    <End Role="OpMachine" Type="Self.OpMachine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Part">
+        <PropertyRef Name="Id_Part" />
+      </Principal>
+      <Dependent Role="OpMachine">
+        <PropertyRef Name="Id_Part" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Part__Id_Proceso__5EBF139D">
+    <End Role="Proceso" Type="Self.Proceso" Multiplicity="0..1" />
+    <End Role="Part" Type="Self.Part" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proceso">
+        <PropertyRef Name="Id_Proceso" />
+      </Principal>
+      <Dependent Role="Part">
+        <PropertyRef Name="Id_Proceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Part_Project">
+    <End Role="Project" Type="Self.Project" Multiplicity="1" />
+    <End Role="Part" Type="Self.Part" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="Id_Project" />
+      </Principal>
+      <Dependent Role="Part">
+        <PropertyRef Name="Id_Project" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Project__Id_Proc__628FA481">
+    <End Role="Proceso" Type="Self.Proceso" Multiplicity="0..1" />
+    <End Role="Project" Type="Self.Project" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proceso">
+        <PropertyRef Name="Id_Proceso" />
+      </Principal>
+      <Dependent Role="Project">
+        <PropertyRef Name="Id_Proceso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DemandDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customer" EntityType="Self.Customer" />
+    <EntitySet Name="Demand" EntityType="Self.Demand" />
+    <EntitySet Name="DemandDate" EntityType="Self.DemandDate" />
+    <EntitySet Name="DemandMonth" EntityType="Self.DemandMonth" />
+    <EntitySet Name="DemandYear" EntityType="Self.DemandYear" />
+    <EntitySet Name="Machine" EntityType="Self.Machine" />
+    <EntitySet Name="OpMachine" EntityType="Self.OpMachine" />
+    <EntitySet Name="Part" EntityType="Self.Part" />
+    <EntitySet Name="Proceso" EntityType="Self.Proceso" />
+    <EntitySet Name="Project" EntityType="Self.Project" />
+    <EntitySet Name="Sector" EntityType="Self.Sector" />
+    <EntitySet Name="WorkDate" EntityType="Self.WorkDate" />
+    <AssociationSet Name="FK__Demand__Id_Custo__5535A963" Association="Self.FK__Demand__Id_Custo__5535A963">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Demand" EntitySet="Demand" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Demand__Id_Proce__5629CD9C" Association="Self.FK__Demand__Id_Proce__5629CD9C">
+      <End Role="Proceso" EntitySet="Proceso" />
+      <End Role="Demand" EntitySet="Demand" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DemandDat__Id_De__5812160E" Association="Self.FK__DemandDat__Id_De__5812160E">
+      <End Role="Demand" EntitySet="Demand" />
+      <End Role="DemandDate" EntitySet="DemandDate" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Project__Id_Dema__619B8048" Association="Self.FK__Project__Id_Dema__619B8048">
+      <End Role="Demand" EntitySet="Demand" />
+      <End Role="Project" EntitySet="Project" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Demand_Sector" Association="Self.FK_Demand_Sector">
+      <End Role="Sector" EntitySet="Sector" />
+      <End Role="Demand" EntitySet="Demand" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DemandDat__Id_Pr__59063A47" Association="Self.FK__DemandDat__Id_Pr__59063A47">
+      <End Role="Proceso" EntitySet="Proceso" />
+      <End Role="DemandDate" EntitySet="DemandDate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DemandDate_WorkDate" Association="Self.FK_DemandDate_WorkDate">
+      <End Role="WorkDate" EntitySet="WorkDate" />
+      <End Role="DemandDate" EntitySet="DemandDate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkDate_DemandMonth" Association="Self.FK_WorkDate_DemandMonth">
+      <End Role="DemandMonth" EntitySet="DemandMonth" />
+      <End Role="WorkDate" EntitySet="WorkDate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkDate_DemandYear" Association="Self.FK_WorkDate_DemandYear">
+      <End Role="DemandYear" EntitySet="DemandYear" />
+      <End Role="WorkDate" EntitySet="WorkDate" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Machine__Id_Proc__5AEE82B9" Association="Self.FK__Machine__Id_Proc__5AEE82B9">
+      <End Role="Proceso" EntitySet="Proceso" />
+      <End Role="Machine" EntitySet="Machine" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OpMachine_Machine" Association="Self.FK_OpMachine_Machine">
+      <End Role="Machine" EntitySet="Machine" />
+      <End Role="OpMachine" EntitySet="OpMachine" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Part_Machine" Association="Self.FK_Part_Machine">
+      <End Role="Machine" EntitySet="Machine" />
+      <End Role="Part" EntitySet="Part" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OpMachine__Id_Pr__5BE2A6F2" Association="Self.FK__OpMachine__Id_Pr__5BE2A6F2">
+      <End Role="Proceso" EntitySet="Proceso" />
+      <End Role="OpMachine" EntitySet="OpMachine" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OpMachine_Part" Association="Self.FK_OpMachine_Part">
+      <End Role="Part" EntitySet="Part" />
+      <End Role="OpMachine" EntitySet="OpMachine" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Part__Id_Proceso__5EBF139D" Association="Self.FK__Part__Id_Proceso__5EBF139D">
+      <End Role="Proceso" EntitySet="Proceso" />
+      <End Role="Part" EntitySet="Part" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Part_Project" Association="Self.FK_Part_Project">
+      <End Role="Project" EntitySet="Project" />
+      <End Role="Part" EntitySet="Part" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Project__Id_Proc__628FA481" Association="Self.FK__Project__Id_Proc__628FA481">
+      <End Role="Proceso" EntitySet="Proceso" />
+      <End Role="Project" EntitySet="Project" />
+    </AssociationSet>
+    <FunctionImport Name="DatosDemanda" ReturnType="Collection(DemandDBModel.DatosDemanda_Result)">
+      <Parameter Name="industrial" Mode="In" Type="Double" />
+      <Parameter Name="medical" Mode="In" Type="Double" />
+      <Parameter Name="mes" Mode="In" Type="Int32" />
+      <Parameter Name="año" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteDemand">
+      <Parameter Name="idwork" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteDemandMonthly">
+      <Parameter Name="idwork" Mode="In" Type="Int32" />
+      <Parameter Name="mes" Mode="In" Type="Int32" />
+      <Parameter Name="anio" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteOpMachine">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeletePart">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Porcentaje_Customer" ReturnType="Collection(DemandDBModel.Porcentaje_Customer_Result)">
+      <Parameter Name="industrial" Mode="In" Type="Double" />
+      <Parameter Name="medical" Mode="In" Type="Double" />
+      <Parameter Name="mes" Mode="In" Type="Int32" />
+      <Parameter Name="año" Mode="In" Type="Int32" />
+      <Parameter Name="turnindustrial" Mode="In" Type="Double" />
+      <Parameter Name="turnomedical" Mode="In" Type="Double" />
+    </FunctionImport>
+    <FunctionImport Name="Porcentaje_Demanda" ReturnType="Collection(DemandDBModel.Porcentaje_Demanda_Result)">
+      <Parameter Name="industrial" Mode="In" Type="Double" />
+      <Parameter Name="medical" Mode="In" Type="Double" />
+      <Parameter Name="mes" Mode="In" Type="Int32" />
+      <Parameter Name="año" Mode="In" Type="Int32" />
+      <Parameter Name="turnindustrial" Mode="In" Type="Double" />
+      <Parameter Name="turnomedical" Mode="In" Type="Double" />
+    </FunctionImport>
+    <FunctionImport Name="Porcentaje_Maquina" ReturnType="Collection(DemandDBModel.Porcentaje_Maquina_Result)">
+      <Parameter Name="industrial" Mode="In" Type="Double" />
+      <Parameter Name="medical" Mode="In" Type="Double" />
+      <Parameter Name="mes" Mode="In" Type="Int32" />
+      <Parameter Name="año" Mode="In" Type="Int32" />
+      <Parameter Name="turnindustrial" Mode="In" Type="Double" />
+      <Parameter Name="turnomedical" Mode="In" Type="Double" />
+    </FunctionImport>
+    <FunctionImport Name="Searchpart" ReturnType="Collection(Int32)">
+      <Parameter Name="pro" Mode="In" Type="Int32" />
+      <Parameter Name="num" Mode="In" Type="String" />
+    </FunctionImport>
+    <AssociationSet Name="FK__Machine__Id_Sect__656C112C" Association="DemandDBModel.FK__Machine__Id_Sect__656C112C">
+      <End Role="Sector" EntitySet="Sector" />
+      <End Role="Machine" EntitySet="Machine" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="DatosDemanda_Result">
+    <Property Type="Int32" Name="Id_Demand" Nullable="true" />
+    <Property Type="String" Name="Demand" Nullable="true" MaxLength="200" />
+    <Property Type="Double" Name="DemandaDay" Nullable="true" />
+    <Property Type="Double" Name="DemandaWeek" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Porcentaje_Customer_Result">
+    <Property Type="Int32" Name="Id_Machine" Nullable="true" />
+    <Property Type="Int32" Name="Id_Customer" Nullable="true" />
+    <Property Type="Double" Name="Ocupacion_Cliente" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Porcentaje_Demanda_Result">
+    <Property Type="Int32" Name="Id_Machine" Nullable="true" />
+    <Property Type="String" Name="Machine" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="Id_Demand" Nullable="true" />
+    <Property Type="Double" Name="Tiempo_Maquina" Nullable="true" />
+    <Property Type="Double" Name="Porcentaje_Demanda" Nullable="true" />
+    <Property Type="Double" Name="Porcentaje_Noventa" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Porcentaje_Maquina_Result">
+    <Property Type="Int32" Name="Id_Machine" Nullable="true" />
+    <Property Type="String" Name="Machine" Nullable="true" MaxLength="200" />
+    <Property Type="Decimal" Name="Tiempo_Total" Nullable="true" Precision="18" Scale="6" />
+    <Property Type="Decimal" Name="Tiempo_Total_MTTO" Nullable="true" Precision="18" Scale="6" />
+    <Property Type="Double" Name="Disponibilidad" Nullable="true" />
+    <Property Type="Decimal" Name="Ocupacion_Maquina" Nullable="true" Precision="22" Scale="4" />
+    <Property Type="Decimal" Name="Total_Ocupacion" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <Association Name="FK__Machine__Id_Sect__656C112C">
+    <End Type="DemandDBModel.Sector" Role="Sector" Multiplicity="0..1" />
+    <End Type="DemandDBModel.Machine" Role="Machine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sector">
+        <PropertyRef Name="Id_Sector" />
+      </Principal>
+      <Dependent Role="Machine">
+        <PropertyRef Name="Id_Sector" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DemandMetalFab.Models.MF_Part>
+
+@{
+    ViewBag.Title = "Index";
+     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table dt">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_Part)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Num_Part)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MF_Machine.Machine)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MF_Project.Project)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_Part)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Num_Part)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MF_Machine.Machine)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MF_Project.Project)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id_Part }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id_Part }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id_Part })
+            </td>
+        </tr>
+        }
+    </tbody>
+
+</table>

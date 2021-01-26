@@ -1,0 +1,95 @@
+﻿@model IEnumerable<DemandMetalFab.Models.MF_DemandDate>
+
+@{
+    ViewBag.Title = "Graficas";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="~/Content/select2/css/select2.min.css" rel="stylesheet" />
+<script src="~/Content/select2/js/select2.min.js"></script>
+
+<div id="grafica"></div>
+
+   
+
+    <div class="row">
+
+        <div class="col-md-4 order-md-2 mb-4">
+            <table class="table table-bordered text-center">
+                <tr style="background-color:cornflowerblue;color:white">
+                    <td colspan="3" scope="row">DEMAND</td>
+                </tr>
+                <tr>
+                    <td scope="row">MONTH</td>
+                    <td scope="row">
+                        @*<div id="mesdisp"></div>*@
+                        <select id="Id_mes" class="js-example-responsive" style="width: 100%" onchange="refrescartabalatresmeses()">
+                            @foreach (var mes in DemandMetalFab.GlobalCode.Settings.db.MF_WorkDate.ToList())
+                            {
+                                if (mes.Id_DemandMonth == Datos.mes && mes.Id_DemandYear == Datos.anio)
+                                {
+                                    <option value="@mes.Id_DemandMonth/@mes.Id_DemandYear" selected>
+                                        @mes.MF_DemandMonth.DemandMonth.Substring(0, 3)_@mes.MF_DemandYear.DemandYear.ToString().Substring(mes.MF_DemandYear.DemandYear.ToString().Length - 2)
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@mes.Id_DemandMonth/@mes.Id_DemandYear">
+                                        @mes.MF_DemandMonth.DemandMonth.Substring(0, 3)_@mes.MF_DemandYear.DemandYear.ToString().Substring(mes.MF_DemandYear.DemandYear.ToString().Length - 2)
+                                    </option>
+                                }
+                            }
+                        </select>
+                    </td>
+                    <td><button class="btn btn-primary" onclick="showgraficatres()">Calculate</button></td>
+                </tr>
+            </table>
+        </div>
+        <div id="tablatresmeses" class="col-md-6 order-md-2 mb-4">
+           
+        </div>
+    </div>
+
+  
+
+
+<script type="text/javascript">
+   
+
+    $(document).ready(function () {
+        refrescartabalatresmeses();
+        
+    });
+
+    function refrescartabalatresmeses() {
+        $("#tablatresmeses").empty();
+        $('#tablatresmeses').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#tablatresmeses').load("@Url.Action("TablaProcesoTresPartial","DemandDates")?mesanio=" + $("#Id_mes").val());
+        window.setTimeout(function () {
+          showgraficatres()
+        }, 1000)
+        
+    }
+    function showgraficatres() {
+        var fechas = [];
+        var turnos = [];
+        var dias = [];
+        for (var i = 0; i < 3; i++) {
+            fechas.push($('.lbl:eq(' + i + ')').text())
+            turnos.push($('.turn:eq(' + i + ')').val())
+            dias.push($('.day:eq(' + i + ')').val())
+        }
+        var datos = {
+            fecha:fechas.length > 0 ? fechas.join(',') : null,
+            turno:turnos.length > 0 ? turnos.join(',') : null,
+            dia:dias.length > 0 ? dias.join(',') : null
+        }
+        
+        $("#grafica").empty();
+        $('#grafica').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#grafica').load("@Url.Action("GraficaTresMesesPartial", "DemandDates")", datos, function () {
+        });
+    }
+
+
+</script>
+

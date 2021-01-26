@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DemandDBModelStoreContainer" CdmEntityContainer="DemandDBEntities">
+    <EntitySetMapping Name="Customer">
+      <EntityTypeMapping TypeName="DemandDBModel.Customer">
+        <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="Id_Customer" ColumnName="Id_Customer" />
+          <ScalarProperty Name="Customer1" ColumnName="Customer" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Demand">
+      <EntityTypeMapping TypeName="DemandDBModel.Demand">
+        <MappingFragment StoreEntitySet="Demand">
+          <ScalarProperty Name="Id_Demand" ColumnName="Id_Demand" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Demand1" ColumnName="Demand" />
+          <ScalarProperty Name="Id_Customer" ColumnName="Id_Customer" />
+          <ScalarProperty Name="Id_Sector" ColumnName="Id_Sector" />
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DemandDate">
+      <EntityTypeMapping TypeName="DemandDBModel.DemandDate">
+        <MappingFragment StoreEntitySet="DemandDate">
+          <ScalarProperty Name="Id_DemandDate" ColumnName="Id_DemandDate" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Id_Demand" ColumnName="Id_Demand" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Id_WorkDate" ColumnName="Id_WorkDate" />
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DemandMonth">
+      <EntityTypeMapping TypeName="DemandDBModel.DemandMonth">
+        <MappingFragment StoreEntitySet="DemandMonth">
+          <ScalarProperty Name="Id_DemandMonth" ColumnName="Id_DemandMonth" />
+          <ScalarProperty Name="DemandMonth1" ColumnName="DemandMonth" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DemandYear">
+      <EntityTypeMapping TypeName="DemandDBModel.DemandYear">
+        <MappingFragment StoreEntitySet="DemandYear">
+          <ScalarProperty Name="Id_DemandYear" ColumnName="Id_DemandYear" />
+          <ScalarProperty Name="DemandYear1" ColumnName="DemandYear" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Machine">
+      <EntityTypeMapping TypeName="DemandDBModel.Machine">
+        <MappingFragment StoreEntitySet="Machine">
+          <ScalarProperty Name="Id_Sector" ColumnName="Id_Sector" />
+          <ScalarProperty Name="Id_Machine" ColumnName="Id_Machine" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Machine1" ColumnName="Machine" />
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OpMachine">
+      <EntityTypeMapping TypeName="DemandDBModel.OpMachine">
+        <MappingFragment StoreEntitySet="OpMachine">
+          <ScalarProperty Name="Id_OpMachine" ColumnName="Id_OpMachine" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Id_Part" ColumnName="Id_Part" />
+          <ScalarProperty Name="Id_Machine" ColumnName="Id_Machine" />
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Part">
+      <EntityTypeMapping TypeName="DemandDBModel.Part">
+        <MappingFragment StoreEntitySet="Part">
+          <ScalarProperty Name="Id_Part" ColumnName="Id_Part" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Num_Part" ColumnName="Num_Part" />
+          <ScalarProperty Name="Id_Project" ColumnName="Id_Project" />
+          <ScalarProperty Name="Id_Machine" ColumnName="Id_Machine" />
+          <ScalarProperty Name="Set_Up" ColumnName="Set_Up" />
+          <ScalarProperty Name="Cycle" ColumnName="Cycle" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Proceso">
+      <EntityTypeMapping TypeName="DemandDBModel.Proceso">
+        <MappingFragment StoreEntitySet="Proceso">
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+          <ScalarProperty Name="Proceso1" ColumnName="Proceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Project">
+      <EntityTypeMapping TypeName="DemandDBModel.Project">
+        <MappingFragment StoreEntitySet="Project">
+          <ScalarProperty Name="Id_Project" ColumnName="Id_Project" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Project1" ColumnName="Project" />
+          <ScalarProperty Name="Id_Demand" ColumnName="Id_Demand" />
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sector">
+      <EntityTypeMapping TypeName="DemandDBModel.Sector">
+        <MappingFragment StoreEntitySet="Sector">
+          <ScalarProperty Name="Id_Sector" ColumnName="Id_Sector" />
+          <ScalarProperty Name="Sector1" ColumnName="Sector" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WorkDate">
+      <EntityTypeMapping TypeName="DemandDBModel.WorkDate">
+        <MappingFragment StoreEntitySet="WorkDate">
+          <ScalarProperty Name="Id_WorkDate" ColumnName="Id_WorkDate" />
+          <ScalarProperty Name="Id_DemandMonth" ColumnName="Id_DemandMonth" />
+          <ScalarProperty Name="Id_DemandYear" ColumnName="Id_DemandYear" />
+          <ScalarProperty Name="WorkWeeks" ColumnName="WorkWeeks" />
+          <ScalarProperty Name="WorkDays" ColumnName="WorkDays" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="DatosDemanda" FunctionName="DemandDBModel.Store.DatosDemanda">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DemandDBModel.DatosDemanda_Result">
+          <ScalarProperty Name="Id_Demand" ColumnName="Id_Demand" />
+          <ScalarProperty Name="Demand" ColumnName="Demand" />
+          <ScalarProperty Name="DemandaDay" ColumnName="DemandaDay" />
+          <ScalarProperty Name="DemandaWeek" ColumnName="DemandaWeek" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DeleteDemand" FunctionName="DemandDBModel.Store.DeleteDemand" />
+    <FunctionImportMapping FunctionImportName="DeleteDemandMonthly" FunctionName="DemandDBModel.Store.DeleteDemandMonthly" />
+    <FunctionImportMapping FunctionImportName="DeleteOpMachine" FunctionName="DemandDBModel.Store.DeleteOpMachine" />
+    <FunctionImportMapping FunctionImportName="DeletePart" FunctionName="DemandDBModel.Store.DeletePart" />
+    <FunctionImportMapping FunctionImportName="Porcentaje_Customer" FunctionName="DemandDBModel.Store.Porcentaje_Customer">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DemandDBModel.Porcentaje_Customer_Result">
+          <ScalarProperty Name="Id_Machine" ColumnName="Id_Machine" />
+          <ScalarProperty Name="Id_Customer" ColumnName="Id_Customer" />
+          <ScalarProperty Name="Ocupacion_Cliente" ColumnName="Ocupacion_Cliente" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Porcentaje_Demanda" FunctionName="DemandDBModel.Store.Porcentaje_Demanda">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DemandDBModel.Porcentaje_Demanda_Result">
+          <ScalarProperty Name="Id_Machine" ColumnName="Id_Machine" />
+          <ScalarProperty Name="Machine" ColumnName="Machine" />
+          <ScalarProperty Name="Id_Demand" ColumnName="Id_Demand" />
+          <ScalarProperty Name="Tiempo_Maquina" ColumnName="Tiempo_Maquina" />
+          <ScalarProperty Name="Porcentaje_Demanda" ColumnName="Porcentaje_Demanda" />
+          <ScalarProperty Name="Porcentaje_Noventa" ColumnName="Porcentaje_Noventa" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Porcentaje_Maquina" FunctionName="DemandDBModel.Store.Porcentaje_Maquina">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DemandDBModel.Porcentaje_Maquina_Result">
+          <ScalarProperty Name="Id_Machine" ColumnName="Id_Machine" />
+          <ScalarProperty Name="Machine" ColumnName="Machine" />
+          <ScalarProperty Name="Tiempo_Total" ColumnName="Tiempo_Total" />
+          <ScalarProperty Name="Tiempo_Total_MTTO" ColumnName="Tiempo_Total_MTTO" />
+          <ScalarProperty Name="Disponibilidad" ColumnName="Disponibilidad" />
+          <ScalarProperty Name="Ocupacion_Maquina" ColumnName="Ocupacion_Maquina" />
+          <ScalarProperty Name="Total_Ocupacion" ColumnName="Total_Ocupacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Searchpart" FunctionName="DemandDBModel.Store.Searchpart" />
+  </EntityContainerMapping>
+</Mapping>

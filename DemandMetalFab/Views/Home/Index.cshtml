@@ -1,0 +1,110 @@
+﻿<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="~/Content/bootoast/js/bootoast.min.js"></script>
+<link href="~/Content/bootoast/css/bootoast.css" rel="stylesheet" type="text/css">
+
+
+
+<div id="co" class="container">
+    @if (DemandMetalFab.GlobalCode.Settings.LoggedUser != null)
+    {
+
+        <div class=" col-xl-3-24 text-right mb-4">
+            <input type="button" class="btn btn-primary" onclick="addprocess()" value="Add process" />
+            <input type="button" class="btn btn-info" onclick="editprocess()" value="Edit process" />
+            <input type="button" class="btn btn-danger" onclick="deleteprocess()" value="Remove process" />
+            <input type="button" class="btn btn-secondary" id="details" value="Show details" />
+            @* <input type="button" class="btn btn-secondary" onclick="spinnerdes()" value="Show details" />*@
+        </div>
+        
+    }
+
+    <div id="vistaproceso" class="row">
+
+    </div>
+
+</div>
+<br />
+<br />
+<div class="col-xl-12 " id="grafica"></div>
+<div id="modales"></div>
+
+<script type="text/javascript">
+
+
+    setInterval(function () {
+        RefrescarPrincipal();
+    }, 600000);
+
+    $(document).ready(function () {
+
+        RefrescarPrincipal();
+
+        $("#details").click(function () {
+            var label = $("#details").attr("value");
+
+            if(label == "Show details") {
+            $("#details").attr("value", "Hide details");
+            $(".tbp").show();
+          }
+          else {
+            $("#details").attr("value", "Show details");
+            $(".tbp").hide();
+          }
+        });
+    });
+
+
+    function addprocess() {
+        $("#modales").empty();
+        $("#modales").load("@Url.Action("AddProcessPartial","Home")", {}, function () {
+        });
+    }
+
+    function deleteprocess() {
+        $("#modales").empty();
+        $("#modales").load("@Url.Action("DeleteProcessPartial","Home")", {}, function () {
+
+        });
+    }
+
+    function editprocess() {
+        $("#modales").empty();
+        $("#modales").load("@Url.Action("EditProcessPartial","Home")", {}, function () {
+
+        });
+    }
+
+    function RedirectProceso(pro) {
+        spinner.show();
+        $.ajax({
+                    url: '@Url.Action("AsignacionDatos", "Home")',
+                    data: {proceso:pro},
+                    type: 'POST',
+            success: function (response) {
+
+                window.location.href = '@Url.Action("Graficas","DemandDates")';
+                spinner.hide();
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+    }
+
+    function RefrescarPrincipal() {
+        $("#vistaproceso").empty();
+        $('#vistaproceso').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#vistaproceso').load("@Url.Action("ProcesosPartial", "Home")");
+        $("#grafica").empty();
+        $('#grafica').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#grafica').load("@Url.Action("GraficaPartial", "Home")");
+    }
+
+     $(".js-example-responsive").select2({
+        width: 'resolve' // need to override the changed default
+        });
+
+    
+    $('.js-example-basic-single').select2();
+</script>

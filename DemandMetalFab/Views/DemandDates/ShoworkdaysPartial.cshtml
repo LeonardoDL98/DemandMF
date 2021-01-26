@@ -1,0 +1,43 @@
+﻿@model DemandMetalFab.Models.MF_WorkDate
+    @{ 
+    bool valid = false;
+    if (DemandMetalFab.GlobalCode.Settings.LoggedUser != null) { valid = true; }
+    }
+<div class="form-row">
+    <div class="col form-group text-center">
+        WORK DAYS
+    </div>
+    <div class="col form-group">
+        <input id="workday" type="text" data-valoractual="@ViewBag.dias" class="form-control text-center" value="@ViewBag.dias" onblur="editardates(this,1)"/>
+    </div>
+    <div class="col form-group text-center">
+        WORK WEEKS
+    </div>
+    <div class="col form-group">
+        <input id="workweek" type="text" data-valoractual="@ViewBag.meses" class="form-control text-center" value="@ViewBag.meses" onblur="editardates(this,2)" />
+    </div>
+    <div class="col form-group">
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    function editardates(item, opc) {
+        if (validarNumEmpity($(item).val()) && @valid.ToString().ToLower()) {
+            $.ajax({
+                url: '@Url.Action("modificardiasemanas", "DemandDates")',
+                data: { id: '@(Html.Raw(Model.Id_WorkDate))', valor: $(item).val(), op: opc },
+                type: 'POST',
+                success: function (response) {
+
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+        } else {
+              var valor_actual = $(item).attr('data-valoractual');
+              $(item).val(valor_actual);
+        }
+    }
+</script>

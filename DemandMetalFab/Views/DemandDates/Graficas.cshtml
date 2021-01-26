@@ -1,0 +1,364 @@
+﻿@model IEnumerable<DemandMetalFab.Models.MF_DemandDate>
+
+@{
+    ViewBag.Title = "Graficas";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/Content/select2/css/select2.min.css" rel="stylesheet" />
+<script src="~/Content/select2/js/select2.min.js"></script>
+@if (DemandMetalFab.GlobalCode.Settings.LoggedUser != null)
+{
+ 
+<div class="text-right">
+    <input type="button" class="btn btn-primary" onclick="updateprocess()" value="Recovery Process" />
+
+    <input type="button" class="btn btn-danger" onclick="deleteexcelserver()" value="Delete Excel Server" />
+</div>
+    
+}
+<div id="grafica"></div>
+<br />
+<input type="button" class="btn btn-primary" onclick="showsinApilar()" value="Machine Bar Graph" />
+<input type="button" class="btn btn-primary" onclick="showgraficacliente()" value="Customer Bar Graph" />
+<input type="button" class="btn btn-primary" onclick="showApilada()" value="Project Bar Graph" />
+
+<br />
+<br />
+
+<div class="row">
+
+    <div class="col-md-4 order-md-2 mb-4">
+        <table class="table table-bordered text-center">
+            <tr style="background-color:cornflowerblue;color:white">
+                <td colspan="3" scope="row">DEMAND</td>
+            </tr>
+            <tr>
+                <td scope="row">MONTH</td>
+                <td scope="row">
+                    @*<div id="mesdisp"></div>*@
+                    <select id="Id_mes" class="js-example-responsive" style="width: 100%">
+                        @foreach (var mes in DemandMetalFab.GlobalCode.Settings.db.MF_WorkDate.ToList())
+                        {
+                            if (mes.Id_DemandMonth == Datos.mes && mes.Id_DemandYear == Datos.anio)
+                            {
+                                <option value="@mes.Id_DemandMonth/@mes.Id_DemandYear" selected>
+                                    @mes.MF_DemandMonth.DemandMonth.Substring(0, 3)_@mes.MF_DemandYear.DemandYear.ToString().Substring(mes.MF_DemandYear.DemandYear.ToString().Length - 2)
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="@mes.Id_DemandMonth/@mes.Id_DemandYear">
+                                    @mes.MF_DemandMonth.DemandMonth.Substring(0, 3)_@mes.MF_DemandYear.DemandYear.ToString().Substring(mes.MF_DemandYear.DemandYear.ToString().Length - 2)
+                                </option>
+                            }
+                        }
+                    </select>
+                </td>
+                @*<td scope="row">YEAR</td>
+                    <td scope="row">
+                        <select id="anio" class="form-control text-center" onchange="updatemonth()">
+                            @foreach (var m in DemandMetalFab.GlobalCode.Settings.db.DemandYear.Where(x => DemandMetalFab.GlobalCode.Settings.db.WorkDate.Where(es => es.Id_DemandYear == x.Id_DemandYear).Any()).ToList())
+                            {
+                                <option id="@m.Id_DemandYear" value="@m.Id_DemandYear">@m.DemandYear1</option>
+                            }
+                        </select>
+                    </td>*@
+                <td><button class="btn btn-primary" onclick="mostrardemanda()">Calculate</button></td>
+            </tr>
+        </table>
+        @*<div id="workdays"></div>*@
+    </div>
+    <div class="col-md-8 order-md-2 mb-4">
+        <table class="table table-bordered text-center">
+
+            <tbody>
+                <tr style="background-color:cornflowerblue;color:white">
+                    <td colspan="2" scope="row">TURN</td>
+                    <td scope="row">WORKDAY</td>
+                    <td colspan="2" scope="row">TURN</td>
+                    <td scope="row">WORKDAY</td>
+                </tr>
+                <tr>
+                    <td scope="row">INDUSTRIAL</td>
+                    @if (Datos.statusindu)
+                    {
+                        <td>
+                            <select id="selecindustrial" class="form-control">
+                                @for (int x = 1; x <= 3; x++)
+                                {
+                                    if (x == Datos.turnosimpleindustrial)
+                                    {
+                                        <option id="@x" value="@x" selected>@x.ToString("#,##0.0")</option>
+                                    }
+                                    else
+                                    {
+                                        <option id="@x" value="@x">@x.ToString("#,##0.0")</option>
+                                    }
+
+                                }
+                            </select>
+                        </td>
+                        <td style="width:80px;">
+                            <input id="diasindustrial" class="form-control" value="@Datos.diaindustrial.ToString("#,##0.0")" />
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <select id="selecindustrial" class="form-control" disabled>
+                                <option id="0" value="0"></option>
+                            </select>
+                        </td>
+                        <td style="width:80px;">
+                            <input id="diasindustrial" class="form-control" value="0" disabled />
+                        </td>
+                    }
+                    <td>MEDICAL</td>
+                    @if (Datos.statusmedic)
+                    {
+                        <td>
+                            <select id="selectmedical" class="form-control">
+                                @for (int x = 1; x <= 3; x++)
+                                {
+                                    if (x == Datos.turnosimplemedical)
+                                    {
+                                        <option id="@x" value="@x" selected>@x.ToString("#,##0.0")</option>
+                                    }
+                                    else
+                                    {
+                                        <option id="@x" value="@x">@x.ToString("#,##0.0")</option>
+                                    }
+
+                                }
+                            </select>
+                        </td>
+                        <td style="width:80px;">
+                            <input id="diasmedical" name="diasmedical" class="form-control" value="@Datos.diamedical.ToString("#,##0.0")">
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <select id="selectmedical" class="form-control" disabled>
+                                <option id="0" value="0"></option>
+                            </select>
+                        </td>
+                        <td style="width:80px;">
+                            <input id="diasmedical" name="diasmedical" class="form-control" value="0" disabled>
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td scope="row">PROVIDER 1</td>
+                    @if (Datos.statuspro1)
+                    {
+                        <td>
+                            <select id="selecprovee1" class="form-control">
+                                @for (int x = 1; x <= 3; x++)
+                                {
+                                    if (x == Datos.turnosimpleprovee1)
+                                    {
+                                        <option id="@x" value="@x" selected>@x.ToString("#,##0.0")</option>
+                                    }
+                                    else
+                                    {
+                                        <option id="@x" value="@x">@x.ToString("#,##0.0")</option>
+                                    }
+
+                                }
+                            </select>
+                        </td>
+                        <td style="width:80px;">
+                            <input id="diasprovee1" class="form-control" value="@Datos.diaprove1.ToString("#,##0.0")" />
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <select id="selecprovee1" class="form-control" disabled>
+                                <option id="0" value="0"></option>
+                            </select>
+                        </td>
+                        <td style="width:80px;">
+                            <input id="diasprovee1" class="form-control" value="0" disabled />
+                        </td>
+                    }
+                    <td scope="row">PROVIDER 2</td>
+                    @if (Datos.statuspro2)
+                    {
+                        <td>
+                            <select id="selecprovee2" class="form-control">
+                                @for (int x = 1; x <= 3; x++)
+                                {
+                                    if (x == Datos.turnosimpleprovee2)
+                                    {
+                                        <option id="@x" value="@x" selected>@x.ToString("#,##0.0")</option>
+                                    }
+                                    else
+                                    {
+                                        <option id="@x" value="@x">@x.ToString("#,##0.0")</option>
+                                    }
+
+                                }
+                            </select>
+                        </td>
+                        <td style="width:80px;">
+                            <input id="diasprovee2" class="form-control" value="@Datos.diaprove2.ToString("#,##0.0")" />
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <select id="selecprovee2" class="form-control" disabled>
+                                <option id="0" value="0"></option>
+                            </select>
+                        </td>
+                        <td style="width:80px;">
+                            <input id="diasprovee2" class="form-control" value="0" disabled />
+                        </td>
+                    }
+                </tr>
+
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+
+<div id="modal1"></div>
+
+
+<script type="text/javascript">
+
+    var machine = 1, customer = 0,project=0;
+
+
+    $(document).ready(function () {
+        updatemonth();
+       mostrardemanda();
+    });
+      $(".js-example-responsive").select2({
+        width: 'resolve' // need to override the changed default
+        });
+
+    function showApilada() {
+        var ocupacion = {
+                mes: ($('#Id_mes').val()).split("/")[0],
+                anio: ($('#Id_mes').val()).split("/")[1],
+                turnoindustrial: $('#selecindustrial').val(),
+                diasindustrial: $('#diasindustrial').val(),
+                turnomedical: $('#selectmedical').val(),
+                diasmedical: $('#diasmedical').val(),
+                turnoprovee1: $('#selecprovee1').val(),
+                diasprovee1: $('#diasprovee1').val(),
+                turnoprovee2: $('#selecprovee2').val(),
+                diasprovee2: $('#diasprovee2').val()
+            };
+
+        $("#grafica").empty();
+        $('#grafica').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#grafica').load("@Url.Action("Grafica_MaquinaPartial", "DemandDates")", ocupacion, function () {
+        });
+        project = 1;
+        machine = 0;
+        customer = 0;
+    }
+    function showsinApilar() {
+        var ocupacion = {
+                mes: ($('#Id_mes').val()).split("/")[0],
+                anio: ($('#Id_mes').val()).split("/")[1],
+                turnoindustrial: $('#selecindustrial').val(),
+                diasindustrial: $('#diasindustrial').val(),
+                turnomedical: $('#selectmedical').val(),
+                diasmedical: $('#diasmedical').val(),
+                turnoprovee1: $('#selecprovee1').val(),
+                diasprovee1: $('#diasprovee1').val(),
+                turnoprovee2: $('#selecprovee2').val(),
+                diasprovee2: $('#diasprovee2').val()
+            };
+        $("#grafica").empty();
+        $('#grafica').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#grafica').load("@Url.Action("GraficanoapiladaPartial", "DemandDates")", ocupacion, function () {
+        });
+        project = 0;
+        machine = 1;
+        customer = 0;
+    }
+    function showgraficacliente() {
+       var ocupacion = {
+                mes: ($('#Id_mes').val()).split("/")[0],
+                anio: ($('#Id_mes').val()).split("/")[1],
+                turnoindustrial: $('#selecindustrial').val(),
+                diasindustrial: $('#diasindustrial').val(),
+                turnomedical: $('#selectmedical').val(),
+                diasmedical: $('#diasmedical').val(),
+                turnoprovee1: $('#selecprovee1').val(),
+                diasprovee1: $('#diasprovee1').val(),
+                turnoprovee2: $('#selecprovee2').val(),
+                diasprovee2: $('#diasprovee2').val()
+            };
+        $("#grafica").empty();
+        $('#grafica').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#grafica').load("@Url.Action("CustomerGraficaPartial", "DemandDates")", ocupacion, function () {
+        });
+        project = 0;
+        machine = 0;
+        customer = 1;
+    }
+
+    function mostrardemanda() {
+        if (machine==1)
+            showsinApilar();
+        if (customer == 1)
+            showgraficacliente();
+        if (project == 1)
+            showApilada();
+
+    }
+    function llenado() {
+        ocupacion.turnoindustrial = $('#selecindustrial').val();
+        ocupacion.diasindustrial = $('#diasindustrial').val();
+        ocupacion.turnomedical = $('#selectmedical').val();
+        ocupacion.diasmedical = $('#diasmedical').val();
+        ocupacion.turnoprovee1 = $('#selecprovee1').val();
+        ocupacion.diasprovee1 = $('#diasprovee1').val();
+        ocupacion.turnoprovee2 = $('#selecprovee2').val();
+        ocupacion.diasprovee2 = $('#diasprovee2').val();
+        ocupacion.mes = ($('#Id_mes').val()).split("/")[0];
+        ocupacion.anio = ($('#Id_mes').val()).split("/")[1];
+    }
+
+     function agregar() {
+        $("#addDemand").empty();
+        $("#addDemand").load("@Url.Action("addDemand","DemandDates")", {}, function () {
+
+        });
+    }
+    function eliminar() {
+        $("#addDemand").empty();
+        $("#addDemand").load("@Url.Action("DeleteDemandDatesPartial","DemandDates")", {}, function () {
+
+        });
+    }
+
+    function updatemonth() {
+        var id = $('#anio').val();
+        $('#mesdisp').empty();
+        $('#mesdisp').load("@Url.Action("mesindexPartial","DemandDates")?id=" + id);
+    }
+
+    function updateprocess() {
+        $("#modal1").empty();
+        $("#modal1").load("@Url.Action("UpdateProcessExcel","DemandDates")", {}, function () {
+
+        });
+    }
+    function deleteexcelserver() {
+        $("#modal1").empty();
+        $("#modal1").load("@Url.Action("DeleteExcelServerPartial","DemandDates")", {}, function () {
+
+        });
+    }
+</script>

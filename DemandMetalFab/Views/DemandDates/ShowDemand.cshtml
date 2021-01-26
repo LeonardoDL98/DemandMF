@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DemandMetalFab.Models.MF_DemandDate>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table dt">
+    <thead>
+        <tr>
+            <th>Demanda</th>
+            @foreach (var an in DemandMetalFab.GlobalCode.Settings.db.MF_DemandYear.ToList())
+            {
+                foreach (var mes in DemandMetalFab.GlobalCode.Settings.db.MF_DemandMonth.ToList())
+                {
+                    <th>@mes.Id_DemandMonth/@an.DemandYear</th>
+                }
+            }
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) 
+        {
+           
+        <tr>
+            <td>ARC</td>
+            @foreach (var an in DemandMetalFab.GlobalCode.Settings.db.MF_DemandYear.ToList())
+            {
+                foreach (var mes in DemandMetalFab.GlobalCode.Settings.db.MF_DemandMonth.ToList())
+                {
+                    
+                    <td></td>
+                }
+            }
+        </tr>
+        }
+
+        @*<tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+
+
+            </tr>*@
+
+        </tbody>
+
+    </table>

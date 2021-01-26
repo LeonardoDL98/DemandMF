@@ -1,0 +1,247 @@
+﻿@model IEnumerable<DemandMetalFab.Models.MF_DemandDate>
+@{ 
+    bool valid = false;
+    if (DemandMetalFab.GlobalCode.Settings.LoggedUser != null) { valid = true; }
+    DemandMetalFab.GlobalCode.Settings.db = new DemandMetalFab.Models.DemandDBEntities();
+}
+
+@Styles.Render("~/Content/DataTablesCss")
+@Scripts.Render("~/bundles/datatables")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.code').each(function () {
+            var that = $(this);
+            // cache the content of 'code'
+            var html = that.html().trim();
+            that.empty();
+            // escape the content
+            that.text(html);
+        });
+
+
+        $('.showcode').click(function (e) {
+            e.preventDefault();
+
+            var mydata = $(this).attr('data-html');
+            var myhtml = $('#' + mydata).html();
+            $('#loadhere').text(myhtml);
+            Prism.highlightAll();
+
+            $('#mymodal').modal('show');
+
+        });
+
+
+        //////////////////////// Menu scroll to section
+        $('a.page-scroll').click(function (event) {
+            var $anchor = $(this);
+            $('html, body').stop().animate({ scrollTop: $($anchor.attr('href')).offset().top - 40 }, 1500);
+            event.preventDefault();
+        });
+
+        ////////////////////////  Highlight the top nav as scrolling occurs. /bootstrap/
+        $('body').scrollspy({
+            target: '#navbar_aside',
+            offset: 80
+        });
+
+        $('.dt').DataTable({
+            "paging": true,
+            "pageLength": 22,
+            //aaSorting: [],
+            "order": [[0, "asc"]],
+            "language": {
+                "emptyTable": "There is not any record",
+                "info": "Showing of _START_ - _END_ of _TOTAL_ records",
+                "infoEmpty": "Showing 0 recordss",
+                "infoFiltered": "(Of a total of _MAX_ records)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Show _MENU_ records",
+                "loadingRecords": "Loading...",
+                "processing": "Processing...",
+                "search": "Search: ",
+                "zeroRecords": "No record found",
+                "paginate": {
+                    "first": "First",
+                    "last": "Last",
+                    "next": "Next",
+                    "previous": "Previous"
+                },
+                "aria": {
+                    "sortAscending": ":Sort the column in ascending order",
+                    "sortDescending": ":Sort the column in descending order"
+                }
+            }
+        });
+
+    });
+</script>
+
+
+
+    <table class="table dt text-center" id="tbl1">
+        <thead>
+            <tr>
+                <th>
+
+                </th>
+                <th>
+
+                </th>
+                @foreach (var mes in DemandMetalFab.GlobalCode.Settings.db.MF_WorkDate.ToList())
+                {
+                    if (mes.Id_WorkDate >= ViewBag.idini && mes.Id_WorkDate <= ViewBag.idfin)
+                    {
+                        <th>
+                            @mes.MF_DemandMonth.DemandMonth.Substring(0, 3)_@mes.MF_DemandYear.DemandYear.ToString().Substring(mes.MF_DemandYear.DemandYear.ToString().Length - 2)
+                        </th>
+                    }
+                }
+        </thead>
+        <tbody>
+            <tr style="background-color:lightskyblue">
+                <td></td>
+                <td>Work Week</td>
+                @foreach (var workwe in DemandMetalFab.GlobalCode.Settings.db.MF_WorkDate.ToList())
+                {
+                    if (workwe.Id_WorkDate >= ViewBag.idini && workwe.Id_WorkDate <= ViewBag.idfin)
+                    {
+                        
+                        <td>
+
+                            <label id="WW_@workwe.Id_WorkDate" class="texto"> @workwe.WorkWeeks</label>
+                            <input class="form-control cambio text-center" style="display:none" type="text" value=" @workwe.WorkWeeks" data-valoractual=" @workwe.WorkWeeks" onblur="guardarWorkDate(this,@workwe.Id_WorkDate,1)" />
+                        </td>
+                    }
+                }
+
+            </tr>
+            <tr style="background-color:lightskyblue">
+                <td></td>
+                <td>Work Days</td>
+                @foreach (var workda in DemandMetalFab.GlobalCode.Settings.db.MF_WorkDate.ToList())
+                {
+                    if (workda.Id_WorkDate >= ViewBag.idini && workda.Id_WorkDate <= ViewBag.idfin)
+                    {
+                        <td>
+                           
+                            <label id="WD_@workda.Id_WorkDate" class="texto">@workda.WorkDays</label>
+                            <input class="form-control cambio text-center" style="display:none" type="text" value="@workda.WorkDays" data-valoractual="@workda.WorkDays" onblur="guardarWorkDate(this,@workda.Id_WorkDate,2)" />
+                        </td>
+                    }
+                }
+            </tr>
+            @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_Demand.ToList())
+            {
+                if (DemandMetalFab.GlobalCode.Settings.db.MF_DemandDate.Any(x => x.Id_Demand == item.Id_Demand))
+                {                 
+                        <tr>
+                            <td>@item.MF_Customer.Customer</td>
+
+                            <td style="width:50px;">@item.Demand</td>
+
+                            @foreach (var pro in DemandMetalFab.GlobalCode.Settings.db.MF_DemandDate.Where(x => x.Id_Demand == item.Id_Demand).ToList())
+                            {
+                                if (pro.Id_WorkDate >= ViewBag.idini && pro.Id_WorkDate <= ViewBag.idfin)
+                                {
+                                    <td>
+                                        <label id="Dem_@pro.Id_DemandDate" class="texto">@pro.Quantity</label>
+                                        <input class="form-control cambio text-center" style="display:none" type="text" value="@pro.Quantity" data-valoractual="@pro.Quantity" onblur="guardar(this,@pro.Id_DemandDate)" />
+
+                                    </td>
+                                }
+                            }
+                        </tr>
+                }
+            }
+        </tbody>
+
+    </table>
+
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+        if (@valid.ToString().ToLower()) {
+          
+            $('#tbl1 tbody').on('click', 'td', function () {
+                $('.texto').show();
+                $('.cambio').hide();
+                $(this).find('.cambio').show();
+                $(this).find('.texto').hide();
+            })
+        }
+
+        });
+
+
+        function guardar(item, id) {
+
+          var bolinicio;
+            try {
+                bolinicio = validarNumEmpity($(item).val());
+            } catch (error) {
+                 bolinicio = validarEmpity($(item).val());
+            }
+            if (bolinicio) {
+                $('#Dem_'+id).text($(item).val());
+                $.ajax({
+                        url: '@Url.Action("EditarQty", "DemandDates")',
+                        data: { id_DemandDate:id, qty:$(item).val() },
+                        type: 'POST',
+                    success: function (response) {
+                        
+                       
+                        },
+                        error: function () {
+                            alert('Error');
+                             var valor_actual = $(item).attr('data-valoractual');
+                                $(item).val(valor_actual);
+                        }
+                      });
+        }else {
+            var valor_actual = $(item).attr('data-valoractual');
+            $(item).val(valor_actual);
+        }
+    }
+
+        function guardarWorkDate(item, id, opc) {
+            var bolinicio;
+            try {
+                bolinicio = validarNumEmpity($(item).val());
+            } catch (error) {
+                bolinicio = validarEmpity($(item).val());
+            }
+            if (bolinicio) {
+                if (opc == 1) {
+                    $('#WW_' + id).text($(item).val());
+                }
+                else {
+                    $('#WD_' + id).text($(item).val());
+                }
+                $.ajax({
+                        url: '@Url.Action("EditarWD", "DemandDates")',
+                        data: { Id_Work:id, valor:$(item).val(),op:opc },
+                        type: 'POST',
+                        success: function (response) {
+                            
+                        },
+                        error: function () {
+                            alert('Error');
+                             var valor_actual = $(item).attr('data-valoractual');
+                                $(item).val(valor_actual);
+                        }
+                      });
+        }else {
+            var valor_actual = $(item).attr('data-valoractual');
+            $(item).val(valor_actual);
+        }
+        }
+
+    </script>

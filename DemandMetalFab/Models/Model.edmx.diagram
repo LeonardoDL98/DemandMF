@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="05c3cc511bf24863b71f399e2aa681ad" Name="Diagram1" ZoomLevel="53">
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_Customer" Width="1.5" PointX="0.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_DemandMonth" Width="1.5" PointX="5.5" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_DemandYear" Width="1.5" PointX="4.375" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_Machine" Width="1.5" PointX="6" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_OpMachine" Width="1.5" PointX="10.5" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_Part" Width="1.5" PointX="8.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_Project" Width="1.5" PointX="11.625" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_Sector" Width="1.5" PointX="12.625" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_WorkDate" Width="1.5" PointX="8.25" PointY="11.625" IsExpanded="true" />
+        <AssociationConnector Association="MetalsRequestsModel.FK_WorkDate_DemandMonth" ManuallyRouted="false" />
+        <AssociationConnector Association="MetalsRequestsModel.FK_WorkDate_DemandYear" ManuallyRouted="false" />
+        <AssociationConnector Association="MetalsRequestsModel.FK__MF_Machin__Id_Se__69B1A35C" ManuallyRouted="false" />
+        <AssociationConnector Association="MetalsRequestsModel.FK_OpMachine_Machine" ManuallyRouted="false" />
+        <AssociationConnector Association="MetalsRequestsModel.FK_Part_Machine" ManuallyRouted="false" />
+        <AssociationConnector Association="MetalsRequestsModel.FK_OpMachine_Part" ManuallyRouted="false" />
+        <AssociationConnector Association="MetalsRequestsModel.FK_Part_Project" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_Demand" Width="1.5" PointX="1.375" PointY="5.875" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_DemandDate" Width="1.5" PointX="8.25" PointY="8.25" />
+        <AssociationConnector Association="MetalsRequestsModel.FK__MF_Demand__Id_Cu__6304A5CD" />
+        <AssociationConnector Association="MetalsRequestsModel.FK__MF_Demand__Id_De__65E11278" />
+        <AssociationConnector Association="MetalsRequestsModel.FK__MF_Projec__Id_De__705EA0EB" />
+        <AssociationConnector Association="MetalsRequestsModel.FK_Demand_Sector" />
+        <AssociationConnector Association="MetalsRequestsModel.FK_DemandDate_WorkDate" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_Proceso" Width="1.5" PointX="14.25" PointY="0.5" />
+        <AssociationConnector Association="MetalsRequestsModel.FK__MF_Machin__Id_Pr__68BD7F23" />
+        <AssociationConnector Association="MetalsRequestsModel.FK__MF_OpMach__Id_Pr__6AA5C795" />
+        <AssociationConnector Association="MetalsRequestsModel.FK__MF_Part__Id_Proc__6D823440" />
+        <AssociationConnector Association="MetalsRequestsModel.FK__MF_Projec__Id_Pr__7152C524" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_ExcelProceso" Width="1.5" PointX="2.125" PointY="12.125" />
+        <AssociationConnector Association="MetalsRequestsModel.FK_MF_ExcelProceso_MF_Proceso" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_TipoUsuario" Width="1.5" PointX="10.25" PointY="8.25" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_Usuario" Width="1.5" PointX="12.625" PointY="8" />
+        <AssociationConnector Association="MetalsRequestsModel.FK_MF_Usuario_MF_TipoUsuario" />
+        <EntityTypeShape EntityType="MetalsRequestsModel.MF_Bitacora" Width="1.5" PointX="14.875" PointY="8.25" />
+        <AssociationConnector Association="MetalsRequestsModel.FK_MF_Bitacora_MF_Usuario" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

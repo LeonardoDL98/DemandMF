@@ -1,0 +1,113 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Time Matrix </h2>
+<br />
+@if (DemandMetalFab.GlobalCode.Settings.LoggedUser!=null)
+{ 
+    <input type="button" class="btn btn-primary" onclick="agregar()" value="Add new part" />
+
+    <br />
+    <br />
+    
+}
+@*<input type="button" class="btn btn-primary" onclick="agregarexcel()" value="Add part with Excel" />
+<input type="button" class="btn btn-primary" onclick="actualizarexcel()" value="Update part with Excel" />*@
+<div id="modal"></div>
+
+
+<div class="row" id="filtrotiempos"></div>
+
+<div id="gridtiempos"></div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#filtrotiempos").html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#filtrotiempos').load("@Url.Action("FiltroTimeParcial","Parts")");
+        fnPintarGridTiempo();
+    });
+
+
+    // Decimal PrecioInicial, Decimal PrecioFinal)
+    function fnPintarGridTiempo() {
+        var Clientes_seleccionados = [];
+        var Projectos_seleccionados = [];
+        var Maquinas_seleccionadas = [];
+
+        $.each($('.clientes_fab'), function (i, item) {
+            if($(item).is(':checked'))
+                Clientes_seleccionados.push($(item).val());
+        });
+
+        $.each($('.proyectos_fab'), function (i, item) {
+            if ($(item).is(':checked'))
+                Projectos_seleccionados.push($(item).val());
+        });
+
+        $.each($('.maquinas_fab'), function (i, item) {
+            if ($(item).is(':checked'))
+                Maquinas_seleccionadas.push($(item).val());
+        });
+        var datos= {
+            clientes: Clientes_seleccionados.length > 0 ? Clientes_seleccionados.join(',') : null,
+            proyectos: Projectos_seleccionados.length > 0 ? Projectos_seleccionados.join(',') : null,
+            maquinas: Maquinas_seleccionadas.length > 0 ? Maquinas_seleccionadas.join(',') : null
+        };
+        $("#gridtiempos").empty();
+        $("#gridtiempos").html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#gridtiempos').load("@Url.Action("GridTimeParcial","Parts")", datos, function () {
+        });
+
+    }
+    function agregar() {
+        $("#modal").empty();
+        $("#modal").load("@Url.Action("AddTime","Parts")", {}, function () {
+
+        });
+    }
+    function agregarexcel() {
+        $("#modal").empty();
+        $("#modal").load("@Url.Action("AddExcelPartial","Parts")", {}, function () {
+
+        });
+    }
+    function actualizarexcel() {
+        $("#modal").empty();
+        $("#modal").load("@Url.Action("UpdateExcelPartial","Parts")", {}, function () {
+
+        });
+    }
+    function editar(id) {
+        $("#modal").empty();
+        $("#modal").load("@Url.Action("EditMachinePartial","Parts")?id="+id);
+    }
+    function eliminar(id) {
+        $("#modal").empty();
+        $("#modal").load("@Url.Action("DeletePart","Parts")?id="+id);
+    }
+
+     function validaciones() {
+             //Asignamos a variables los valores
+            var num = $('#Num_Part').val();
+            var setup = $('#Set_Up').val();
+            var cycle = $('#Cycle').val();
+            var qty = $('#Quantity').val();
+            var machines = $('#Id_machines').val();
+            var customer = $('#Id_Customer').val();
+            var project = $('#Id_Project').val();
+            //validamos que sean enteros y que no se tengan valores vacios
+         if ( validacion(setup, 'Set Up') && validacion(cycle, 'Cycle Time') && validacion(qty, 'Quantity')
+             && validarvacio(num, 'Part Number') && validarvacio(customer, 'Customer') && validarvacio(machines, 'Machines') && validarvacio(project, 'Project')) {
+             return true
+         } else {
+             return false;
+         }
+        }
+
+</script>
+

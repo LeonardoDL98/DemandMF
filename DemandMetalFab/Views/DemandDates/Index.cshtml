@@ -1,0 +1,315 @@
+﻿@model IEnumerable<DemandMetalFab.Models.MF_DemandDate>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="~/Content/spinner/js/jquery-spinner.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="~/Content/spinner/css/jquery-spinner.min.css" type="text/css">
+
+<h2>Monthly Demand</h2>
+<br />
+@if (DemandMetalFab.GlobalCode.Settings.LoggedUser != null)
+{
+    <input type="button" class="btn btn-primary" onclick="agregar()" value="Add monthly demand" />
+    <input type="button" class="btn btn-danger" onclick="eliminar()" value="Delete monthly demand" />
+    <br />
+    <br />
+    <input type="button" class="btn btn-primary" onclick="agregarexcel()" value="Update demand month" />
+}
+
+
+@*<div class="row">*@
+<div class="col-md-8">
+    <table class="table table-borderless text-center">
+        <tr>
+            <td scope="row">Initial month</td>
+            <td scope="row">
+                <select id="mes" class="form-control text-center" onchange="updatemonth()">
+
+                    @foreach (var m in DemandMetalFab.GlobalCode.Settings.db.MF_DemandYear.Where(x => DemandMetalFab.GlobalCode.Settings.db.MF_WorkDate.Where(es => es.Id_DemandYear == x.Id_DemandYear).Any()).ToList())
+                    {
+                        foreach (var mes in DemandMetalFab.GlobalCode.Settings.db.MF_WorkDate.Where(x => x.Id_DemandYear == m.Id_DemandYear).ToList())
+                        {
+                            <option id="i_@mes.MF_DemandMonth.DemandMonth" value="@mes.Id_DemandMonth @m.Id_DemandYear">@mes.MF_DemandMonth.DemandMonth.Substring(0, 3)_@m.DemandYear</option>
+                        }
+                    }
+                </select>
+            </td>
+            <td scope="row">Final month</td>
+            <td scope="row">
+                <select id="anio" class="form-control text-center" onchange="updatemonth()">
+
+                    @foreach (var m in DemandMetalFab.GlobalCode.Settings.db.MF_DemandYear.Where(x => DemandMetalFab.GlobalCode.Settings.db.MF_WorkDate.Where(es => es.Id_DemandYear == x.Id_DemandYear).Any()).ToList())
+                    {
+                        foreach (var mes in DemandMetalFab.GlobalCode.Settings.db.MF_WorkDate.Where(x => x.Id_DemandYear == m.Id_DemandYear).ToList())
+                        {
+                            if (mes.Id_DemandMonth == 12 && m.Id_DemandYear == 22)
+                            {
+                                <option id="@m.Id_DemandYear" value="@mes.Id_DemandMonth @m.Id_DemandYear" selected>@mes.MF_DemandMonth.DemandMonth.Substring(0, 3)_@m.DemandYear</option>
+                            }
+                            else
+                            {
+                                <option id="@m.Id_DemandYear" value="@mes.Id_DemandMonth @m.Id_DemandYear">@mes.MF_DemandMonth.DemandMonth.Substring(0, 3)_@m.DemandYear</option>
+                            }
+                        }
+                    }
+                </select>
+            </td>
+            <td><button class="btn btn-primary" onclick="mostrardemanda()">Calculate</button></td>
+        </tr>
+    </table>
+
+    <div id="Demanda"></div>
+</div>
+@*</div>
+    <div class="col-md-8 order-md-2 mb-4">*@
+
+@*<div id="workdays"></div>
+
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th colspan="5" scope="col" style="background-color:blue;color:white">INDUSTRIAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background-color:cornflowerblue;color:white">
+                        <td colspan="2" scope="row">WORKING HOURS</td>
+                        <td scope="row">DAYS</td>
+                        <td scope="row">HRS X DAY</td>
+                        <td scope="row">PROV.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">TURN</th>
+                        <td>
+                            <select id="selecindustrial" class="form-control">
+                                <option id="1" value="1">1.0</option>
+                                <option id="2" value="2">2.0</option>
+                                <option id="3" value="3" selected>3.0</option>
+                            </select>
+                        </td>
+                        <td style="width:80px;">
+                            <input id="diasindustrial" class="form-control" value="6.3" />
+                        </td>
+                        <td>
+                            <input style="background:inherit" id="in" readonly type="text" class="border-0 text-center" value="21.5" />
+                        </td>
+                        <td>21.5</td>
+                    </tr>
+                    <tr>
+                        <th colspan="5" scope="col" style="background-color:blue;color:white">MEDICAL</th>
+                    </tr>
+                    <tr style="background-color:cornflowerblue;color:white">
+                        <td colspan="2" scope="row">WORKING HOURS</td>
+                        <td scope="row">DAYS</td>
+                        <td scope="row">HRS X DAY</td>
+                        <td scope="row">PROV.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">TURN</th>
+                        <td>
+                            <select id="selectmedical" class="form-control">
+                                <option id="1" value="1">1.0</option>
+                                <option id="2" value="2">2.0</option>
+                                <option id="3" value="3" selected>3.0</option>
+                            </select>
+                        </td>
+                        <td style="width:80px;">
+                            <input id="diasmedical" name="diasmedical" class="form-control" value="6.3">
+                        </td>
+                        <td style="width:80px;">
+                            <input style="background:inherit" id="me" readonly type="text" class="border-0 text-center" value="21.5" />
+                        </td>
+                        <td>21.5</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div id="ocupacion_maquina"></div>
+    </div>
+    </div>
+    <input type="button" class="btn btn-primary" onclick="showApilada()" value="Unstacked Bar Graph" />
+    <input type="button" class="btn btn-primary" onclick="showsinApilar()" value="Unstacked Bar Graph" />
+    <input type="button" class="btn btn-primary" onclick="showgraficacliente()" value="Unstacked Bar Graph" />
+    <div id="grafica"></div>*@
+
+<div id="addDemand"></div>
+<div id="modal"></div>
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        updatemonth();
+       mostrardemanda();
+    });
+
+    function showApilada() {
+         var mes;
+        if ($('#mes').val() == null || $('#mes').val() == "") mes = 1;
+        else mes = $('#mes').val();
+        var ocupacion = {
+                mes: mes,
+                anio: $('#anio').val(),
+                turnoindustrial: $('#selecindustrial').val(),
+                diasindustrial: $('#diasindustrial').val(),
+                turnomedical: $('#selectmedical').val(),
+                diasmedical: $('#diasmedical').val()
+            };
+        $("#grafica").empty();
+        $('#grafica').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#grafica').load("@Url.Action("Grafica_MaquinaPartial", "DemandDates")", ocupacion, function () {
+        });
+    }
+    function showsinApilar() {
+         var mes;
+        if ($('#mes').val() == null || $('#mes').val() == "") mes = 1;
+        else mes = $('#mes').val();
+        var ocupacion = {
+                mes: mes,
+                anio: $('#anio').val(),
+                turnoindustrial: $('#selecindustrial').val(),
+                diasindustrial: $('#diasindustrial').val(),
+                turnomedical: $('#selectmedical').val(),
+                diasmedical: $('#diasmedical').val()
+            };
+        $("#grafica").empty();
+        $('#grafica').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#grafica').load("@Url.Action("GraficanoapiladaPartial", "DemandDates")", ocupacion, function () {
+        });
+    }
+    function showgraficacliente() {
+         var mes;
+        if ($('#mes').val() == null || $('#mes').val() == "") mes = 1;
+        else mes = $('#mes').val();
+        var ocupacion = {
+                mes: mes,
+                anio: $('#anio').val(),
+                turnoindustrial: $('#selecindustrial').val(),
+                diasindustrial: $('#diasindustrial').val(),
+                turnomedical: $('#selectmedical').val(),
+                diasmedical: $('#diasmedical').val()
+            };
+        $("#grafica").empty();
+        $('#grafica').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+        $('#grafica').load("@Url.Action("CustomerGraficaPartial", "DemandDates")", ocupacion, function () {
+        });
+    }
+
+    function mostrardemanda() {
+        var mes;
+        var anio;
+        anio = $('#anio').val();
+        if ($('#mes').val() == null || $('#mes').val() == "") mes = 1;
+        else mes = $('#mes').val();
+        //var industrial = $('#selecindustrial').val();
+        //var medical = $('#selectmedical').val();
+        //if (validarNumEmpity( $('#diasindustrial').val()) && validarNumEmpity($('#diasmedical').val())) {
+            //if (industrial == 1) $('#in').val(8);
+            //if (industrial == 2) $('#in').val(15.5);
+            //if (industrial == 3) $('#in').val(21.5);
+            //if (medical == 1) $('#me').val(8);
+            //if (medical == 2) $('#me').val(15.5);
+            //if (medical == 3) $('#me').val(21.5);
+        var i = mes.split(" ");
+        var f = anio.split(" ");
+        var ban = true;
+
+        var mesini = parseInt(i[0]);
+        var mesfina = parseInt(f[0]);
+        var anioini = parseInt(i[1]);
+        var aniofin = parseInt(f[1]);
+
+        if (anioini > aniofin) {
+            alert("The initial month cannot be greater than the final month");
+            ban = false;
+        }
+        if (mesini > mesfina) {
+            if (anioini == aniofin) {
+                alert("the initial month cannot be greater than the final month");
+                ban = false;
+            }
+
+        }
+
+
+        //if (anioini == aniofin && mesini > mesfina) {
+
+
+
+
+        //}
+
+        if (ban) {
+            var datos = {
+                inicio: mes,
+                fin: anio
+            };
+            $("#Demanda").empty();
+            $("#Demanda").html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+            $('#Demanda').load("@Url.Action("GridDemandaPartial", "DemandDates")", datos, function () {
+            });
+        }
+        @*var datos = {
+                inicio: mes,
+                fin: anio
+            };
+            $("#Demanda").empty();
+            $("#Demanda").html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+            $('#Demanda').load("@Url.Action("GridDemandaPartial", "DemandDates")", datos, function () {
+            });*@
+            @*var ocupacion = {
+                mes: mes,
+                anio: $('#anio').val(),
+                turnoindustrial: $('#selecindustrial').val(),
+                diasindustrial: $('#diasindustrial').val(),
+                turnomedical: $('#selectmedical').val(),
+                diasmedical: $('#diasmedical').val()
+            };
+            $("#ocupacion_maquina").empty();
+            $('#ocupacion_maquina').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+            $('#ocupacion_maquina').load("@Url.Action("Ocupacion_maquinasParcial", "DemandDates")", ocupacion, function () {
+            });
+            $("#grafica").empty();
+            $('#grafica').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+            $('#grafica').load("@Url.Action("Grafica_MaquinaPartial", "DemandDates")", ocupacion, function () {
+            });
+            var fechas = {
+                mes: mes,
+                anio: $('#anio').val()
+            }
+            $("#workdays").empty();
+            $('#workdays').html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+            $('#workdays').load("@Url.Action("ShoworkdaysPartial", "DemandDates")", fechas, function () {
+            });*@
+        //}
+
+    }
+     function agregar() {
+        $("#addDemand").empty();
+        $("#addDemand").load("@Url.Action("addDemand","DemandDates")", {}, function () {
+
+        });
+    }
+      function agregarexcel() {
+        $("#modal").empty();
+        $("#modal").load("@Url.Action("AddExcelPartial","DemandDates")", {}, function () {
+
+        });
+    }
+    function eliminar() {
+        $("#addDemand").empty();
+        $("#addDemand").load("@Url.Action("DeleteDemandDatesPartial","DemandDates")", {}, function () {
+
+        });
+    }
+
+    function updatemonth() {
+        var id = $('#anio').val();
+        $('#mesdisp').empty();
+        $('#mesdisp').load("@Url.Action("mesindexPartial","DemandDates")?id=" + id);
+    }
+
+
+</script>

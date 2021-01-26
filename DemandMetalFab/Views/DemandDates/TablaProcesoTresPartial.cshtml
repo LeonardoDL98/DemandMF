@@ -1,0 +1,73 @@
+﻿@{ 
+    List<string> ids = (List<string>)ViewBag.idsfecha;
+    List<string> texto = (List<string>)ViewBag.textofecha;
+}
+<table class="table table-bordered text-center">
+    <tr style="background-color:cornflowerblue;color:white">
+        <td scope="row">MONTH</td>
+        <td scope="row">TURN</td>
+        <td scope="row">WORKDAYS</td>
+        <td scope="row">HRS</td>
+    </tr>
+    @for (int n = 0; n < 3; n++)
+    {
+    <tr>
+        <td scope="row">
+            <label class="lbl" style="display:none">@ids[n]</label> <label id="@ids[n]" val>@texto[n].ToString()</label>
+        </td>
+        <td>
+            <select class="form-control turn" onchange="actualizarturno(this,@n)">
+                @for (int x = 1; x <= 3; x++)
+                {
+                    if (x == 3)
+                    {
+                        <option id="@x" value="@x" selected>@x.ToString("#,##0.0")</option>
+                    }
+                    else
+                    {
+                        <option id="@x" value="@x">@x.ToString("#,##0.0")</option>
+                    }
+                }
+            </select>
+        </td>
+        <td style="width:80px;">
+            @*<input class="form-control day" value="@Datos.diaindustrial.ToString("#,##0.0")" />*@
+            <input class="form-control day" value="7.0" />
+        </td>
+        <td><label class="simpleturno">@Datos.simpleturno(3)</label></td>
+
+    </tr>
+    }
+
+</table>
+
+<script type="text/javascript">
+    //var fechas = [];
+    //var turnos = [];
+    //var dias = [];
+    $(document).ready(function () {
+        //for (var i = 0; i < 3; i++) {
+        //    fechas.push($('.lbl:eq(' + i + ')').text())
+        //    turnos.push($('.turn:eq(' + i + ')').val())
+        //    dias.push($('.day:eq(' + i + ')').val())
+        //}
+        //var datos = {
+        //    fecha=fechas.length > 0 ? fechas.join(',') : null,
+        //    turno=turnos.length > 0 ? turnos.join(',') : null,
+        //    dia=dias.length > 0 ? dias.join(',') : null
+        //}
+        
+    });
+
+    
+    function actualizarturno(selec, x) {
+        var n = $(selec).val()
+        var valor = 0.0;
+        if (n == 1) valor = 8.0
+        if (n == 2) valor = 15.5
+        if (n == 3) valor = 21.5
+        $('.simpleturno:eq('+x+')').text(valor)
+        
+    }
+
+</script>

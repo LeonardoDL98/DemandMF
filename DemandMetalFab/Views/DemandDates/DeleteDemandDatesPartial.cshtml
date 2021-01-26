@@ -1,0 +1,113 @@
+﻿
+
+<script src="~/Content/ui-ecommerce/js/jquery-2.0.0.min.js"></script>
+<script src="~/Content/ui-ecommerce/js/bootstrap.bundle.min.js"></script>
+<link href="~/Content/ui-ecommerce/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/ui-ecommerce/fonts/fontawesome/css/fontawesome-all.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<div class="modal fade" id="modaldele" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete monthly demand</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>Select the month and year of the demand to delete</h5>
+                <table class="table table-borderless text-center">
+                    <tr>
+                        <td scope="row">MONTH</td>
+                        <td scope="row">
+                            @*<select id="m" class="form-control text-center">
+                                @foreach (var m in DemandMetalFab.GlobalCode.Settings.db.DemandMonth.ToList())
+                                {
+                                    <option id="@m.Id_DemandMonth" value="@m.Id_DemandMonth">@m.DemandMonth1</option>
+                                }
+                            </select>*@
+                            <div id="mesdeletedisp"></div>
+                        </td>
+                        <td scope="row">YEAR</td>
+                        <td scope="row">
+                            <select id="a" class="form-control text-center" onchange="updatedeletemonth()">
+                                    @foreach (var m in DemandMetalFab.GlobalCode.Settings.db.MF_DemandYear.Where(x => DemandMetalFab.GlobalCode.Settings.db.MF_WorkDate.Where(es => es.Id_DemandYear == x.Id_DemandYear).Any()).ToList())
+                                    {
+                                        <option id="@m.Id_DemandYear" value="@m.Id_DemandYear">@m.DemandYear</option>
+                                    }
+                            </select>
+                        </td>
+                        <td><button class="btn btn-primary" onclick="search()">Search</button></td>
+                    </tr>
+                </table>
+
+                <div id="mostrardatos"></div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="deletedemand()">Delete Demand</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#modaldele").modal("show");
+        updatedeletemonth();
+    });
+
+    function search() {
+         var datos = {
+                mes: $('#m').val(),
+                anio: $('#a').val()
+            };
+            $("#mostrardatos").empty();
+            $("#mostrardatos").html('<img src="@Url.Content("~/Imagenes/Cargador/loader4.gif")"/>');
+            $('#mostrardatos').load("@Url.Action("showGridnoeditPartial", "DemandDates")", datos, function () {
+            });
+    }
+    function deletedemand(){
+        $.ajax({
+                url: '@Url.Action("EliminarDemandaMensual", "DemandDates")',
+                data: { mes: $('#m').val(), anio: $('#a').val() },
+                type: 'POST',
+            success: function (response) {
+
+                if (response.Success) {
+                               bootoast.toast({
+                                  message: response.Message,
+                                  type: 'success',
+                                  position: 'bottom-center',
+                                  timeout: null
+                               });
+                                window.setTimeout(function () {
+                                      window.location.href = '@Url.Action("Index","DemandDates")';
+                                }, 3000)
+                                
+                            } else {
+                                bootoast.toast({
+                                  message: response.Message,
+                                  type: 'danger',
+                                  position: 'bottom-center',
+                                  timeout: null
+                                });
+                            }
+
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+    }
+    function updatedeletemonth() {
+        var id = $('#a').val();
+        $('#mesdeletedisp').empty();
+        $('#mesdeletedisp').load("@Url.Action("mesesdeletePartial","DemandDates")?id=" + id);
+    }
+
+   
+
+</script>

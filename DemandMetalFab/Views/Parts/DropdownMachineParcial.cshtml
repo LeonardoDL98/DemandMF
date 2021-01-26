@@ -1,0 +1,13 @@
+﻿@*<select class="js-example-disabled-results">
+    @foreach (var m in DemandMetalFab.GlobalCode.Settings.db.OpMachine.Where(x => x.Id_Part == item.Id_Part).ToList())
+    {
+        if (item.Id_Machine == m.Id_Machine)
+        {
+            <option value="@m.Id_Machine" selected>@m.Machine.Machine1</option>
+        }
+        else
+        {
+            <option value="@m.Id_Machine">@m.Machine.Machine1</option>
+        }
+    }
+</select>*@

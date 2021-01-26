@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MetalsRequestsModelStoreContainer" CdmEntityContainer="DemandDBEntities">
+    <EntitySetMapping Name="MF_Customer">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_Customer">
+        <MappingFragment StoreEntitySet="MF_Customer">
+          <ScalarProperty Name="Id_Customer" ColumnName="Id_Customer" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MF_DemandMonth">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_DemandMonth">
+        <MappingFragment StoreEntitySet="MF_DemandMonth">
+          <ScalarProperty Name="Id_DemandMonth" ColumnName="Id_DemandMonth" />
+          <ScalarProperty Name="DemandMonth" ColumnName="DemandMonth" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MF_DemandYear">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_DemandYear">
+        <MappingFragment StoreEntitySet="MF_DemandYear">
+          <ScalarProperty Name="Id_DemandYear" ColumnName="Id_DemandYear" />
+          <ScalarProperty Name="DemandYear" ColumnName="DemandYear" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MF_Machine">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_Machine">
+        <MappingFragment StoreEntitySet="MF_Machine">
+          <ScalarProperty Name="Id_Machine" ColumnName="Id_Machine" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Machine" ColumnName="Machine" />
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+          <ScalarProperty Name="Id_Sector" ColumnName="Id_Sector" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MF_OpMachine">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_OpMachine">
+        <MappingFragment StoreEntitySet="MF_OpMachine">
+          <ScalarProperty Name="Id_OpMachine" ColumnName="Id_OpMachine" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Id_Part" ColumnName="Id_Part" />
+          <ScalarProperty Name="Id_Machine" ColumnName="Id_Machine" />
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MF_Part">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_Part">
+        <MappingFragment StoreEntitySet="MF_Part">
+          <ScalarProperty Name="Id_Part" ColumnName="Id_Part" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Num_Part" ColumnName="Num_Part" />
+          <ScalarProperty Name="Id_Project" ColumnName="Id_Project" />
+          <ScalarProperty Name="Id_Machine" ColumnName="Id_Machine" />
+          <ScalarProperty Name="Set_Up" ColumnName="Set_Up" />
+          <ScalarProperty Name="Cycle" ColumnName="Cycle" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MF_Project">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_Project">
+        <MappingFragment StoreEntitySet="MF_Project">
+          <ScalarProperty Name="Id_Project" ColumnName="Id_Project" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Project" ColumnName="Project" />
+          <ScalarProperty Name="Id_Demand" ColumnName="Id_Demand" />
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MF_Sector">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_Sector">
+        <MappingFragment StoreEntitySet="MF_Sector">
+          <ScalarProperty Name="Id_Sector" ColumnName="Id_Sector" />
+          <ScalarProperty Name="Sector" ColumnName="Sector" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MF_WorkDate">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_WorkDate">
+        <MappingFragment StoreEntitySet="MF_WorkDate">
+          <ScalarProperty Name="Id_WorkDate" ColumnName="Id_WorkDate" />
+          <ScalarProperty Name="Id_DemandMonth" ColumnName="Id_DemandMonth" />
+          <ScalarProperty Name="Id_DemandYear" ColumnName="Id_DemandYear" />
+          <ScalarProperty Name="WorkWeeks" ColumnName="WorkWeeks" />
+          <ScalarProperty Name="WorkDays" ColumnName="WorkDays" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="MF_DatosDemanda" FunctionName="MetalsRequestsModel.Store.MF_DatosDemanda">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MetalsRequestsModel.MF_DatosDemanda_Result">
+          <ScalarProperty Name="Id_Demand" ColumnName="Id_Demand" />
+          <ScalarProperty Name="Demand" ColumnName="Demand" />
+          <ScalarProperty Name="DemandaDayIndu" ColumnName="DemandaDayIndu" />
+          <ScalarProperty Name="DemandWeekIndu" ColumnName="DemandWeekIndu" />
+          <ScalarProperty Name="DemandaDayMed" ColumnName="DemandaDayMed" />
+          <ScalarProperty Name="DemandWeekMed" ColumnName="DemandWeekMed" />
+          <ScalarProperty Name="DemandDayPro1" ColumnName="DemandDayPro1" />
+          <ScalarProperty Name="DemandWeekPro1" ColumnName="DemandWeekPro1" />
+          <ScalarProperty Name="DemandDayPro2" ColumnName="DemandDayPro2" />
+          <ScalarProperty Name="DemandWeekPro2" ColumnName="DemandWeekPro2" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="MF_DeleteDemand" FunctionName="MetalsRequestsModel.Store.MF_DeleteDemand" />
+    <FunctionImportMapping FunctionImportName="MF_DeleteDemandMonthly" FunctionName="MetalsRequestsModel.Store.MF_DeleteDemandMonthly" />
+    <FunctionImportMapping FunctionImportName="MF_DeleteOpMachine" FunctionName="MetalsRequestsModel.Store.MF_DeleteOpMachine" />
+    <FunctionImportMapping FunctionImportName="MF_DeletePart" FunctionName="MetalsRequestsModel.Store.MF_DeletePart" />
+    <FunctionImportMapping FunctionImportName="MF_DeleteProcess" FunctionName="MetalsRequestsModel.Store.MF_DeleteProcess" />
+    <FunctionImportMapping FunctionImportName="MF_Porcentaje_Customer" FunctionName="MetalsRequestsModel.Store.MF_Porcentaje_Customer">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MetalsRequestsModel.MF_Porcentaje_Customer_Result">
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Machine" ColumnName="Machine" />
+          <ScalarProperty Name="Id_Sector" ColumnName="Id_Sector" />
+          <ScalarProperty Name="Id_Customer" ColumnName="Id_Customer" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+          <ScalarProperty Name="Ocupacion_Cliente" ColumnName="Ocupacion_Cliente" />
+          <ScalarProperty Name="Ocupacion_Noventa" ColumnName="Ocupacion_Noventa" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="MF_Porcentaje_Demanda" FunctionName="MetalsRequestsModel.Store.MF_Porcentaje_Demanda">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MetalsRequestsModel.MF_Porcentaje_Demanda_Result">
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Machine" ColumnName="Machine" />
+          <ScalarProperty Name="Id_Sector" ColumnName="Id_Sector" />
+          <ScalarProperty Name="Id_Demand" ColumnName="Id_Demand" />
+          <ScalarProperty Name="Demand" ColumnName="Demand" />
+          <ScalarProperty Name="Tiempo_Maquina" ColumnName="Tiempo_Maquina" />
+          <ScalarProperty Name="Porcentaje_Demanda" ColumnName="Porcentaje_Demanda" />
+          <ScalarProperty Name="Porcentaje_Noventa" ColumnName="Porcentaje_Noventa" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="MF_Porcentaje_Maquina" FunctionName="MetalsRequestsModel.Store.MF_Porcentaje_Maquina">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MetalsRequestsModel.MF_Porcentaje_Maquina_Result">
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+          <ScalarProperty Name="Id_Machine" ColumnName="Id_Machine" />
+          <ScalarProperty Name="Machine" ColumnName="Machine" />
+          <ScalarProperty Name="Matto" ColumnName="Matto" />
+          <ScalarProperty Name="Tiempo_Total" ColumnName="Tiempo_Total" />
+          <ScalarProperty Name="Tiempo_Total_MTTO" ColumnName="Tiempo_Total_MTTO" />
+          <ScalarProperty Name="Disponibilidad" ColumnName="Disponibilidad" />
+          <ScalarProperty Name="Ocupacion_Maquina" ColumnName="Ocupacion_Maquina" />
+          <ScalarProperty Name="Total_Ocupacion" ColumnName="Total_Ocupacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="MF_Porcentaje_Proceso" FunctionName="MetalsRequestsModel.Store.MF_Porcentaje_Proceso">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MetalsRequestsModel.MF_Porcentaje_Proceso_Result">
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+          <ScalarProperty Name="Proceso" ColumnName="Proceso" />
+          <ScalarProperty Name="Machine" ColumnName="Machine" />
+          <ScalarProperty Name="Total_Ocupacion" ColumnName="Total_Ocupacion" />
+          <ScalarProperty Name="rn" ColumnName="rn" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="MF_Porcentaje_Proceso_Nuevo" FunctionName="MetalsRequestsModel.Store.MF_Porcentaje_Proceso_Nuevo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MetalsRequestsModel.MF_Porcentaje_Proceso_Nuevo_Result">
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+          <ScalarProperty Name="Proceso" ColumnName="Proceso" />
+          <ScalarProperty Name="Machine" ColumnName="Machine" />
+          <ScalarProperty Name="Total_Ocupacion" ColumnName="Total_Ocupacion" />
+          <ScalarProperty Name="DemandMonth" ColumnName="DemandMonth" />
+          <ScalarProperty Name="DemandYear" ColumnName="DemandYear" />
+          <ScalarProperty Name="DiaIndustrial" ColumnName="DiaIndustrial" />
+          <ScalarProperty Name="DiaMedical" ColumnName="DiaMedical" />
+          <ScalarProperty Name="DiaProve1" ColumnName="DiaProve1" />
+          <ScalarProperty Name="DiaProve2" ColumnName="DiaProve2" />
+          <ScalarProperty Name="TurnoIndustrial" ColumnName="TurnoIndustrial" />
+          <ScalarProperty Name="TurnoMedical" ColumnName="TurnoMedical" />
+          <ScalarProperty Name="TurnoProve1" ColumnName="TurnoProve1" />
+          <ScalarProperty Name="TurnoProve2" ColumnName="TurnoProve2" />
+          <ScalarProperty Name="rn" ColumnName="rn" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="MF_Demand">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_Demand">
+        <MappingFragment StoreEntitySet="MF_Demand">
+          <ScalarProperty Name="Id_Sector" ColumnName="Id_Sector" />
+          <ScalarProperty Name="Id_Customer" ColumnName="Id_Customer" />
+          <ScalarProperty Name="Demand" ColumnName="Demand" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Id_Demand" ColumnName="Id_Demand" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MF_DemandDate">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_DemandDate">
+        <MappingFragment StoreEntitySet="MF_DemandDate">
+          <ScalarProperty Name="Id_WorkDate" ColumnName="Id_WorkDate" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Id_Demand" ColumnName="Id_Demand" />
+          <ScalarProperty Name="Item" ColumnName="Item" />
+          <ScalarProperty Name="Id_DemandDate" ColumnName="Id_DemandDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MF_Proceso">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_Proceso">
+        <MappingFragment StoreEntitySet="MF_Proceso">
+          <ScalarProperty Name="EnaPro2" ColumnName="EnaPro2" />
+          <ScalarProperty Name="EnaPro1" ColumnName="EnaPro1" />
+          <ScalarProperty Name="EnaMed" ColumnName="EnaMed" />
+          <ScalarProperty Name="EnaIndu" ColumnName="EnaIndu" />
+          <ScalarProperty Name="Id_DemandYear" ColumnName="Id_DemandYear" />
+          <ScalarProperty Name="Id_DemandMonth" ColumnName="Id_DemandMonth" />
+          <ScalarProperty Name="TurnoProvee2" ColumnName="TurnoProvee2" />
+          <ScalarProperty Name="TurnoProvee1" ColumnName="TurnoProvee1" />
+          <ScalarProperty Name="TurnoMedical" ColumnName="TurnoMedical" />
+          <ScalarProperty Name="TurnoIndustrial" ColumnName="TurnoIndustrial" />
+          <ScalarProperty Name="DiasProvee2" ColumnName="DiasProvee2" />
+          <ScalarProperty Name="DiasProvee1" ColumnName="DiasProvee1" />
+          <ScalarProperty Name="DiasMedical" ColumnName="DiasMedical" />
+          <ScalarProperty Name="DiasIndustrial" ColumnName="DiasIndustrial" />
+          <ScalarProperty Name="Proceso" ColumnName="Proceso" />
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="MF_Porcentaje_Tres_Meses" FunctionName="MetalsRequestsModel.Store.MF_Porcentaje_Tres_Meses">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MetalsRequestsModel.MF_Porcentaje_Tres_Meses_Result">
+          <ScalarProperty Name="Id_Turno" ColumnName="Id_Turno" />
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+          <ScalarProperty Name="Id_Machine" ColumnName="Id_Machine" />
+          <ScalarProperty Name="Machine" ColumnName="Machine" />
+          <ScalarProperty Name="Matto" ColumnName="Matto" />
+          <ScalarProperty Name="Tiempo_Total" ColumnName="Tiempo_Total" />
+          <ScalarProperty Name="Tiempo_Total_MTTO" ColumnName="Tiempo_Total_MTTO" />
+          <ScalarProperty Name="Disponibilidad" ColumnName="Disponibilidad" />
+          <ScalarProperty Name="Ocupacion_Maquina" ColumnName="Ocupacion_Maquina" />
+          <ScalarProperty Name="Total_Ocupacion" ColumnName="Total_Ocupacion" />
+          <ScalarProperty Name="Mes" ColumnName="Mes" />
+          <ScalarProperty Name="Anio" ColumnName="Anio" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="MF_ExcelProceso">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_ExcelProceso">
+        <MappingFragment StoreEntitySet="MF_ExcelProceso">
+          <ScalarProperty Name="Ruta" ColumnName="Ruta" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Id_Proceso" ColumnName="Id_Proceso" />
+          <ScalarProperty Name="Id_ExcelProceso" ColumnName="Id_ExcelProceso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MF_TipoUsuario">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_TipoUsuario">
+        <MappingFragment StoreEntitySet="MF_TipoUsuario">
+          <ScalarProperty Name="TipoUsuario" ColumnName="TipoUsuario" />
+          <ScalarProperty Name="Id_TipoUsuario" ColumnName="Id_TipoUsuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MF_Usuario">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_Usuario">
+        <MappingFragment StoreEntitySet="MF_Usuario">
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Id_TipoUsuario" ColumnName="Id_TipoUsuario" />
+          <ScalarProperty Name="Cuenta" ColumnName="Cuenta" />
+          <ScalarProperty Name="Correo" ColumnName="Correo" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Id_Usuario" ColumnName="Id_Usuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MF_Bitacora">
+      <EntityTypeMapping TypeName="MetalsRequestsModel.MF_Bitacora">
+        <MappingFragment StoreEntitySet="MF_Bitacora">
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Id_Usuario" ColumnName="Id_Usuario" />
+          <ScalarProperty Name="Id_Bitacora" ColumnName="Id_Bitacora" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

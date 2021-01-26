@@ -1,0 +1,97 @@
+﻿@model IEnumerable<DemandMetalFab.Models.MF_Demand>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Demand of Project</h2>
+@if (DemandMetalFab.GlobalCode.Settings.LoggedUser!=null)
+{
+    <input type="button" class="btn btn-primary" onclick="agregardemand()" value="Add new demand" />
+    <br />
+    <br />
+}
+    <table class="table dt">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Demand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MF_Customer.Customer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MF_Sector.Sector)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Demand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MF_Customer.Customer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MF_Sector.Sector)
+                    </td>
+                    <td>
+                        @if (DemandMetalFab.GlobalCode.Settings.LoggedUser!=null)
+                        {
+                            <div class="input-group w-100">
+                                <div class="text-right">
+                                    <button data-original-title="Edit @item.Demand" type="submit" onclick="editar(@item.Id_Demand)" class="btn btn-outline-success" data-toggle="tooltip">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="text-right">
+                                    <button data-original-title="Delete @item.Demand" onclick="eliminar(@item.Id_Demand)" type="submit" class="btn btn-outline-danger" data-toggle="tooltip">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                        </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    <div id="modaldema"></div>
+
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+
+    function agregardemand() {
+        $("#modaldema").empty();
+        $("#modaldema").load("@Url.Action("addemandPartial","Demands")", {}, function () {
+
+        });
+    }
+    function editar(id) {
+        $("#modaldema").empty();
+        $("#modaldema").load("@Url.Action("editdemandPartial","Demands")?id="+id);
+    }
+    function eliminar(id) {
+        $("#modaldema").empty();
+        $("#modaldema").load("@Url.Action("deletedemandPartial","Demands")?id="+id);
+    }
+
+    </script>

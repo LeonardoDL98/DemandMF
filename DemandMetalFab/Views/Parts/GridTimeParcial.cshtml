@@ -1,0 +1,246 @@
+﻿
+@model IEnumerable<DemandMetalFab.Models.MF_Part>
+@{
+    Layout = "~/Views/Shared/_TableLayout.cshtml";
+    List<Int32> Ids = new List<int>();
+    bool valid = false;
+    if (DemandMetalFab.GlobalCode.Settings.LoggedUser != null) { valid = true; }
+
+}
+
+<table class="table dt" id="tbl1">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Item)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MF_Project.MF_Demand.MF_Customer.Customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MF_Project.Project)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Num_Part)
+            </th>
+            <th>
+                Actual_Machine_Asgmt
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Set_Up)*@
+                Set_Up
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cycle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (!Ids.Contains(item.Id_Part))
+            {
+                <tr align="center">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MF_Project.MF_Demand.MF_Customer.Customer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MF_Project.Project)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Num_Part)
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.Part.Machine.Machine1)*@
+                        <label id="maq_@item.Id_Part" class="texto">@item.MF_Machine.Machine</label>
+                        <select id="Id_machin" class="form-control cambio" style="display:none" onchange="guardarmaquina(@item.Id_Part, this)">
+                            @foreach (var maq in DemandMetalFab.GlobalCode.Settings.db.MF_OpMachine.Where(x => x.Id_Part == item.Id_Part && x.Id_Proceso==Datos.proceso).ToList())
+                            {
+                                @*<option value="@maq.Id_Machine">@maq.MF_Machine.Machine</option>*@
+                                if (maq.Id_Machine == item.Id_Machine)
+                                {
+                                    <option value="@maq.Id_Machine" selected>@maq.MF_Machine.Machine</option>
+                                }
+                                else
+                                {
+                                    <option value="@maq.Id_Machine">@maq.MF_Machine.Machine</option>
+                                }
+
+                            }
+                        </select>
+                    </td>
+
+                    <td>
+                        <label id="se_@item.Id_Part" class="texto">@string.Format("{0:F5}", item.Set_Up)</label>
+                        <input class="form-control cambio" style="display:none" type="text" value="@string.Format("{0:F5}",item.Set_Up)" data-valoractual="@string.Format("{0:F5}",item.Set_Up)" onblur="guardar('decimal',this,'Setup',@item.Id_Part)" />
+                    </td>
+                    <td>
+                        <label id="cy_@item.Id_Part" class="texto">@string.Format("{0:F5}", item.Cycle)</label>
+                        <input class="form-control cambio" style="display:none" type="text" value="@string.Format("{0:F5}", item.Cycle)" data-valoractual="@string.Format("{0:F5}", item.Cycle)" onblur="guardar('decimal',this,'Cycle',@item.Id_Part)" />
+                    </td>
+                    <td>
+                        <label id="qty_@item.Id_Part" class="texto">@item.Quantity</label>
+                        <input class="form-control cambio" style="display:none" type="text" value="@item.Quantity" data-valoractual="@item.Quantity" onblur="guardar('int',this,'Qty',@item.Id_Part)" />
+                    </td>
+                    <td>
+                        @if (DemandMetalFab.GlobalCode.Settings.LoggedUser!=null)
+                        {
+                            
+                            <div class="input-group w-100">
+                                <div class="text-right">
+                                    <button data-original-title="Edit part @item.Num_Part" type="submit" onclick="editar(@item.Id_Part)" class="btn btn-outline-success" data-toggle="tooltip">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="text-right">
+                                    <button data-original-title="Delete part @item.Num_Part" onclick="eliminar(@item.Id_Part)" type="submit" class="btn btn-outline-danger" data-toggle="tooltip">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                        }
+                    </td>
+                </tr>
+            }
+            else
+            {
+                Ids.Add(item.Id_Part);
+            }
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+      
+        var cons=@valid.ToString().ToLower();
+
+        if (cons) {
+
+            $('#tbl1 tbody').on('click', 'tr', function () {
+                $('.texto').show();
+                $('.cambio').hide();
+                $(this).find('.cambio').show();
+                $(this).find('.texto').hide();
+            })
+        }
+
+        });
+
+
+
+
+    function guardar(tipo, item, campo, id) {
+            switch (tipo) {
+
+                case 'decimal':
+                    if (validarNumEmpity($(item).val())) {
+                        changelabel(id, campo, $(item).val());
+                        $.ajax({
+                            url: '@Url.Action("guardarDatos", "Parts")',
+                            data: { campo: campo, valoractual: $(item).val(), tipo: tipo, id: id },
+                            type: 'POST',
+                            success: function (response) {
+
+                            },
+                            error: function () {
+                                alert('Error');
+                            }
+                        });
+                    } else {
+                        var valor_actual = $(item).attr('data-valoractual');
+                        $(item).val(valor_actual);
+                    }
+                    break;
+                case 'string':
+                    if (validarEmpity($(item).val())) {
+                        changelabel(id, campo, $(item).val());
+                        $.ajax({
+                            url: '@Url.Action("guardarDatos", "Parts")',
+                            data: { campo: campo, valoractual: $(item).val(), tipo: tipo, id: id },
+                            type: 'POST',
+                            success: function (response) {
+
+                            },
+                            error: function () {
+                                alert('Error');
+                            }
+                        });
+                    }else {
+                        var valor_actual = $(item).attr('data-valoractual');
+                        $(item).val(valor_actual);
+                    }
+                    break;
+                case 'int':
+                    if (validarNumEmpity($(item).val())) {
+                        changelabel(id, campo, $(item).val());
+                        $.ajax({
+                            url: '@Url.Action("guardarDatos", "Parts")',
+                            data: { campo: campo, valoractual: $(item).val(), tipo: tipo, id: id },
+                            type: 'POST',
+                            success: function (response) {
+
+                            },
+                            error: function () {
+                                alert('Error');
+                            }
+                        });
+                    }else {
+                        var valor_actual = $(item).attr('data-valoractual');
+                        $(item).val(valor_actual);
+                    }
+                    break;
+            }
+    }
+    function changelabel(id, campo, valor) {
+        switch (campo) {
+            case "Setup":
+                $('#se_' + id).text(trunc(valor,5));
+                    break;
+            case "Cycle":
+                $('#cy_' + id).text(trunc(valor,5));
+                    break;
+            case "Qty":
+                $('#qty_' + id).text(valor);
+                    break;
+        }
+    }
+
+    function trunc (x, posiciones = 0) {
+      var s = x.toString()
+      var l = s.length
+      var decimalLength = s.indexOf('.') + 1
+      var numStr = s.substr(0, decimalLength + posiciones)
+      return Number(numStr)
+    }
+
+    function guardarmaquina(idpa, idma) {
+        var combo = document.getElementById("Id_machin");
+        var selected = combo.options[combo.selectedIndex].text;
+        $('#maq_' + idpa).text(selected);
+         $.ajax({
+             url: '@Url.Action("guardarmaquina", "Parts")',
+             data: { idparte: idpa, idmaquina: $(idma).val() },
+            type: 'POST',
+             success: function (response) {
+
+                },
+                error: function () {
+                    alert('Error');
+                }
+        });
+    }
+
+</script>

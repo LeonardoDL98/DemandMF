@@ -1,0 +1,8 @@
+﻿@model IEnumerable<DemandMetalFab.Models.MF_DemandMonth>
+
+<select id="mes" class="form-control">
+    @foreach (var m in (List<DemandMetalFab.Models.MF_DemandMonth>)ViewBag.mes)
+    {
+        <option id="@m.Id_DemandMonth" value="@m.Id_DemandMonth">@m.DemandMonth</option>
+    }
+</select>

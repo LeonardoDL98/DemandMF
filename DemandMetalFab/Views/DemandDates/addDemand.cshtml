@@ -1,0 +1,161 @@
+﻿
+
+<script src="~/Content/ui-ecommerce/js/jquery-2.0.0.min.js"></script>
+<script src="~/Content/ui-ecommerce/js/bootstrap.bundle.min.js"></script>
+<link href="~/Content/ui-ecommerce/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/ui-ecommerce/fonts/fontawesome/css/fontawesome-all.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<div class="modal fade" id="modaladdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add monthly demand</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-row ">
+                    <div class="col form-group text-center">
+                        <label>MONTH</label>
+                    </div>
+                    <div class="col form-group">
+                        <div id="mesesdisponibles"></div>
+                    </div>
+                    <div class="col form-group text-center">
+                        <label>YEAR</label>
+                    </div>
+                    <div class="col form-group">
+                        <select id="an" class="form-control" onchange="updatemonth()">
+                            @foreach (var m in DemandMetalFab.GlobalCode.Settings.db.MF_DemandYear.ToList())
+                            {
+
+                                if (DemandMetalFab.GlobalCode.Settings.db.MF_WorkDate.Where(x=>x.Id_DemandYear==m.Id_DemandYear).Count()!=12)
+                                {
+                                    <option id="@m.Id_DemandYear" value="@m.Id_DemandYear" selected>@m.DemandYear</option>
+                                }
+
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row ">
+                    <div class="col form-group">
+                        <label>WORK DAYS</label>
+                    </div>
+                    <div class="col form-group">
+                        <input id="diasadd" class="form-control" />
+                    </div>
+                    <div class="col form-group">
+                        <label>WORK WEEKS</label>
+                    </div>
+                    <div class="col form-group">
+                        <input id="semanadd" class="form-control" />
+                    </div>
+                </div>
+
+                    @foreach (var item in DemandMetalFab.GlobalCode.Settings.db.MF_Demand.Where(x => x.Id_Demand != 0).ToList())
+                    {
+                        <div class="form-row ">
+                            <div class="col form-group">
+                                <label class="control-label">@item.MF_Customer.Customer</label>
+                            </div>
+                            <div class="col form-group">
+                                <label class="control-label idemand" >@item.Demand</label>
+                            </div>
+                            <div class="col form-group">
+                                <input data-valordemand="@item.Demand" id="@item.Id_Demand"  class="form-control valor_dem" />
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="guardardatos()">Add Demand</button>
+                </div>
+            </div>
+                </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+       $("#modaladdd").modal("show");
+        updatemonth();
+        
+    });
+
+    function updatemonth() {
+        var id = $('#an').val();
+         $('#mesesdisponibles').load("@Url.Action("mesesdisponibles","DemandDates")?id=" + id);
+    }
+
+
+    function guardardatos() {
+       var con = true;
+        if (validardiasemana()) {
+            var Valores_Demanda = [];
+
+            $.each($('.valor_dem'), function (i, item) {
+                if (validarNumEmpity($(item).val())) {
+                    Valores_Demanda.push($(item).val());
+                } else {
+                    con = false;
+                    return false;
+                }
+
+            });
+            var datos = {
+                valores: Valores_Demanda.length > 0 ? Valores_Demanda.join(',') : null,
+                mes: $('#mess').val(),
+                anio: $('#an').val(),
+                dias: $('#diasadd').val(),
+                semanas: $('#semanadd').val()
+            };
+            if (con) {
+                $.ajax({
+                    url: '@Url.Action("agregardemandas", "DemandDates")',
+                    data: datos,
+                    type: 'POST',
+                    success: function (response) {
+
+                        if (response.Success) {
+                               bootoast.toast({
+                                  message: response.Message,
+                                  type: 'success',
+                                  position: 'bottom-center',
+                                  timeout: null
+                               });
+                                window.setTimeout(function () {
+                                    window.location.href = '@Url.Action("Index","DemandDates")';
+                                }, 3000)
+                                
+                            } else {
+                                bootoast.toast({
+                                  message: response.Message,
+                                  type: 'danger',
+                                  position: 'bottom-center',
+                                  timeout: null
+                                });
+                            }
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+            }
+        }
+    }
+
+    function validardiasemana() {
+        if (!validarNumEmpity($('#diasadd').val())) {
+            return false;
+        }
+        if (!validarNumEmpity($('#semanadd').val())) {
+            return false
+        }
+        return true;
+    }
+    
+</script>

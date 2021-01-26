@@ -1,0 +1,80 @@
+﻿<div class="modal fade" id="modalogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="card">
+                    <article class="card-body">
+                        <img src="~/Imagenes/Cargador/Flextronics.png" style="width:100px" class="float-right"></img>
+                        <h4 class="card-title mb-4 mt-1">
+                            Login
+                        </h4>
+                            <div class="form-group">
+                                <label>Enter your email or user</label>
+                                <input id="email" class="form-control" placeholder="Email">
+                            </div> 
+                            <div class="form-group">
+                                <label>Your password</label>
+                                <input id="pass" class="form-control" placeholder="******" type="password">
+                            </div> 
+                            <div class="form-group">
+                               
+                            </div> 
+                            <div class="form-group">
+                                <button onclick="inicio()" class="btn btn-primary btn-block"> Login  </button>
+                            </div> 
+                    </article>
+                </div> 
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#modalogin").modal("show");
+       
+    });
+    function inicio() {
+    $.ajax({
+            url: '@Url.Action("loginpage", "Login")',
+            data: { username: $('#email').val(),password:$('#pass').val() },
+            type: 'POST',
+             success: function (response) {
+                 if (response.Success) {
+                               bootoast.toast({
+                                  message: response.Message,
+                                  type: 'success',
+                                  position: 'bottom-center',
+                                  timeout: 3000
+                               });
+                         window.setTimeout(function () {
+                             if (@ViewBag.op== 1) {
+                                 window.location.href = '@Url.Action("Index","Home")';
+                             } else {
+                                 window.location.href = '@Url.Action("Graficas","DemandDates")';
+                             }
+                                }, 3000)
+                                
+                            } else {
+                                bootoast.toast({
+                                  message: response.Message,
+                                  type: 'danger',
+                                  position: 'bottom-center',
+                                  timeout: 3000
+                                });
+                                 @*window.setTimeout(function () {
+                                    if (@ViewBag.op== 1) {
+                                 window.location.href = '@Url.Action("Index","Home")';
+                             } else {
+                                 window.location.href = '@Url.Action("Graficas","DemandDates")';
+                             }
+                                }, 3000)*@
+                            }
+            }
+                   
+        });
+    }
+</script>
